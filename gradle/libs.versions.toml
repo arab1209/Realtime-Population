@@ -18,6 +18,7 @@ mapSdk = "3.16.0"
 mapSdkVersion = "3.18.0"
 navigationCompose = "2.8.5"
 okhttp = "4.10.0"
+poiOoxml = "5.2.3"
 retrofit = "2.9.0"
 
 [libraries]
@@ -47,6 +48,7 @@ logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", ver
 map-sdk = { module = "com.naver.maps:map-sdk", version.ref = "mapSdk" }
 map-sdk-v3180 = { module = "com.naver.maps:map-sdk", version.ref = "mapSdkVersion" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+poi-ooxml = { module = "org.apache.poi:poi-ooxml", version.ref = "poiOoxml" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
 [plugins]
