@@ -27,8 +27,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val navController = rememberNavController()
-            NavGraph(navController)
+            RealtimePopulationTheme {
+                MainScreen()
+            }
         }
     }
 }

@@ -9,9 +9,7 @@ import com.example.realtimepopulation.ui.main.MainScreen
 
 @Composable
 fun NavGraph(navController: NavController) {
-    val navController = rememberNavController()
-
-    NavHost(navController = navController, startDestination = "home") {
+    /*NavHost(navController = navController, startDestination = "home") {
         composable("home") { MainScreen(navController) }
-    }
+    }*/
 }

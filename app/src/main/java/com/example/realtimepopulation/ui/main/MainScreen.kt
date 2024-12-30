@@ -1,30 +1,38 @@
 package com.example.realtimepopulation.ui.main
 
-import android.util.Log
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.material3.Text
+import android.content.Context
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraPosition
+import com.naver.maps.map.compose.ExperimentalNaverMapApi
+import com.naver.maps.map.compose.MapProperties
+import com.naver.maps.map.compose.MapType
+import com.naver.maps.map.compose.NaverMap
+import com.naver.maps.map.compose.rememberCameraPositionState
+
+@OptIn(ExperimentalNaverMapApi::class)
+@Composable
+fun MainScreen() {
+    val context = LocalContext.current
+    /*val navController = rememberNavController()
+    NavGraph(navController)*/
+    val (seoulAreaNames, viewModel) = getSeoulAreaNames(context)
+
+    NaverMap(
+        modifier = Modifier.fillMaxSize()
+    )
+}
 
 @Composable
-fun MainScreen(navController: NavController) {
+fun getSeoulAreaNames(context: Context): Pair<List<String>?, MainViewModel> {
     val viewModel: MainViewModel = viewModel()
-    viewModel.readSeoulAreasFromExcel(LocalContext.current)
+    viewModel.readSeoulAreasFromExcel(context)
     val seoulAreaNames by viewModel.seoulAreaNames.observeAsState()
-
-    LaunchedEffect(seoulAreaNames) {
-        seoulAreaNames?.forEach {
-            Log.d("seoul", it)
-        }
-    }
-
-    Text(
-        modifier = Modifier.systemBarsPadding(), text = "메인스크린"
-    )
+    return Pair(seoulAreaNames, viewModel)
 }
