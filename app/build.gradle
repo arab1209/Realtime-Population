@@ -12,6 +12,9 @@ plugins {
 def realTimeApiKey = project.hasProperty("REALTIME_API_KEY") ? project.property("REALTIME_API_KEY") : ""
 def naverMapsClientId = project.hasProperty("NAVER_MAPS_CLIENT_ID") ? project.property("NAVER_MAPS_CLIENT_ID") : ""
 
+println("REALTIME_API_KEY: $realTimeApiKey")
+println("NAVER_MAPS_CLIENT_ID: $naverMapsClientId")
+
 android {
     namespace 'com.example.realtimepopulation'
     compileSdk 35
@@ -100,7 +103,8 @@ dependencies {
     implementation libs.androidx.lifecycle.livedata.ktx
 
     // NAVER MAP
-    implementation libs.map.sdk.v3180
+    implementation libs.map.sdk.v3200
+    implementation libs.naver.map.compose
 
     // COMPOSE NAVIGATION
     implementation libs.androidx.navigation.compose
