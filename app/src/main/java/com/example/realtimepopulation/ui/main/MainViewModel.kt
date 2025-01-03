@@ -1,17 +1,20 @@
 package com.example.realtimepopulation.ui.main
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.realtimepopulation.data.main.LocationData
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import java.io.InputStream
 
 class MainViewModel : ViewModel() {
-    private val _seoulLocationData = MutableLiveData<List<LocationData>>()
-    val seoulLocationData: LiveData<List<LocationData>> get() = _seoulLocationData
+    private val _seoulLocationData = MutableStateFlow<List<LocationData>>(emptyList())
+    val seoulLocationData: StateFlow<List<LocationData>> get() = _seoulLocationData
+
+    private val _searchQuery = MutableStateFlow<String>("")
+    val searchQuery: StateFlow<String> get() = _searchQuery
 
     fun readSeoulAreasFromExcel(context: Context) {
         val inputStream: InputStream = context.assets.open("seoul_important_regions.xlsx")
@@ -33,5 +36,9 @@ class MainViewModel : ViewModel() {
             }
         }
         _seoulLocationData.value = temp
+    }
+
+    fun setQueryText(text: String) {
+        _searchQuery.value = text
     }
 }
