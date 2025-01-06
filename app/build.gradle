@@ -111,4 +111,7 @@ dependencies {
 
     // FILE READ
     implementation libs.poi.ooxml
+
+    // IMG URL
+    implementation(libs.coil.compose)
 }
