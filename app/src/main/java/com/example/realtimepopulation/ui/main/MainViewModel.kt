@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import java.io.InputStream
+import java.net.URLEncoder
 
 class MainViewModel : ViewModel() {
     private val _seoulLocationData = MutableStateFlow<List<LocationData>>(emptyList())
@@ -15,6 +16,11 @@ class MainViewModel : ViewModel() {
 
     private val _searchQuery = MutableStateFlow<String>("")
     val searchQuery: StateFlow<String> get() = _searchQuery
+
+    val areaTypes = listOf("관광특구", "고궁·문화유산", "인구밀집지역", "발달상권", "공원")
+
+    private val _selectChip = MutableStateFlow<String?>(areaTypes.first())
+    val selectChip: StateFlow<String?> get() = _selectChip
 
     fun readSeoulAreasFromExcel(context: Context) {
         val inputStream: InputStream = context.assets.open("seoul_important_regions.xlsx")
@@ -28,9 +34,14 @@ class MainViewModel : ViewModel() {
             if (row != null) {
                 temp.add(
                     LocationData(
+                        category = row.getCell(0)?.toString() ?: "",
                         areaName = row.getCell(3)?.toString() ?: "",
                         lat = row.getCell(4)?.toString()?.toDoubleOrNull() ?: 0.0,
-                        long = row.getCell(5)?.toString()?.toDoubleOrNull() ?: 0.0
+                        long = row.getCell(5)?.toString()?.toDoubleOrNull() ?: 0.0,
+                        imgURL = "https://data.seoul.go.kr/SeoulRtd/images/hotspot/${
+                            URLEncoder.encode(row.getCell(3)?.toString() ?: "", "UTF-8")
+                                .replace("+", "%20")
+                        }.jpg"
                     )
                 )
             }
@@ -40,5 +51,9 @@ class MainViewModel : ViewModel() {
 
     fun setQueryText(text: String) {
         _searchQuery.value = text
+    }
+
+    fun setSelectChip(text: String) {
+        _selectChip.value = text
     }
 }
