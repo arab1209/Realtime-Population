@@ -1,7 +1,6 @@
 package com.example.realtimepopulation.ui.main
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,7 +16,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,7 +23,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -42,11 +39,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.example.realtimepopulation.R
 import com.example.realtimepopulation.data.main.LocationData
+import com.example.realtimepopulation.ui.base.CustomCardView
 import com.naver.maps.map.compose.ExperimentalNaverMapApi
+
 
 @OptIn(ExperimentalNaverMapApi::class)
 @Composable
@@ -129,13 +126,14 @@ fun MainScreen() {
                     Row(
                         modifier = Modifier
                             .horizontalScroll(rememberScrollState())
-                            .padding(start = 20.dp, top = 20.dp, end = 20.dp),
+                            .padding(start = 20.dp, top = 10.dp, end = 20.dp),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         viewModel.areaTypes.forEach { area ->
-                            AssistChip(onClick = {
-                                viewModel.setSelectChip(area)
-                            },
+                            AssistChip(
+                                onClick = {
+                                    viewModel.setSelectChip(area)
+                                },
                                 label = {
                                     Text(
                                         area, fontSize = 9.sp
@@ -160,27 +158,18 @@ fun MainScreen() {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 16.dp),
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                                .padding(vertical = 8.dp),
+                            horizontalArrangement = Arrangement.spacedBy(
+                                16.dp, Alignment.CenterHorizontally
+                            )
                         ) {
-                            location.forEach { location ->
-                                Card(
-                                    modifier = Modifier
-                                        .width(150.dp)
-                                        .height(150.dp)
-                                ) {
-                                    Log.d("test", location.imgURL)
-                                    AsyncImage(
-                                        modifier = Modifier.fillMaxSize(),
-                                        model = ImageRequest.Builder(LocalContext.current)
-                                            .data(location.imgURL).build(),
-                                        contentDescription = location.areaName
-                                    )
-                                }
+                            location.forEach { loc ->
+                                CustomCardView(loc)
                             }
                         }
                     }
                 }
+
         }
     }/*val navController = rememberNavController()
     NavGraph(navController)
