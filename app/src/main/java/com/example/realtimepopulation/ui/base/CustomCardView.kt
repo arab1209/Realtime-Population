@@ -25,6 +25,7 @@ fun CustomCardView(loc: LocationData) {
                 containerColor = Color(0xFFF3F8FE)
             ), elevation = CardDefaults.elevatedCardElevation(4.dp)
         ) {
+
             AsyncImage(
                 modifier = Modifier
                     .width(180.dp)
@@ -34,13 +35,13 @@ fun CustomCardView(loc: LocationData) {
             )
             Text(
                 text = loc.category,
-                fontSize = 6.sp,
+                fontSize = 8.sp,
                 lineHeight = 8.sp,
                 modifier = Modifier.padding(start = 8.dp)
             )
             Text(
                 text = loc.areaName,
-                fontSize = 6.sp,
+                fontSize = 8.sp,
                 lineHeight = 8.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(start = 8.dp, bottom = 6.dp)
