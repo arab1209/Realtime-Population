@@ -9,11 +9,9 @@ plugins {
  * -> API_KEY를 프로젝트 외부에서 관리
  */
 
-def realTimeApiKey = project.hasProperty("REALTIME_API_KEY") ? project.property("REALTIME_API_KEY") : ""
-def naverMapsClientId = project.hasProperty("NAVER_MAPS_CLIENT_ID") ? project.property("NAVER_MAPS_CLIENT_ID") : ""
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
-println("REALTIME_API_KEY: $realTimeApiKey")
-println("NAVER_MAPS_CLIENT_ID: $naverMapsClientId")
 
 android {
     namespace 'com.example.realtimepopulation'
@@ -31,11 +29,11 @@ android {
             useSupportLibrary true
         }
 
-        buildConfigField "String", "REALTIME_API_KEY", "\"${realTimeApiKey}\""
-        buildConfigField "String", "NAVER_MAPS_CLIENT_ID", "\"${naverMapsClientId}\""
+        buildConfigField "String", "REALTIME_API_KEY", "\"${properties['REALTIME_API_KEY']}\""
+        buildConfigField "String", "NAVER_MAPS_CLIENT_ID", "\"${properties['NAVER_MAPS_CLIENT_ID']}\""
 
         manifestPlaceholders = [
-                NAVER_MAPS_CLIENT_ID: naverMapsClientId
+                NAVER_MAPS_CLIENT_ID: properties['NAVER_MAPS_CLIENT_ID']
         ]
     }
 
