@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 /**
@@ -86,13 +87,17 @@ dependencies {
     // RETROFIT
     implementation libs.retrofit
     implementation libs.converter.gson
+    implementation 'com.tickaroo.tikxml:annotation:0.8.13'
+    implementation 'com.tickaroo.tikxml:core:0.8.13'
+    implementation 'com.tickaroo.tikxml:retrofit-converter:0.8.13'
+
+    kapt 'com.tickaroo.tikxml:processor:0.8.13'
 
     // OKHTTP
     implementation libs.okhttp
     implementation libs.logging.interceptor
 
     // HIlT
-    implementation libs.androidx.hilt.lifecycle.viewmodel.v100alpha03
     implementation libs.hilt.android
     kapt libs.hilt.android.compiler
 
