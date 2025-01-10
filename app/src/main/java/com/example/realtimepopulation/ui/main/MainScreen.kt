@@ -23,6 +23,8 @@ fun MainScreen() {
     val (seoulLocationData, viewModel) = getSeoulAreaNames(context)
     val selectChip by viewModel.selectChip.collectAsState()
 
+    viewModel.getAreaPopulationData()
+
     Box(
         modifier = Modifier
             .fillMaxSize()

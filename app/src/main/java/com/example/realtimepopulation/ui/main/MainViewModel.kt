@@ -1,16 +1,25 @@
 package com.example.realtimepopulation.ui.main
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.realtimepopulation.data.main.LocationData
+import com.example.realtimepopulation.di.api.SeoulAreaApiService
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import java.io.InputStream
 import java.net.URLEncoder
+import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val seoulAreaApiService: SeoulAreaApiService
+): ViewModel() {
     private val _seoulLocationData = MutableStateFlow<List<LocationData>>(emptyList())
     val seoulLocationData: StateFlow<List<LocationData>> get() = _seoulLocationData
 
@@ -55,5 +64,25 @@ class MainViewModel : ViewModel() {
 
     fun setSelectChip(text: String) {
         _selectChip.value = text
+    }
+
+    fun getAreaPopulationData() {
+        viewModelScope.launch {
+            kotlin.runCatching {
+                val response = seoulAreaApiService.getPopulationData("광화문·덕수궁")
+                if (response.isSuccessful) {
+                    // Log the raw response to check if it's as expected
+                    Log.d("test2", response.body()?.toString() ?: "No response body")
+
+                    // Log the parsed data to check if TikXml maps it correctly
+                    val areaPopulationData = response.body()
+                    Log.d("test3", areaPopulationData.toString())
+                } else {
+                    Log.d("testError", "Response error: ${response.code()}")
+                }
+            }.onFailure {
+                Log.d("test3", it.toString()) // Log any failure
+            }
+        }
     }
 }
