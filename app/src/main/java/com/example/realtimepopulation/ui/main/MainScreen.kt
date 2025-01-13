@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.realtimepopulation.data.main.LocationData
+import com.example.realtimepopulation.data.main.MapData
 import com.example.realtimepopulation.ui.base.main.CardViewSection
 import com.example.realtimepopulation.ui.base.main.ChipSection
 import com.example.realtimepopulation.ui.base.main.SearchBarSection
@@ -20,10 +21,8 @@ import com.example.realtimepopulation.ui.base.main.TitleSection
 @Composable
 fun MainScreen() {
     val context = LocalContext.current
-    val (seoulLocationData, viewModel) = getSeoulAreaNames(context)
+    val (seoulLocationData, populationData, viewModel) = getSeoulAreaNames(context)
     val selectChip by viewModel.selectChip.collectAsState()
-
-    viewModel.getAreaPopulationData()
 
     Box(
         modifier = Modifier
@@ -48,7 +47,7 @@ fun MainScreen() {
             seoulLocationData?.filter { it.category == selectChip }?.chunked(2)
                 ?.forEach { location ->
                     item {
-                        CardViewSection(location)
+                        if(populationData.isNotEmpty()) { CardViewSection(location, populationData) }
                     }
                 }
 
@@ -85,9 +84,10 @@ fun MainScreen() {
 }
 
 @Composable
-fun getSeoulAreaNames(context: Context): Pair<List<LocationData>?, MainViewModel> {
+fun getSeoulAreaNames(context: Context): Triple<List<LocationData>?, List<MapData>, MainViewModel> {
     val viewModel: MainViewModel = viewModel()
     viewModel.readSeoulAreasFromExcel(context)
     val seoulLocationData by viewModel.seoulLocationData.collectAsState()
-    return Pair(seoulLocationData, viewModel)
+    val populationData by viewModel.populationData.collectAsState()
+    return Triple(seoulLocationData, populationData, viewModel)
 }

@@ -1,12 +1,15 @@
 package com.example.realtimepopulation.ui.main
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.realtimepopulation.data.main.LocationData
+import com.example.realtimepopulation.data.main.MapData
 import com.example.realtimepopulation.di.api.SeoulAreaApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,8 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val seoulAreaApiService: SeoulAreaApiService
-): ViewModel() {
+    private val seoulAreaApiService: SeoulAreaApiService,
+) : ViewModel() {
     private val _seoulLocationData = MutableStateFlow<List<LocationData>>(emptyList())
     val seoulLocationData: StateFlow<List<LocationData>> get() = _seoulLocationData
 
@@ -30,6 +33,9 @@ class MainViewModel @Inject constructor(
 
     private val _selectChip = MutableStateFlow<String?>(areaTypes.first())
     val selectChip: StateFlow<String?> get() = _selectChip
+
+    private val _populationData = MutableStateFlow<List<MapData>>(emptyList())
+    val populationData: StateFlow<List<MapData>> get() = _populationData
 
     fun readSeoulAreasFromExcel(context: Context) {
         val inputStream: InputStream = context.assets.open("seoul_important_regions.xlsx")
@@ -50,12 +56,13 @@ class MainViewModel @Inject constructor(
                         imgURL = "https://data.seoul.go.kr/SeoulRtd/images/hotspot/${
                             URLEncoder.encode(row.getCell(3)?.toString() ?: "", "UTF-8")
                                 .replace("+", "%20")
-                        }.jpg"
+                        }.jpg",
                     )
                 )
             }
         }
         _seoulLocationData.value = temp
+        getAreaPopulationData(_seoulLocationData.value)
     }
 
     fun setQueryText(text: String) {
@@ -66,23 +73,25 @@ class MainViewModel @Inject constructor(
         _selectChip.value = text
     }
 
-    fun getAreaPopulationData() {
-        viewModelScope.launch {
-            kotlin.runCatching {
-                val response = seoulAreaApiService.getPopulationData("광화문·덕수궁")
-                if (response.isSuccessful) {
-                    // Log the raw response to check if it's as expected
-                    Log.d("test2", response.body()?.toString() ?: "No response body")
+    private fun getAreaPopulationData(areaData: List<LocationData>) {
+        val temp = mutableListOf<MapData>()
 
-                    // Log the parsed data to check if TikXml maps it correctly
-                    val areaPopulationData = response.body()
-                    Log.d("test3", areaPopulationData.toString())
-                } else {
-                    Log.d("testError", "Response error: ${response.code()}")
+        viewModelScope.launch(Dispatchers.IO) {
+            areaData.map { area ->
+                async {
+                    kotlin.runCatching {
+                        seoulAreaApiService.getPopulationData(area.areaName)
+                    }
                 }
-            }.onFailure {
-                Log.d("test3", it.toString()) // Log any failure
+            }.awaitAll().forEach {
+                it.onSuccess { response ->
+                    response.body()?.let { area ->
+                        temp.add(area)
+                    }
+                }
             }
+
+            _populationData.value = temp
         }
     }
 }

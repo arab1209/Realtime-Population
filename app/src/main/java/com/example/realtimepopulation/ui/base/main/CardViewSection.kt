@@ -9,10 +9,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.realtimepopulation.data.main.LocationData
+import com.example.realtimepopulation.data.main.MapData
 import com.example.realtimepopulation.ui.base.CustomCardView
 
 @Composable
-fun CardViewSection(loc: List<LocationData>) {
+fun CardViewSection(loc: List<LocationData>, popData: List<MapData>) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -22,7 +23,7 @@ fun CardViewSection(loc: List<LocationData>) {
         )
     ) {
         loc.forEach { loc ->
-            CustomCardView(loc)
+            CustomCardView(loc, popData)
         }
     }
 }

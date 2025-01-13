@@ -1,6 +1,7 @@
 package com.example.realtimepopulation.ui.base
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
@@ -16,9 +17,10 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.realtimepopulation.data.main.LocationData
+import com.example.realtimepopulation.data.main.MapData
 
 @Composable
-fun CustomCardView(loc: LocationData) {
+fun CustomCardView(loc: LocationData, popData: List<MapData>) {
     Column() {
         Card(
             colors = CardDefaults.cardColors(
@@ -33,20 +35,29 @@ fun CustomCardView(loc: LocationData) {
                 model = ImageRequest.Builder(LocalContext.current).data(loc.imgURL).build(),
                 contentDescription = loc.areaName
             )
+
             Text(
                 text = loc.category,
                 fontSize = 8.sp,
                 lineHeight = 8.sp,
                 modifier = Modifier.padding(start = 8.dp)
             )
-            Text(
-                text = loc.areaName,
-                fontSize = 8.sp,
-                lineHeight = 8.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 8.dp, bottom = 6.dp)
-            )
+            Row() {
+                Text(
+                    text = loc.areaName,
+                    fontSize = 8.sp,
+                    lineHeight = 8.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(start = 8.dp, bottom = 6.dp)
+                )
 
+                Text(
+                    text = popData.find { it.seoulRtd.areaName == loc.areaName }?.seoulRtd?.areaCongestLvl.toString(),
+                    fontSize = 10.sp,
+                    lineHeight = 8.sp,
+                    modifier = Modifier.padding(start = 8.dp, bottom = 6.dp)
+                )
+            }
         }
     }
 }
