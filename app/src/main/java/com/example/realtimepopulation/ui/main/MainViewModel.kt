@@ -1,5 +1,6 @@
 package com.example.realtimepopulation.ui.main
 
+import android.app.Application
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,18 +14,18 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.ss.usermodel.WorkbookFactory
-import java.io.InputStream
 import java.net.URLEncoder
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val seoulAreaApiService: SeoulAreaApiService,
+    private val application: Application, // Application context가 필요할 수 있음
 ) : ViewModel() {
     private val _seoulLocationData = MutableStateFlow<List<LocationData>>(emptyList())
-    val seoulLocationData: StateFlow<List<LocationData>> get() = _seoulLocationData
 
     private val _searchQuery = MutableStateFlow<String>("")
     val searchQuery: StateFlow<String> get() = _searchQuery
@@ -34,35 +35,50 @@ class MainViewModel @Inject constructor(
     private val _selectChip = MutableStateFlow<String?>(areaTypes.first())
     val selectChip: StateFlow<String?> get() = _selectChip
 
+    private val _selectChipData = MutableStateFlow<List<LocationData>>(emptyList())
+    val selectChipData: StateFlow<List<LocationData>> get() = _selectChipData
+
     private val _populationData = MutableStateFlow<List<MapData>>(emptyList())
     val populationData: StateFlow<List<MapData>> get() = _populationData
 
+    init {
+        readSeoulAreasFromExcel(application)
+    }
+
     fun readSeoulAreasFromExcel(context: Context) {
-        val inputStream: InputStream = context.assets.open("seoul_important_regions.xlsx")
-        val workbook = WorkbookFactory.create(inputStream)
-        val sheet: Sheet = workbook.getSheetAt(0)
 
-        val temp = mutableListOf<LocationData>()
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                runCatching {
+                    val sheet: Sheet =
+                        WorkbookFactory.create(context.assets.open("seoul_important_regions.xlsx"))
+                            .getSheetAt(0)
 
-        for (rowIndex in 1 until sheet.physicalNumberOfRows) {
-            val row = sheet.getRow(rowIndex)
-            if (row != null) {
-                temp.add(
-                    LocationData(
-                        category = row.getCell(0)?.toString() ?: "",
-                        areaName = row.getCell(3)?.toString() ?: "",
-                        lat = row.getCell(4)?.toString()?.toDoubleOrNull() ?: 0.0,
-                        long = row.getCell(5)?.toString()?.toDoubleOrNull() ?: 0.0,
-                        imgURL = "https://data.seoul.go.kr/SeoulRtd/images/hotspot/${
-                            URLEncoder.encode(row.getCell(3)?.toString() ?: "", "UTF-8")
-                                .replace("+", "%20")
-                        }.jpg",
-                    )
-                )
+                    val temp = mutableListOf<LocationData>()
+                    for (rowIndex in 1 until sheet.physicalNumberOfRows) {
+                        val row = sheet.getRow(rowIndex)
+                        if (row != null) {
+                            temp.add(
+                                LocationData(
+                                    category = row.getCell(0)?.toString() ?: "",
+                                    areaName = row.getCell(3)?.toString() ?: "",
+                                    lat = row.getCell(4)?.toString()?.toDoubleOrNull() ?: 0.0,
+                                    long = row.getCell(5)?.toString()?.toDoubleOrNull() ?: 0.0,
+                                    imgURL = "https://data.seoul.go.kr/SeoulRtd/images/hotspot/${
+                                        URLEncoder.encode(row.getCell(3)?.toString() ?: "", "UTF-8")
+                                            .replace("+", "%20")
+                                    }.jpg",
+                                )
+                            )
+                        }
+                    }
+                    _seoulLocationData.value = temp // 서울지역 데이터 전체다 추가
+                    _selectChipData.value =
+                        _seoulLocationData.value.filter { it.category == areaTypes.first() } // 앱실행시 칩이 첫 번째 선택에 따른 데이터 셋팅
+                    getAreaPopulationData(_seoulLocationData.value) // 앱실행시 서울지역 데이터 이름 기반으로 실시간 혼잡도 가져오기
+                }
             }
         }
-        _seoulLocationData.value = temp
-        getAreaPopulationData(_seoulLocationData.value)
     }
 
     fun setQueryText(text: String) {
@@ -71,6 +87,7 @@ class MainViewModel @Inject constructor(
 
     fun setSelectChip(text: String) {
         _selectChip.value = text
+        _selectChipData.value = _seoulLocationData.value.filter { it.category == text }
     }
 
     private fun getAreaPopulationData(areaData: List<LocationData>) {
