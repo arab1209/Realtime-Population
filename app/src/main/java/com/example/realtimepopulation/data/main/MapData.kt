@@ -1,5 +1,6 @@
 package com.example.realtimepopulation.data.main
 
+
 import com.tickaroo.tikxml.annotation.Element
 import com.tickaroo.tikxml.annotation.PropertyElement
 import com.tickaroo.tikxml.annotation.Xml
@@ -19,5 +20,5 @@ data class SeoulRtd(
     val areaCongestLvl: String? = null,
 
     @PropertyElement(name = "AREA_CONGEST_MSG")
-    val areaCongestMsg: String? = null
+    val areaCongestMsg: String? = null,
 )

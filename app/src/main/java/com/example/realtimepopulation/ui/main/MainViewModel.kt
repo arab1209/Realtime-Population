@@ -107,7 +107,6 @@ class MainViewModel @Inject constructor(
                     }
                 }
             }
-
             _populationData.value = temp
         }
     }
