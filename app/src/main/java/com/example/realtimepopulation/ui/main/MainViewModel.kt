@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.realtimepopulation.data.main.LocationData
 import com.example.realtimepopulation.data.main.MapData
 import com.example.realtimepopulation.di.api.SeoulAreaApiService
+import com.example.realtimepopulation.ui.util.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -24,7 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val seoulAreaApiService: SeoulAreaApiService,
-    application: Application, // Application context가 필요할 수 있음
+    application: Application,
 ) : ViewModel() {
     private val _seoulLocationData = MutableStateFlow<List<LocationData>>(emptyList())
 
@@ -44,6 +45,11 @@ class MainViewModel @Inject constructor(
 
     private val _selectedIndex = MutableStateFlow(0)
     val selectedIndex = _selectedIndex.asStateFlow()
+
+    val navItems = listOf<Screen>(
+        Screen.Home,
+        Screen.Map
+    )
 
     init {
         readSeoulAreasFromExcel(application)
@@ -117,5 +123,13 @@ class MainViewModel @Inject constructor(
 
     fun updateSelectedIndex(index: Int) {
         _selectedIndex.value = index
+    }
+
+    fun getIndexForRoute(route: String?): Int {
+        return when (route) {
+            Screen.Home.route -> 0
+            Screen.Map.route -> 1
+            else -> 0
+        }
     }
 }

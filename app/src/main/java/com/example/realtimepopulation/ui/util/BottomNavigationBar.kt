@@ -8,6 +8,7 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -18,60 +19,54 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.realtimepopulation.R
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.realtimepopulation.ui.main.MainViewModel
 
 @Composable
 fun BottomNavigationBar(
     navController: NavController,
-    modifier: Modifier,
 ) {
     val viewModel: MainViewModel = hiltViewModel()
     val selectedIndex by viewModel.selectedIndex.collectAsState()
 
-        BottomNavigation(
-            modifier = modifier
-                .height(50.dp)
-                .navigationBarsPadding()
-            ,backgroundColor = Color.White
-        ) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    LaunchedEffect(currentRoute) {
+        viewModel.updateSelectedIndex(viewModel.getIndexForRoute(currentRoute))
+    }
+
+    BottomNavigation(
+        modifier = Modifier.navigationBarsPadding(), backgroundColor = Color.White
+    ) {
+
+        viewModel.navItems.forEachIndexed { index, item ->
             BottomNavigationItem(icon = {
                 Image(
                     modifier = Modifier
                         .width(18.dp)
                         .height(18.dp), painter = painterResource(
-                        id = if (selectedIndex == 0) R.drawable.ic_bottom_nav_home_select
-                        else R.drawable.ic_bottom_nav_home_unselect
+                        id = if (selectedIndex == index) item.image else item.image2
                     ), contentDescription = "Home"
                 )
 
-            }, selected = selectedIndex == 0, onClick = { viewModel.updateSelectedIndex(0) }, label = {
+            }, selected = selectedIndex == index && currentRoute == item.route, onClick = {
+                navController.navigate(item.route) {
+                    navController.graph.startDestinationRoute?.let {
+                        popUpTo(it) { saveState = true }
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            }, label = {
                 Text(
                     fontSize = 6.sp,
-                    text = "홈",
+                    text = item.title,
                     lineHeight = 8.sp,
                     fontWeight = if (selectedIndex == 0) FontWeight.Bold else FontWeight.Normal
                 )
 
             })
-            BottomNavigationItem(icon = {
-                Image(
-                    modifier = Modifier
-                        .width(18.dp)
-                        .height(18.dp), painter = painterResource(
-                        id = if (selectedIndex == 1) R.drawable.ic_bottom_nav_map_select
-                        else R.drawable.ic_bottom_nav_map_unselect
-                    ), contentDescription = "map"
-                )
-
-            }, selected = selectedIndex == 1, onClick = {
-                viewModel.updateSelectedIndex(1) }, label = {
-                Text(
-                    fontSize = 6.sp,
-                    text = "지도",
-                    lineHeight = 8.sp,
-                    fontWeight = if (selectedIndex == 1) FontWeight.Bold else FontWeight.Normal
-                )
-            })
         }
+    }
 }
