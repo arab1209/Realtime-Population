@@ -13,6 +13,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.apache.poi.ss.usermodel.Sheet
@@ -23,7 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val seoulAreaApiService: SeoulAreaApiService,
-    private val application: Application, // Application context가 필요할 수 있음
+    application: Application, // Application context가 필요할 수 있음
 ) : ViewModel() {
     private val _seoulLocationData = MutableStateFlow<List<LocationData>>(emptyList())
 
@@ -40,6 +41,9 @@ class MainViewModel @Inject constructor(
 
     private val _populationData = MutableStateFlow<List<MapData>>(emptyList())
     val populationData: StateFlow<List<MapData>> get() = _populationData
+
+    private val _selectedIndex = MutableStateFlow(0)
+    val selectedIndex = _selectedIndex.asStateFlow()
 
     init {
         readSeoulAreasFromExcel(application)
@@ -109,5 +113,9 @@ class MainViewModel @Inject constructor(
             }
             _populationData.value = temp
         }
+    }
+
+    fun updateSelectedIndex(index: Int) {
+        _selectedIndex.value = index
     }
 }

@@ -100,6 +100,7 @@ dependencies {
     // HIlT
     implementation libs.hilt.android
     kapt libs.hilt.android.compiler
+    implementation libs.androidx.hilt.navigation.compose
 
     // MVVM
     implementation libs.androidx.lifecycle.viewmodel.ktx
@@ -117,4 +118,6 @@ dependencies {
 
     // IMG URL
     implementation(libs.coil.compose)
+
+    implementation libs.androidx.material
 }
