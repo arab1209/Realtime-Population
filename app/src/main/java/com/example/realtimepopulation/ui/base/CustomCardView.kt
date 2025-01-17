@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.realtimepopulation.R
 import com.example.realtimepopulation.data.main.LocationData
 import com.example.realtimepopulation.data.main.MapData
 
@@ -93,9 +94,9 @@ fun CustomCardView(loc: LocationData, popData: List<MapData>, modifier: Modifier
 
 private fun calcAreaColor(congestLvl: String): Color {
     return when (congestLvl) {
-        "붐빔" -> Color(0xFFdd1e3d)
-        "약간 붐빔" -> Color(0xFFff8041)
-        "보통" -> Color(0xFFffb100)
-        else -> Color(0xFF05d369)
+        "붐빔" -> Color(0xFFFF5675)
+        "약간 붐빔" -> Color(0xFFFF9100)
+        "보통" -> Color(0xFFFFD232)
+        else -> Color(0xFF80E12A)
     }
 }
