@@ -1,4 +1,4 @@
-package com.example.realtimepopulation.ui.main
+package com.example.realtimepopulation.ui.main.viewmodel
 
 import android.app.Application
 import android.content.Context
@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.realtimepopulation.data.main.LocationData
 import com.example.realtimepopulation.data.main.MapData
+import com.example.realtimepopulation.data.main.ScrollStateData
 import com.example.realtimepopulation.di.api.SeoulAreaApiService
 import com.example.realtimepopulation.ui.util.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +16,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.apache.poi.ss.usermodel.Sheet
@@ -47,9 +49,11 @@ class MainViewModel @Inject constructor(
     val selectedIndex = _selectedIndex.asStateFlow()
 
     val navItems = listOf<Screen>(
-        Screen.Home,
-        Screen.Map
+        Screen.Home, Screen.Map
     )
+
+    private val _scrollState = MutableStateFlow(ScrollStateData())
+    val scrollState = _scrollState.asStateFlow()
 
     init {
         readSeoulAreasFromExcel(application)
@@ -131,5 +135,25 @@ class MainViewModel @Inject constructor(
             Screen.Map.route -> 1
             else -> 0
         }
+    }
+
+    fun handlePreScroll(delta: Float, maxHeight: Float) {
+        updateHeaderOffset(calculateHeaderOffset(delta, _scrollState.value.headerOffset, maxHeight))
+    }
+
+    fun handlePostScroll(delta: Float, maxHeight: Float) {
+        if (delta > 0 && _scrollState.value.headerOffset != 0f) {
+            updateHeaderOffset(0f)
+        } else if (delta < 0 && _scrollState.value.headerOffset != -maxHeight) {
+            updateHeaderOffset(-maxHeight)
+        }
+    }
+
+    private fun calculateHeaderOffset(delta: Float, currentOffset: Float, maxHeight: Float): Float {
+        return (currentOffset + delta).coerceIn(-maxHeight, 0f)
+    }
+
+    private fun updateHeaderOffset(offset: Float) {
+        _scrollState.update { it.copy(headerOffset = offset) }
     }
 }

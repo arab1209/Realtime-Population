@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.realtimepopulation.R
 import com.example.realtimepopulation.data.main.LocationData
 import com.example.realtimepopulation.data.main.MapData
 

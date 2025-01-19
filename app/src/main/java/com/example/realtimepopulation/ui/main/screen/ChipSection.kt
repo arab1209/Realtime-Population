@@ -1,4 +1,4 @@
-package com.example.realtimepopulation.ui.base.main
+package com.example.realtimepopulation.ui.main.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.horizontalScroll
@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.realtimepopulation.ui.main.MainViewModel
+import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 
 @Composable
 fun ChipSection(viewModel: MainViewModel) {

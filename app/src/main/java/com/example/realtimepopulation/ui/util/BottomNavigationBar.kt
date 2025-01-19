@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.realtimepopulation.ui.main.MainViewModel
+import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 
 @Composable
 fun BottomNavigationBar(

@@ -1,4 +1,4 @@
-package com.example.realtimepopulation.ui.base.main
+package com.example.realtimepopulation.ui.main.screen
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column

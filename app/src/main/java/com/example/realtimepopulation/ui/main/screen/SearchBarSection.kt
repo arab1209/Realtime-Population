@@ -1,4 +1,4 @@
-package com.example.realtimepopulation.ui.base.main
+package com.example.realtimepopulation.ui.main.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -28,7 +28,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.realtimepopulation.R
-import com.example.realtimepopulation.ui.main.MainViewModel
+import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 
 @Composable
 fun SearchBarSection(viewModel: MainViewModel) {
