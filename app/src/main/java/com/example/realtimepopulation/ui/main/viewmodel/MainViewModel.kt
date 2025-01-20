@@ -30,6 +30,7 @@ class MainViewModel @Inject constructor(
     application: Application,
 ) : ViewModel() {
     private val _seoulLocationData = MutableStateFlow<List<LocationData>>(emptyList())
+    val seoulLocationData: StateFlow<List<LocationData>> get() = _seoulLocationData
 
     private val _searchQuery = MutableStateFlow<String>("")
     val searchQuery: StateFlow<String> get() = _searchQuery
