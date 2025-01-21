@@ -14,6 +14,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,14 +25,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.realtimepopulation.data.main.LocationData
-import com.example.realtimepopulation.data.main.MapData
+import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 
 @Composable
-fun CustomCardView(loc: LocationData, popData: List<MapData>, modifier: Modifier) {
-    val temp = popData.find { it.seoulRtd.areaName == loc.areaName }?.seoulRtd?.areaCongestLvl
+fun CustomCardView(loc: LocationData, modifier: Modifier) {
+    val vm: MainViewModel = hiltViewModel()
+    val populationData = vm.populationData.collectAsState()
+
+    val temp = populationData.value.find { it.seoulRtd.areaName == loc.areaName }?.seoulRtd?.areaCongestLvl
 
     Box(modifier = modifier.padding(horizontal = 10.dp, vertical = 10.dp)) { // 카드뷰 큰 영역
         Card(
@@ -82,20 +87,11 @@ fun CustomCardView(loc: LocationData, popData: List<MapData>, modifier: Modifier
                         .padding(8.dp)
                         .size(10.dp)
                         .background(
-                            if (temp != null) calcAreaColor(temp) else Color.Transparent,
+                            if (temp != null) vm.calcAreaColor(temp) else Color.Transparent,
                             shape = CircleShape
                         )
                 )
             }
         }
-    }
-}
-
-private fun calcAreaColor(congestLvl: String): Color {
-    return when (congestLvl) {
-        "붐빔" -> Color(0xFFFF5675)
-        "약간 붐빔" -> Color(0xFFFF9100)
-        "보통" -> Color(0xFFFFD232)
-        else -> Color(0xFF80E12A)
     }
 }

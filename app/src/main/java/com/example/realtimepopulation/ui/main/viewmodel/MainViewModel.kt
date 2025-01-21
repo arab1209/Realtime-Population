@@ -2,6 +2,7 @@ package com.example.realtimepopulation.ui.main.viewmodel
 
 import android.app.Application
 import android.content.Context
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.realtimepopulation.data.main.LocationData
@@ -156,5 +157,14 @@ class MainViewModel @Inject constructor(
 
     private fun updateHeaderOffset(offset: Float) {
         _scrollState.update { it.copy(headerOffset = offset) }
+    }
+
+    fun calcAreaColor(congestLvl: String): Color {
+        return when (congestLvl) {
+            "붐빔" -> Color(0xFFFF5675)
+            "약간 붐빔" -> Color(0xFFFF9100)
+            "보통" -> Color(0xFFFFD232)
+            else -> Color(0xFF80E12A)
+        }
     }
 }

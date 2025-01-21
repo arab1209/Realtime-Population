@@ -30,7 +30,6 @@ fun MainScreen() {
     val viewModel: MainViewModel = hiltViewModel()
     val scrollState by viewModel.scrollState.collectAsState()
     val selectChipData by viewModel.selectChipData.collectAsState()
-    val popData by viewModel.populationData.collectAsState()
 
     val topAppBarHeightPx = with(LocalDensity.current) {
         scrollState.headerHeight.roundToPx().toFloat()
@@ -62,7 +61,7 @@ fun MainScreen() {
                 ChipSection(viewModel)
             }
             items(count = selectChipData.chunked(2).size) { index ->
-                CardViewSection(selectChipData, index, popData)
+                CardViewSection(selectChipData, index)
             }
         }
     }

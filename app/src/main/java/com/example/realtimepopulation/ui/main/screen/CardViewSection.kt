@@ -9,17 +9,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.realtimepopulation.data.main.LocationData
-import com.example.realtimepopulation.data.main.MapData
 import com.example.realtimepopulation.ui.base.CustomCardView
 
 @Composable
-fun CardViewSection(selectChipData: List<LocationData>, index: Int, popData: List<MapData>) {
+fun CardViewSection(selectChipData: List<LocationData>, index: Int) {
     Row(
         modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center, // 가운데 정렬
     ) {
         selectChipData.chunked(2)[index].forEach {
             CustomCardView(
-                it, popData, modifier = Modifier
+                it, modifier = Modifier
                     .weight(1f)
                     .aspectRatio(1f)
                     .fillMaxHeight()
