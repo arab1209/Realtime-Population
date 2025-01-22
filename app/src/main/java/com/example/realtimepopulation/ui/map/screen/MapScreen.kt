@@ -1,39 +1,67 @@
 package com.example.realtimepopulation.ui.map.screen
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
+import com.example.realtimepopulation.ui.map.viewmodel.MapViewModel
 import com.naver.maps.geometry.LatLng
-import com.naver.maps.map.compose.ExperimentalNaverMapApi
-import com.naver.maps.map.compose.Marker
-import com.naver.maps.map.compose.MarkerState
-import com.naver.maps.map.compose.NaverMap
-import com.naver.maps.map.util.MarkerIcons
+import com.naver.maps.map.MapView
 
-@OptIn(ExperimentalNaverMapApi::class)
 @Composable
-fun MapScreen(vm: MainViewModel = hiltViewModel()) {
-    val seoulLocationData = vm.seoulLocationData.collectAsState()
-    val populationData = vm.populationData.collectAsState()
+fun MapScreen(mainViewModel: MainViewModel = hiltViewModel()) {
+    val mapViewModel: MapViewModel = hiltViewModel()
 
-    NaverMap(modifier = Modifier.fillMaxSize()) {
-        seoulLocationData.value.forEach { area ->
-            val temp = populationData.value.find { it.seoulRtd.areaName == area.areaName }?.seoulRtd?.areaCongestLvl
-            Marker(
-                state = MarkerState(position = LatLng(area.lat, area.long)),
-                captionText = area.areaName,
-                width = 25.dp ,
-                height = 35.dp,
-                iconTintColor = if(temp != null ) {
-                    vm.calcAreaColor(temp)
-                } else Color.Transparent,
-                icon = MarkerIcons.BLACK
-            )
-        }
+    val density = LocalDensity.current.density
+    val context = LocalContext.current
+
+    val seoulLocationData = mainViewModel.seoulLocationData.collectAsState()
+    val populationData = mainViewModel.populationData.collectAsState()
+    val selectedMarker = mapViewModel.selectedMarker.collectAsState()
+    val cardPosition = mapViewModel.cardPosition.collectAsState()
+    val isMapMoving = mapViewModel.isMapMoving.collectAsState()
+
+    val mapView = remember { MapView(context) }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        AndroidView(factory = { mapView }, modifier = Modifier.fillMaxSize(), update = { view ->
+            view.getMapAsync { naverMap ->
+                setupMapListeners(naverMap, mapViewModel, seoulLocationData.value)
+                setupMarkers(naverMap = naverMap,
+                    markers = mainViewModel.seoulLocationData.value,
+                    densityValue = density,
+                    onMarkerClick = { area ->
+                        mapViewModel.updateSelectedMarker(
+                            area.areaName,
+                            naverMap.projection.toScreenLocation(LatLng(area.lat, area.long))
+                        )
+                    },
+                    getMarkerColor = { area ->
+                        populationData.value.find {
+                            it.seoulRtd.areaName == area.areaName
+                        }?.seoulRtd?.areaCongestLvl?.let {
+                            mainViewModel.calcAreaColor(it).toArgb()
+                        } ?: Color.Transparent.toArgb()
+                    })
+
+            }
+
+        })
     }
+
+    MapCardView(
+        isVisible = !isMapMoving.value,
+        selectedMarker = selectedMarker.value,
+        cardPosition = cardPosition.value,
+        seoulLocationData = seoulLocationData.value
+    )
 }
