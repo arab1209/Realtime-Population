@@ -1,19 +1,16 @@
 package com.example.realtimepopulation.ui.main.viewmodel
 
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.realtimepopulation.domain.model.map.MapData
-import com.example.realtimepopulation.domain.model.main.ScrollStateData
-import com.example.realtimepopulation.di.api.SeoulAreaApiService
 import com.example.realtimepopulation.domain.model.main.LocationData
+import com.example.realtimepopulation.domain.model.main.ScrollStateData
+import com.example.realtimepopulation.domain.model.map.MapData
 import com.example.realtimepopulation.domain.usecase.GetAreaPopulationDataUseCase
 import com.example.realtimepopulation.domain.usecase.GetSeoulLocationDataUseCase
 import com.example.realtimepopulation.ui.util.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +20,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val seoulAreaApiService: SeoulAreaApiService,
     private val getSeoulLocationDataUseCase: GetSeoulLocationDataUseCase,
     private val getAreaPopulationDataUseCase: GetAreaPopulationDataUseCase
 ) : ViewModel() {
@@ -63,6 +59,7 @@ class MainViewModel @Inject constructor(
             val (seoulLocationData, chipData) = getSeoulLocationDataUseCase(areaTypes.first())
             _seoulLocationData.value = seoulLocationData
             _selectChipData.value = chipData
+            Log.d("test", getAreaPopulationDataUseCase(seoulLocationData).toString())
             _populationData.value = getAreaPopulationDataUseCase(seoulLocationData)
         }
     }

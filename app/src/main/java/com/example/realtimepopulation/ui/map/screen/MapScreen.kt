@@ -47,8 +47,8 @@ fun MapScreen(mainViewModel: MainViewModel = hiltViewModel()) {
                     },
                     getMarkerColor = { area ->
                         populationData.value.find {
-                            it.seoulRtd.areaName == area.areaName
-                        }?.seoulRtd?.areaCongestLvl?.let {
+                            it.areaName == area.areaName
+                        }?.congestionLevel?.let {
                             mainViewModel.calcAreaColor(it).toArgb()
                         } ?: Color.Transparent.toArgb()
                     })

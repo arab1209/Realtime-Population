@@ -9,7 +9,7 @@ import java.net.URLEncoder
 import javax.inject.Inject
 
 class SeoulLocationRepositoryImpl @Inject constructor(
-    private val context: Context
+    private val context: Context,
 ) : SeoulLocationRepository {
     override fun getSeoulLocationData(): List<LocationData> {
         val inputStream = context.assets.open("seoul_important_regions.xlsx")

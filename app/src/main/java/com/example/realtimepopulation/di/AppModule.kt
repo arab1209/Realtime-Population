@@ -1,8 +1,12 @@
 package com.example.realtimepopulation.di
 
 import android.content.Context
+import com.example.realtimepopulation.data.repository.PopulationRepositoryImpl
 import com.example.realtimepopulation.data.repository.SeoulLocationRepositoryImpl
+import com.example.realtimepopulation.di.api.SeoulAreaApiService
+import com.example.realtimepopulation.domain.repository.PopulationRepository
 import com.example.realtimepopulation.domain.repository.SeoulLocationRepository
+import com.example.realtimepopulation.domain.usecase.GetAreaPopulationDataUseCase
 import com.example.realtimepopulation.domain.usecase.GetSeoulLocationDataUseCase
 import dagger.Module
 import dagger.Provides
@@ -29,7 +33,19 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun providePopulationRepository(seoulAreaApiService: SeoulAreaApiService): PopulationRepository {
+        return PopulationRepositoryImpl(seoulAreaApiService)
+    }
+
+    @Provides
+    @Singleton
     fun provideGetSeoulLocationDataUseCase(repository: SeoulLocationRepository): GetSeoulLocationDataUseCase {
         return GetSeoulLocationDataUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAreaPopulationDataUseCase(repository: PopulationRepository): GetAreaPopulationDataUseCase {
+        return GetAreaPopulationDataUseCase(repository)
     }
 }

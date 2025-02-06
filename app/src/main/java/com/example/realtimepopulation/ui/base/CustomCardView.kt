@@ -36,7 +36,7 @@ fun CustomCardView(loc: LocationData, modifier: Modifier) {
     val vm: MainViewModel = hiltViewModel()
     val populationData = vm.populationData.collectAsState()
 
-    val temp = populationData.value.find { it.seoulRtd.areaName == loc.areaName }?.seoulRtd?.areaCongestLvl
+    val temp = populationData.value.find { it.areaName == loc.areaName }?.congestionLevel
 
     Box(modifier = modifier.padding(horizontal = 10.dp, vertical = 10.dp)) { // 카드뷰 큰 영역
         Card(
