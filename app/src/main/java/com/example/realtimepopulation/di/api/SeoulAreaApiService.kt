@@ -1,6 +1,6 @@
 package com.example.realtimepopulation.di.api
 
-import com.example.realtimepopulation.data.main.MapData
+import com.example.realtimepopulation.domain.model.map.MapData
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

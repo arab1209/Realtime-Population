@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.realtimepopulation.data.main.LocationData
+import com.example.realtimepopulation.domain.model.main.LocationData
 import com.example.realtimepopulation.ui.base.CustomCardView
 
 @Composable

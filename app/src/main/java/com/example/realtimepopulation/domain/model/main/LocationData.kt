@@ -1,4 +1,4 @@
-package com.example.realtimepopulation.data.main
+package com.example.realtimepopulation.domain.model.main
 
 data class LocationData(
     val category: String,

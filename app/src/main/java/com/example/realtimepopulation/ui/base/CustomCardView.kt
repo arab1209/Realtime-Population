@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.example.realtimepopulation.data.main.LocationData
+import com.example.realtimepopulation.domain.model.main.LocationData
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 
 @Composable

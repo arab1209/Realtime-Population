@@ -2,7 +2,7 @@ package com.example.realtimepopulation.ui.map.viewmodel
 
 import android.graphics.PointF
 import androidx.lifecycle.ViewModel
-import com.example.realtimepopulation.data.main.LocationData
+import com.example.realtimepopulation.domain.model.main.LocationData
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.NaverMap
 import kotlinx.coroutines.flow.MutableStateFlow

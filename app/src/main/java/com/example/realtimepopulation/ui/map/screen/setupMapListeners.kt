@@ -1,6 +1,6 @@
 package com.example.realtimepopulation.ui.map.screen
 
-import com.example.realtimepopulation.data.main.LocationData
+import com.example.realtimepopulation.domain.model.main.LocationData
 import com.example.realtimepopulation.ui.map.viewmodel.MapViewModel
 import com.naver.maps.map.NaverMap
 

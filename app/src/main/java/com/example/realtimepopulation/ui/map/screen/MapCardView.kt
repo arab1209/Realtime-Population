@@ -11,7 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import com.example.realtimepopulation.data.main.LocationData
+import com.example.realtimepopulation.domain.model.main.LocationData
 import com.example.realtimepopulation.ui.base.CustomCardView
 
 @Composable

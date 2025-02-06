@@ -1,4 +1,4 @@
-package com.example.realtimepopulation.data.main
+package com.example.realtimepopulation.domain.model.main
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp

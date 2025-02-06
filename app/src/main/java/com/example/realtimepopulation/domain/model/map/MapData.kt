@@ -1,4 +1,4 @@
-package com.example.realtimepopulation.data.main
+package com.example.realtimepopulation.domain.model.map
 
 
 import com.tickaroo.tikxml.annotation.Element
