@@ -1,4 +1,4 @@
-package com.example.realtimepopulation.domain.usecase
+package com.example.realtimepopulation.domain.usecase.main
 
 import com.example.realtimepopulation.domain.model.main.LocationData
 import com.example.realtimepopulation.domain.model.map.MapData

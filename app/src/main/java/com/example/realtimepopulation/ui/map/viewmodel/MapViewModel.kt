@@ -3,12 +3,18 @@ package com.example.realtimepopulation.ui.map.viewmodel
 import android.graphics.PointF
 import androidx.lifecycle.ViewModel
 import com.example.realtimepopulation.domain.model.main.LocationData
+import com.example.realtimepopulation.domain.usecase.map.UpdateCardPositionUseCase
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.NaverMap
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
 
-class MapViewModel : ViewModel() {
+@HiltViewModel
+class MapViewModel @Inject constructor(
+    private val updateCardPositionUseCase: UpdateCardPositionUseCase,
+) : ViewModel() {
     private val _selectedMarker = MutableStateFlow<String?>(null)
     val selectedMarker = _selectedMarker.asStateFlow()
 
@@ -28,12 +34,6 @@ class MapViewModel : ViewModel() {
     }
 
     fun updateCardPosition(naverMap: NaverMap, seoulLocationData: List<LocationData>) {
-        _selectedMarker.value?.let { areaName ->
-            val area = seoulLocationData.firstOrNull { it.areaName == areaName }
-            area?.let {
-                val markerLatLng = LatLng(it.lat, it.long)
-                _cardPosition.value = naverMap.projection.toScreenLocation(markerLatLng)
-            }
-        }
+        updateCardPositionUseCase(naverMap, seoulLocationData, _selectedMarker, _cardPosition)
     }
 }

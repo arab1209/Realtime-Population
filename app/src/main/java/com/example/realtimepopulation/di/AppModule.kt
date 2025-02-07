@@ -6,8 +6,8 @@ import com.example.realtimepopulation.data.repository.SeoulLocationRepositoryImp
 import com.example.realtimepopulation.di.api.SeoulAreaApiService
 import com.example.realtimepopulation.domain.repository.PopulationRepository
 import com.example.realtimepopulation.domain.repository.SeoulLocationRepository
-import com.example.realtimepopulation.domain.usecase.GetAreaPopulationDataUseCase
-import com.example.realtimepopulation.domain.usecase.GetSeoulLocationDataUseCase
+import com.example.realtimepopulation.domain.usecase.main.GetAreaPopulationDataUseCase
+import com.example.realtimepopulation.domain.usecase.main.GetSeoulLocationDataUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
