@@ -13,13 +13,7 @@ class PopulationRepositoryImpl @Inject constructor(
 ) : PopulationRepository {
     override suspend fun getPopulationData(areaName: String): Result<MapData> {
         return runCatching {
-            val response: Response<MapDataDto> = seoulAreaApiService.getPopulationData(areaName)
-
-            if (response.isSuccessful) {
-                response.body()?.toDomain() ?: throw Exception("Empty response body")
-            } else {
-                throw Exception("Failed to load data from API")
-            }
+            seoulAreaApiService.getPopulationData(areaName).body()?.toDomain()!!
         }
     }
 }
