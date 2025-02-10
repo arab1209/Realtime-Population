@@ -11,21 +11,26 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.realtimepopulation.domain.model.main.LocationData
 import com.example.realtimepopulation.ui.base.CustomCardView
+import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 
 @Composable
-fun MapCardView(
+fun MapCardView(mainViewModel: MainViewModel = hiltViewModel(),
     isVisible: Boolean,
     selectedMarker: String?,
     cardPosition: PointF?,
     seoulLocationData: List<LocationData>,
+    navController: NavController
 ) {
     if (!isVisible || selectedMarker == null || cardPosition == null) return
 
     val location = seoulLocationData.find { it.areaName == selectedMarker } ?: return
 
-    CustomCardView(loc = location,
+    CustomCardView(mainViewModel,
+        loc = location,
         modifier = Modifier
             .offset(x = with(LocalDensity.current) { cardPosition.x.toDp() - 100.dp },
                 y = with(LocalDensity.current) { cardPosition.y.toDp() - 120.dp })
@@ -33,5 +38,5 @@ fun MapCardView(
             .height(250.dp)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() }, indication = null
-            ) { })
+            ) { }, navController)
 }

@@ -1,5 +1,6 @@
 package com.example.realtimepopulation.ui.main.screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,6 +12,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -19,24 +21,22 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.realtimepopulation.ui.main.rememberScrollHandler
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import kotlin.math.roundToInt
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
-    val viewModel: MainViewModel = hiltViewModel()
-    val scrollState by viewModel.scrollState.collectAsState()
-    val selectChipData by viewModel.selectChipData.collectAsState()
+fun MainScreen(mainViewModel: MainViewModel = hiltViewModel(), navController: NavController) {
+    val scrollState by mainViewModel.scrollState.collectAsState()
+    val selectChipData by mainViewModel.selectChipData.collectAsState()
 
     val topAppBarHeightPx = with(LocalDensity.current) {
         scrollState.headerHeight.roundToPx().toFloat()
     }
 
     Scaffold(
-        modifier = Modifier.nestedScroll(rememberScrollHandler(viewModel, topAppBarHeightPx)),
+        modifier = Modifier.nestedScroll(rememberScrollHandler(mainViewModel, topAppBarHeightPx)),
         topBar = {
             Column(modifier = Modifier
                 .offset {
@@ -45,7 +45,7 @@ fun MainScreen() {
                 .background(Color.White)
                 .height(scrollState.headerHeight)) {
                 TitleSection()
-                SearchBarSection(viewModel)
+                SearchBarSection(mainViewModel)
             }
         },
         containerColor = MaterialTheme.colorScheme.background,
@@ -58,10 +58,10 @@ fun MainScreen() {
                 .background(Color.White)
         ) {
             item {
-                ChipSection(viewModel)
+                ChipSection(mainViewModel)
             }
             items(count = selectChipData.chunked(2).size) { index ->
-                CardViewSection(selectChipData, index)
+                CardViewSection(selectChipData, index, navController, mainViewModel)
             }
         }
     }

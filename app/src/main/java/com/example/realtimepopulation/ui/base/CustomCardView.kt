@@ -1,6 +1,8 @@
 package com.example.realtimepopulation.ui.base
 
+import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +16,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,17 +29,20 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.realtimepopulation.domain.model.main.LocationData
+import com.example.realtimepopulation.domain.model.map.MapData
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
+import com.example.realtimepopulation.ui.util.Screen
 
 @Composable
-fun CustomCardView(loc: LocationData, modifier: Modifier) {
-    val vm: MainViewModel = hiltViewModel()
-    val populationData = vm.populationData.collectAsState()
+fun CustomCardView(viewModel: MainViewModel = hiltViewModel(), loc: LocationData, modifier: Modifier, navController: NavController) {
+    val populationData = viewModel.populationData.collectAsState()
+    val temp = populationData.value.find { it.areaName == loc.areaName }
 
-    val temp = populationData.value.find { it.areaName == loc.areaName }?.congestionLevel
 
     Box(modifier = modifier.padding(horizontal = 10.dp, vertical = 10.dp)) { // 카드뷰 큰 영역
         Card(
@@ -49,10 +55,14 @@ fun CustomCardView(loc: LocationData, modifier: Modifier) {
                     .weight(1f)
                     .fillMaxWidth()
                     .padding(5.dp)
-                    .clip(RoundedCornerShape(6.dp)),
+                    .clip(RoundedCornerShape(6.dp))
+                    .clickable {
+                        viewModel.setDetailScreenData(populationData.value, loc.areaName)
+                        navController.navigate(Screen.Detail.route)
+                    },
                 model = ImageRequest.Builder(LocalContext.current).data(loc.imgURL).build(),
                 contentDescription = loc.areaName,
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
             )
 
             Row( //카드뷰 텍스트 큰 영역
@@ -87,7 +97,7 @@ fun CustomCardView(loc: LocationData, modifier: Modifier) {
                         .padding(8.dp)
                         .size(10.dp)
                         .background(
-                            if (temp != null) vm.calcAreaColor(temp) else Color.Transparent,
+                            if (temp != null) viewModel.calcAreaColor(temp.congestionLevel) else Color.Transparent,
                             shape = CircleShape
                         )
                 )

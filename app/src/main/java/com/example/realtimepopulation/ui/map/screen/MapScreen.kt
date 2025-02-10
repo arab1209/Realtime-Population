@@ -1,8 +1,10 @@
 package com.example.realtimepopulation.ui.map.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -12,13 +14,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.map.viewmodel.MapViewModel
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.MapView
 
 @Composable
-fun MapScreen(mainViewModel: MainViewModel = hiltViewModel()) {
+fun MapScreen(mainViewModel: MainViewModel = hiltViewModel(), navController: NavController) {
     val mapViewModel: MapViewModel = hiltViewModel()
 
     val density = LocalDensity.current.density
@@ -59,9 +62,11 @@ fun MapScreen(mainViewModel: MainViewModel = hiltViewModel()) {
     }
 
     MapCardView(
+        mainViewModel,
         isVisible = !isMapMoving.value,
         selectedMarker = selectedMarker.value,
         cardPosition = cardPosition.value,
-        seoulLocationData = seoulLocationData.value
+        seoulLocationData = seoulLocationData.value,
+        navController
     )
 }
