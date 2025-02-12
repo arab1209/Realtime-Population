@@ -22,6 +22,12 @@ data class SeoulRtd(
     @PropertyElement(name = "AREA_CONGEST_MSG")
     val areaCongestMsg: String? = null,
 
+    @PropertyElement(name = "AREA_PPLTN_MIN")
+    val minCount: String? = null,
+
+    @PropertyElement(name = "AREA_PPLTN_MAX")
+    val maxCount: String? = null,
+
     @Element(name = "FCST_PPLTN")
     val fcstPpltn: FcstPpltn
 )

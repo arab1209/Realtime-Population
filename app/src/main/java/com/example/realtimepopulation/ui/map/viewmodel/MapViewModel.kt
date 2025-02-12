@@ -4,7 +4,6 @@ import android.graphics.PointF
 import androidx.lifecycle.ViewModel
 import com.example.realtimepopulation.domain.model.main.LocationData
 import com.example.realtimepopulation.domain.usecase.map.UpdateCardPositionUseCase
-import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.NaverMap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

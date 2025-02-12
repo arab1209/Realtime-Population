@@ -10,6 +10,8 @@ fun MapDataDto.toDomain(): MapData {
         areaName = this.seoulRtd.areaName ?: "Unknown",
         congestionLevel = this.seoulRtd.areaCongestLvl ?: "Unknown",
         congestionMessage = this.seoulRtd.areaCongestMsg ?: "No Data",
+        minCount = this.seoulRtd.minCount ?: "No Data",
+        maxCount = this.seoulRtd.maxCount ?: "No Data",
         forecasts = this.seoulRtd.fcstPpltn.fcstPpltnList.map { it.toDomain() }
     )
 }

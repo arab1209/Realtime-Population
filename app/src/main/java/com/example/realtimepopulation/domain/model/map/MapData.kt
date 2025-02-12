@@ -4,6 +4,8 @@ data class MapData(
     val areaName: String,
     val congestionLevel: String,
     val congestionMessage: String,
+    val minCount: String,
+    val maxCount: String,
     val forecasts: List<ForecastData>
 )
 
