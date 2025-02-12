@@ -1,5 +1,6 @@
 package com.example.realtimepopulation.ui.main.viewmodel
 
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +11,7 @@ import com.example.realtimepopulation.domain.model.main.ScrollStateData
 import com.example.realtimepopulation.domain.model.map.MapData
 import com.example.realtimepopulation.domain.usecase.main.CalcAreaColorUseCase
 import com.example.realtimepopulation.domain.usecase.main.GetAreaPopulationDataUseCase
+import com.example.realtimepopulation.domain.usecase.main.GetCongestMessageUseCase
 import com.example.realtimepopulation.domain.usecase.main.GetDetailScreenDataUseCase
 import com.example.realtimepopulation.domain.usecase.main.GetScreenNavRouteUseCase
 import com.example.realtimepopulation.domain.usecase.main.GetSelectChipDataUseCase
@@ -31,7 +33,8 @@ class MainViewModel @Inject constructor(
     private val getScreenNavRouteUseCase: GetScreenNavRouteUseCase,
     private val headerScrollUseCase: HeaderScrollUseCase,
     private val calcAreaColorUseCase: CalcAreaColorUseCase,
-    private val getDetailScreenDataUseCase: GetDetailScreenDataUseCase
+    private val getDetailScreenDataUseCase: GetDetailScreenDataUseCase,
+    private val getCongestMessageUseCase: GetCongestMessageUseCase
 ) : ViewModel() {
     private val _seoulLocationData = MutableStateFlow<List<LocationData>>(emptyList())
     val seoulLocationData: StateFlow<List<LocationData>> get() = _seoulLocationData
@@ -60,6 +63,9 @@ class MainViewModel @Inject constructor(
 
     private val _detailScreenData = MutableLiveData<MapData>()
     val detailScreenData: LiveData<MapData> get() = _detailScreenData
+
+    private val _congestMessage = MutableStateFlow<List<String>>(emptyList())
+    val congestMessage = _congestMessage.asStateFlow()
 
     init {
         readSeoulAreasFromExcel()
@@ -111,5 +117,9 @@ class MainViewModel @Inject constructor(
 
     fun setDetailScreenData(mapData: List<MapData>, query: String) {
         _detailScreenData.value = getDetailScreenDataUseCase(mapData, query)
+    }
+
+    fun getCongestMessage(query: String) {
+        _congestMessage.value = getCongestMessageUseCase(query)
     }
 }

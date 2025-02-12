@@ -1,5 +1,6 @@
 package com.example.realtimepopulation.ui.base
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,6 +18,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +37,8 @@ import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 @Composable
 fun AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
     val detailScreenData = viewModel.detailScreenData.observeAsState()
+    viewModel.getCongestMessage(detailScreenData.value!!.congestionMessage)
+    val congestMessageList = viewModel.congestMessage.collectAsState()
 
     Scaffold(topBar = {
         CenterAlignedTopAppBar(modifier = Modifier.shadow(10.dp),
