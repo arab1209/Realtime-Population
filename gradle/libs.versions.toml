@@ -3,6 +3,7 @@ agp = "8.6.0"
 annotation = "0.8.13"
 annotationVersion = "0.8.15"
 coilCompose = "2.2.2"
+compose = "1.12.0"
 converterGson = "2.9.0"
 converterSimplexml = "2.x.x"
 core = "0.8.15"
@@ -47,6 +48,8 @@ androidx-material = { module = "androidx.compose.material:material", version.ref
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 annotation = { module = "com.tickaroo.tikxml:annotation", version.ref = "annotation" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+compose = { module = "com.partykandpatrick.vico:compose", version.ref = "compose" }
+compose-m3 = { module = "com.partykandpatrick.vico:compose-m3", version.ref = "compose" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 converter-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "converterGson" }
 converter-simplexml = { module = "com.squareup.retrofit2:converter-simplexml", version.ref = "converterGson" }
@@ -85,6 +88,8 @@ tikxml-processor = { module = "com.github.Tickaroo.tikxml:processor", version.re
 tikxml-retrofit-converter = { module = "com.github.Tickaroo.tikxml:retrofit-converter", version.ref = "retrofitConverter" }
 tikxml-core = { module = "com.github.Tickaroo.tikxml:core", version.ref = "core" }
 tikxml-annotation = { module = "com.github.Tickaroo.tikxml:annotation", version.ref = "annotationVersion" }
+vico-core = { module = "com.partykandpatrick.vico:core", version.ref = "compose" }
+x-x2-x = { module = "com.partykandpatrick.vico.views:1.12.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
