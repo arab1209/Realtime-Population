@@ -3,11 +3,14 @@ package com.example.realtimepopulation.di
 import android.content.Context
 import com.example.realtimepopulation.data.repository.PopulationRepositoryImpl
 import com.example.realtimepopulation.data.repository.SeoulLocationRepositoryImpl
+import com.example.realtimepopulation.data.repository.WeatherStatusRepositoryImpl
 import com.example.realtimepopulation.di.api.SeoulAreaApiService
 import com.example.realtimepopulation.domain.repository.PopulationRepository
 import com.example.realtimepopulation.domain.repository.SeoulLocationRepository
+import com.example.realtimepopulation.domain.repository.WeatherSttsRepository
 import com.example.realtimepopulation.domain.usecase.main.GetAreaPopulationDataUseCase
 import com.example.realtimepopulation.domain.usecase.main.GetSeoulLocationDataUseCase
+import com.example.realtimepopulation.domain.usecase.main.GetWeatherSttsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,6 +42,12 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideWeatherSttsRepository(seoulAreaApiService: SeoulAreaApiService): WeatherSttsRepository {
+        return WeatherStatusRepositoryImpl(seoulAreaApiService)
+    }
+
+    @Provides
+    @Singleton
     fun provideGetSeoulLocationDataUseCase(repository: SeoulLocationRepository): GetSeoulLocationDataUseCase {
         return GetSeoulLocationDataUseCase(repository)
     }
@@ -48,4 +57,11 @@ object AppModule {
     fun provideGetAreaPopulationDataUseCase(repository: PopulationRepository): GetAreaPopulationDataUseCase {
         return GetAreaPopulationDataUseCase(repository)
     }
+
+    @Provides
+    @Singleton
+    fun provideGetWeatherSttsDataUseCase(repository: WeatherSttsRepository): GetWeatherSttsUseCase {
+        return GetWeatherSttsUseCase(repository)
+    }
+
 }
