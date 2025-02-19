@@ -1,4 +1,4 @@
-package com.example.realtimepopulation.ui.base
+package com.example.realtimepopulation.ui.shared
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row

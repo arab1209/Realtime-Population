@@ -1,5 +1,6 @@
-package com.example.realtimepopulation.ui.base
+package com.example.realtimepopulation.ui.shared
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -85,31 +86,9 @@ fun AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                 ) {
                     Column() {
                         DetailScreenTitleBox("실시간 인구")
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 15.dp)
-                                .background(Color(0xfff7f7f7))
-                        ) {
-                            Text(
-                                "인구혼잡도", fontSize = 16.sp, textDecoration = TextDecoration.Underline
-                            )
-                            Text(
-                                "가 ", fontSize = 16.sp
-                            )
-                            Text(
-                                detailScreenData.value!!.congestionLevel,
-                                color = viewModel.calcAreaColor(detailScreenData.value!!.congestionLevel),
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier.padding(vertical = 5.dp)
-                            )
-                            Text(
-                                " 입니다", fontSize = 16.sp
-                            )
-                        }
+                        DetailScreenSubTitleBox(
+                            "인구혼잡도", viewModel, detailScreenData.value!!.congestionLevel
+                        )
 
                         Box(
                             modifier = Modifier
@@ -178,15 +157,60 @@ fun AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                     }
                 }
                 Divider(
-                    color = Color(0xffe7e8ee),
-                    thickness = 5.dp
+                    color = Color(0xffe7e8ee), thickness = 5.dp
                 )
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 15.dp, vertical = 15.dp)
                 ) {
-                    DetailScreenTitleBox("실시간 상권")
+                    Column() {
+                        DetailScreenTitleBox("날씨/환경 상황")
+                        weatherSttsData.value?.cityData?.weatherStts?.let { weather ->
+                            DetailScreenSubTitleBox("통합대기환경지수", viewModel, weather.airIndex)
+                        }
+
+                        weatherSttsData.value?.cityData?.weatherStts?.let { weather ->
+                            listOfNotNull(
+                                weather.airMsg, weather.pcpMsg, weather.uvMsg
+                            ).forEach { msg ->
+                                Text(
+                                    text = msg,
+                                    color = Color(0xff626262),
+                                    fontSize = 12.sp,
+                                    modifier = Modifier.padding(top = 5.dp)
+                                )
+                            }
+                        }
+                        Box(modifier = Modifier.fillMaxWidth()) {
+                            Column() {
+                                Divider(
+                                    color = Color(0xffe7e8ee),
+                                    thickness = 2.dp,
+                                    modifier = Modifier.padding(top = 10.dp)
+                                )
+                                Row() {
+                                    weatherSttsData.value?.cityData?.weatherStts?.let { weather ->
+                                        Text(
+                                            text = "${weather.temp}℃",
+                                            color = Color(0xff4c65a7),
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                        Text(
+                                            text = "체감 ${weather.sensibleTemp}℃"
+                                        )
+                                        Text(text = "자외선 지수")
+                                        Text(
+                                            text = weather.uvIndex,
+                                            color = viewModel.calcAreaColor(weather.uvIndex)
+                                        )
+                                        Text(text = "강수량 ${weather.precipitation}")
+                                    }
+                                }
+
+                            }
+                        }
+                    }
                 }
             }
         }

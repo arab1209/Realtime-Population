@@ -6,8 +6,8 @@ import javax.inject.Inject
 class CalcAreaColorUseCase @Inject constructor(){
     operator fun invoke(congestLevel: String): Color {
         return when (congestLevel) {
-            "붐빔" -> Color(0xFFFF5675)
-            "약간 붐빔" -> Color(0xFFFF9100)
+            in listOf("붐빔", "매우나쁨") -> Color(0xFFFF5675)
+            in listOf("약간 붐빔", "나쁨") -> Color(0xFFFF9100)
             "보통" -> Color(0xFFFFD232)
             else -> Color(0xFF80E12A)
         }

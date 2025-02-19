@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.realtimepopulation.domain.model.main.LocationData
-import com.example.realtimepopulation.ui.base.CustomCardView
+import com.example.realtimepopulation.ui.shared.CustomCardView
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 
 @Composable

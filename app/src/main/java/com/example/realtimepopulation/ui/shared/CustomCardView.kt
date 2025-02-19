@@ -1,4 +1,4 @@
-package com.example.realtimepopulation.ui.base
+package com.example.realtimepopulation.ui.shared
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
