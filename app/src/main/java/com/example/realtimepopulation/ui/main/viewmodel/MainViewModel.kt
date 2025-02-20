@@ -1,5 +1,6 @@
 package com.example.realtimepopulation.ui.main.viewmodel
 
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

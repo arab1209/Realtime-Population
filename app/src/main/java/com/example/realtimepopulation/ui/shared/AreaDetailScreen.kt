@@ -2,14 +2,25 @@ package com.example.realtimepopulation.ui.shared
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -27,7 +38,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -78,137 +91,36 @@ fun AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            Column() {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 15.dp, vertical = 15.dp)
-                ) {
-                    Column() {
-                        DetailScreenTitleBox("실시간 인구")
-                        DetailScreenSubTitleBox(
-                            "인구혼잡도", viewModel, detailScreenData.value!!.congestionLevel
-                        )
-
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 10.dp)
-                        ) {
-                            Column() {
-                                Text(
-                                    text = "현재 실시간 인구 : ${detailScreenData.value?.minCount} ~ ${detailScreenData.value?.maxCount}명",
-                                    fontSize = 16.sp,
-                                    color = Color(0xff798fd2),
-                                    fontWeight = FontWeight.Bold
-                                )
-                                congestMessageList.value.forEach {
-                                    Text(
-                                        text = it,
-                                        color = Color(0xff626262),
-                                        fontSize = 12.sp,
-                                        modifier = Modifier.padding(top = 10.dp)
-                                    )
-                                }
-                            }
-                        }
-
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 10.dp)
-                        ) {
-                            Chart(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(200.dp),
-                                chart = columnChart(
-                                    columns = detailScreenData.value!!.forecasts.map { dataItem ->
-                                        lineComponent(
-                                            color = viewModel.calcAreaColor(dataItem.congestionLevel),
-                                            thickness = 15.dp,
-                                            shape = Shapes.cutCornerShape(
-                                                topRightPercent = 20, topLeftPercent = 20
-                                            )
-                                        )
-                                    },
-                                    spacing = 30.dp,
-                                    dataLabel = TextComponent.Builder().build(),
-                                    axisValuesOverrider = AxisValuesOverrider.fixed(
-                                        minY = 0f, maxY = maxData.value.toFloat()
-                                    )
-                                ),
-                                chartModelProducer = ChartEntryModelProducer(chartData.value.map {
-                                    entryOf(
-                                        it.index, it.xData
-                                    )
-                                }),
-                                startAxis = rememberStartAxis(
-                                    itemPlacer = AxisItemPlacer.Vertical.default(maxItemCount = 6)
-                                ),
-                                bottomAxis = rememberBottomAxis(valueFormatter = { value, _ ->
-                                    (chartData.value.map {
-                                        it.time
-                                    }[value.toInt()])
-                                }),
-                                chartScrollState = rememberChartScrollState()
+            LazyColumn() {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 15.dp, vertical = 15.dp)
+                    ) {
+                        Column() {
+                            DetailScreenTitleBox("실시간 인구")
+                            DetailScreenSubTitleBox("인구혼잡도", viewModel,
+                                detailScreenData.value?.congestionLevel ?: ""
                             )
+                            DetailScreenRtimeHumanCount(detailScreenData.value?.minCount, detailScreenData.value?.maxCount, congestMessageList.value)
+                            DetailScreenChart(viewModel, detailScreenData.value?.forecasts, maxData.value, chartData.value)
                         }
                     }
-                }
-                Divider(
-                    color = Color(0xffe7e8ee), thickness = 5.dp
-                )
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 15.dp, vertical = 15.dp)
-                ) {
-                    Column() {
-                        DetailScreenTitleBox("날씨/환경 상황")
-                        weatherSttsData.value?.cityData?.weatherStts?.let { weather ->
-                            DetailScreenSubTitleBox("통합대기환경지수", viewModel, weather.airIndex)
-                        }
-
-                        weatherSttsData.value?.cityData?.weatherStts?.let { weather ->
-                            listOfNotNull(
-                                weather.airMsg, weather.pcpMsg, weather.uvMsg
-                            ).forEach { msg ->
-                                Text(
-                                    text = msg,
-                                    color = Color(0xff626262),
-                                    fontSize = 12.sp,
-                                    modifier = Modifier.padding(top = 5.dp)
-                                )
+                    Divider(
+                        color = Color(0xffe7e8ee), thickness = 5.dp
+                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 15.dp, vertical = 15.dp)
+                    ) {
+                        Column() {
+                            DetailScreenTitleBox("날씨/환경 상황")
+                            weatherSttsData.value?.cityData?.weatherStts?.let { weather ->
+                                DetailScreenSubTitleBox("통합대기환경지수", viewModel, weather.airIndex)
                             }
-                        }
-                        Box(modifier = Modifier.fillMaxWidth()) {
-                            Column() {
-                                Divider(
-                                    color = Color(0xffe7e8ee),
-                                    thickness = 2.dp,
-                                    modifier = Modifier.padding(top = 10.dp)
-                                )
-                                Row() {
-                                    weatherSttsData.value?.cityData?.weatherStts?.let { weather ->
-                                        Text(
-                                            text = "${weather.temp}℃",
-                                            color = Color(0xff4c65a7),
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                        Text(
-                                            text = "체감 ${weather.sensibleTemp}℃"
-                                        )
-                                        Text(text = "자외선 지수")
-                                        Text(
-                                            text = weather.uvIndex,
-                                            color = viewModel.calcAreaColor(weather.uvIndex)
-                                        )
-                                        Text(text = "강수량 ${weather.precipitation}")
-                                    }
-                                }
-
-                            }
+                            WeatherScreen(weatherSttsData.value, viewModel)
                         }
                     }
                 }
