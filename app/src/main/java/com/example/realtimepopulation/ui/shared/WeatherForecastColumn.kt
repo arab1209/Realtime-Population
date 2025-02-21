@@ -2,20 +2,22 @@ package com.example.realtimepopulation.ui.shared
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.realtimepopulation.domain.model.main.WeatherForecast
-import org.apache.poi.ss.formula.functions.Forecast
+import com.example.realtimepopulation.ui.main.viewmodel.DetailScreenViewModel
 
 @Composable
 fun WeatherForecastColumn(forecast: WeatherForecast) {
+    val viewModel: DetailScreenViewModel = hiltViewModel()
+
     Column {
         listOf(
-            forecast.fcstDt,
+            viewModel.calcTime(forecast.fcstDt),
             forecast.temp,
             forecast.precipitation,
-            "데이터4",
-            "데이터5"
-        ).forEach { data ->
-            WeatherBox(data)
+            forecast.rainChance + "%",
+        ).forEachIndexed { index, data ->
+            WeatherBox(data, viewModel.getFirstTabColor(index))
         }
     }
 }

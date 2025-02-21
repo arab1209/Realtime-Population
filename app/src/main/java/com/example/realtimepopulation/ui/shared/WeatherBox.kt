@@ -12,16 +12,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
-fun WeatherBox(text: String) {
+fun WeatherBox(
+    text: String,
+    modifier: Modifier = Modifier,
+) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(60.dp)
             .border(1.dp, Color(0xffe7e8ee))
             .padding(4.dp),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = text, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+        Text(
+            text = text,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
+            fontSize = 12.sp,
+            color = Color.Black
+        )
     }
 }

@@ -11,17 +11,24 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.realtimepopulation.domain.model.main.LocationData
-import com.example.realtimepopulation.ui.shared.CustomCardView
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
+import com.example.realtimepopulation.ui.shared.CustomCardView
 
 @Composable
-fun CardViewSection(selectChipData: List<LocationData>, index: Int, navController: NavController, mainViewModel: MainViewModel = hiltViewModel()) {
+fun CardViewSection(
+    selectChipData: List<LocationData>,
+    index: Int,
+    navController: NavController,
+    mainViewModel: MainViewModel = hiltViewModel(),
+) {
     Row(
         modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center, // 가운데 정렬
     ) {
         selectChipData.chunked(2)[index].forEach {
-            CustomCardView(mainViewModel,
-                it, modifier = Modifier
+            CustomCardView(
+                mainViewModel,
+                it,
+                modifier = Modifier
                     .weight(1f)
                     .aspectRatio(1f)
                     .fillMaxHeight(),
