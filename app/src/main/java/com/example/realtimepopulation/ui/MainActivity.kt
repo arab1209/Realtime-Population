@@ -25,7 +25,9 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             RealtimePopulationTheme {
                 Scaffold(bottomBar = {
-                    if (navController.currentBackStackEntryAsState().value?.destination?.route != Screen.Detail.route) {
+                    if (navController.currentBackStackEntryAsState().value?.destination?.route == Screen.Home.route ||
+                        navController.currentBackStackEntryAsState().value?.destination?.route == Screen.Map.route
+                    ) {
                         BottomNavigationBar(navController)
                     }
                 }, content = {
