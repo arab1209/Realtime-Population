@@ -9,6 +9,8 @@ import com.example.realtimepopulation.ui.main.screen.MainScreen
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.map.screen.MapScreen
 import com.example.realtimepopulation.ui.shared.AreaDetailScreen
+import com.example.realtimepopulation.ui.shared.detailpopulation.populationScreen
+import com.example.realtimepopulation.ui.shared.detailtemp.tempScreen
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {
@@ -22,6 +24,12 @@ fun NavigationGraph(navController: NavHostController) {
         }
         composable(Screen.Detail.route) {
             AreaDetailScreen(viewModel, navController)
+        }
+        composable(Screen.DetailTemp.route) {
+            tempScreen(viewModel, navController)
+        }
+        composable(Screen.DetailPopulation.route) {
+            populationScreen(viewModel, navController)
         }
     }
 }
