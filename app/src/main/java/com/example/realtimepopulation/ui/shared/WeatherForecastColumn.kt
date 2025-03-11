@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.realtimepopulation.domain.model.main.WeatherForecast
-import com.example.realtimepopulation.ui.main.viewmodel.DetailScreenViewModel
+import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
 
 @Composable
 fun WeatherForecastColumn(forecast: WeatherForecast) {

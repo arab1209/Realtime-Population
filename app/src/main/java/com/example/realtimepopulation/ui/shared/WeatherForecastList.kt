@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.realtimepopulation.domain.model.main.WeatherForecast
-import com.example.realtimepopulation.ui.main.viewmodel.DetailScreenViewModel
+import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
 
 @Composable
 fun WeatherForecastList(forecastData: List<WeatherForecast>) {

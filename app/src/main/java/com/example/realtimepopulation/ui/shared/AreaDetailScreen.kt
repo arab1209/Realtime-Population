@@ -67,7 +67,7 @@ fun AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                             .padding(horizontal = 15.dp, vertical = 15.dp)
                     ) {
                         Column() {
-                            DetailScreenTitleBox("실시간 인구")
+                            DetailScreenTitleBox("실시간 인구", navController)
                             DetailScreenSubTitleBox(
                                 "인구혼잡도", viewModel, detailScreenData.value?.congestionLevel ?: ""
                             )
@@ -93,7 +93,7 @@ fun AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                             .padding(horizontal = 15.dp, vertical = 15.dp)
                     ) {
                         Column() {
-                            DetailScreenTitleBox("날씨/환경 상황")
+                            DetailScreenTitleBox("날씨/환경 상황", navController)
                             weatherSttsData.value?.cityData?.weatherStts?.let { weather ->
                                 DetailScreenSubTitleBox("통합대기환경지수", viewModel, weather.airIndex)
                             }
