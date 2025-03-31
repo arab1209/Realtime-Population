@@ -17,7 +17,7 @@ fun DetailScreenRtimeHumanCount (minCount: String?, maxCount: String?, congestLi
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 10.dp)
+            .padding(top = 15.dp, start = 15.dp)
     ) {
         Column() {
             Text(
@@ -30,7 +30,7 @@ fun DetailScreenRtimeHumanCount (minCount: String?, maxCount: String?, congestLi
                 Text(
                     text = it,
                     color = Color(0xff626262),
-                    fontSize = 12.sp,
+                    fontSize = 14.sp,
                     modifier = Modifier.padding(top = 10.dp)
                 )
             }

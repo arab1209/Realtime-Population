@@ -15,7 +15,7 @@ class DetailScreenViewModel @Inject constructor(
     private val calcTimeUseCase: CalcTimeUseCase,
     private val getFirstTabColorUseCase: GetFirstTabColorUseCase,
     private val analyzeTextUseCase: AnalyzeTextUseCase,
-    private val analyzeCongestLevelUseCase: AnalyzeCongestLevelUseCase
+    private val analyzeCongestLevelUseCase: AnalyzeCongestLevelUseCase,
 ) : ViewModel() {
 
     fun calcTime(time: String): String {
