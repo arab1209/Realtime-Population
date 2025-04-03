@@ -15,6 +15,7 @@ import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
 @Composable
 fun WeatherForecastList(forecastData: List<WeatherForecast>) {
     val viewModel: DetailScreenViewModel = hiltViewModel()
+
     Row(
         modifier = Modifier.fillMaxWidth()
     ) {

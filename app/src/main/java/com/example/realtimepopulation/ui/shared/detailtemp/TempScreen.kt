@@ -23,7 +23,7 @@ import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun tempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
+fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
     val detailScreenData = viewModel.detailScreenData.observeAsState()
     Scaffold(topBar = {
         CenterAlignedTopAppBar(modifier = Modifier.shadow(10.dp),

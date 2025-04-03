@@ -1,27 +1,27 @@
 package com.example.realtimepopulation.ui.shared.detailpopulation
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.shared.DetailScreenChart
 import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
@@ -29,28 +29,28 @@ import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun populationScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
+fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
     val detailScreenData = viewModel.detailScreenData.observeAsState()
+
     val dtViewModel: DetailScreenViewModel = hiltViewModel()
 
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                modifier = Modifier.shadow(10.dp),
-                title = {
-                    Text(
-                        text = "${detailScreenData.value!!.areaName} 실시간 인구 현황",
-                        fontSize = 20.sp
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "뒤로가기")
-                    }
-                }
+    val congestImgUrl = dtViewModel.congestLevelImgUrl.collectAsState()
+
+    with(dtViewModel) {
+        analyzeCongestImgUrl(detailScreenData.value!!.congestionLevel)
+    }
+
+    Scaffold(topBar = {
+        CenterAlignedTopAppBar(modifier = Modifier.shadow(10.dp), title = {
+            Text(
+                text = "${detailScreenData.value!!.areaName} 실시간 인구 현황", fontSize = 20.sp
             )
-        }
-    ) { paddingValues ->
+        }, navigationIcon = {
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(Icons.Default.ArrowBack, contentDescription = "뒤로가기")
+            }
+        })
+    }) { paddingValues ->
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -85,8 +85,7 @@ fun populationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                         .padding(top = 10.dp)
                 ) {
                     AsyncImage(
-                        model = dtViewModel.analyzeImgUrl(detailScreenData.value!!.congestionLevel)
-                            .trim(),
+                        model = congestImgUrl,
                         contentDescription = detailScreenData.value!!.areaName,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )
@@ -98,7 +97,7 @@ fun populationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                         )
                     }
 
-                    // 공지 박스
+                    // 사전 공지 박스
                     Box(
                         modifier = Modifier
                             .padding(horizontal = 30.dp, vertical = 10.dp)
@@ -120,7 +119,7 @@ fun populationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                             .fillMaxWidth()
                             .padding(horizontal = 15.dp, vertical = 15.dp) // 공통 패딩 적용
                     ) {
-                        populationTitleBox("실시간 인구 및 혼잡도 추이 전망")
+                        PopulationTitleBox("실시간 인구 및 혼잡도 추이 전망")
 
                         DetailScreenChart(
                             viewModel,
@@ -129,8 +128,8 @@ fun populationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                             viewModel.chartData.value
                         )
 
-                        populationSubTitleBox("인구 밀집 시간대")
-                        populationSubTitleBox("인구 분산 시간대")
+                        CongestionTimeBox("인구 밀집 시간대", dtViewModel, detailScreenData.value!!, 0)
+                        CongestionTimeBox("인구 분산 시간대", dtViewModel, detailScreenData.value!!, 1)
                     }
                 }
             }

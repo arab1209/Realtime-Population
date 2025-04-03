@@ -7,7 +7,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun populationTitleBox(titleText: String) {
+fun PopulationTitleBox(titleText: String) {
     Text(
         text = titleText,
         fontSize = 22.sp,
