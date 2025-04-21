@@ -1,6 +1,5 @@
 package com.example.realtimepopulation.domain.usecase.detail
 
-import android.util.Log
 import javax.inject.Inject
 
 class AnalyzeCongestIconUrlUscase @Inject constructor() {
