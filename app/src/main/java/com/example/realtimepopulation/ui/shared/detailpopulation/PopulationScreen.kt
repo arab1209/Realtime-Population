@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -31,9 +33,7 @@ import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
 @Composable
 fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
     val detailScreenData = viewModel.detailScreenData.observeAsState()
-
     val dtViewModel: DetailScreenViewModel = hiltViewModel()
-
     val congestImgUrl = dtViewModel.congestLevelImgUrl.collectAsState()
 
     with(dtViewModel) {
@@ -58,7 +58,7 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                 .background(Color.White)
         ) {
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
             ) {
                 // 인구 혼잡도 표시
                 Row(
@@ -85,7 +85,7 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                         .padding(top = 10.dp)
                 ) {
                     AsyncImage(
-                        model = congestImgUrl,
+                        model = congestImgUrl.value,
                         contentDescription = detailScreenData.value!!.areaName,
                         modifier = Modifier.align(Alignment.CenterHorizontally)
                     )

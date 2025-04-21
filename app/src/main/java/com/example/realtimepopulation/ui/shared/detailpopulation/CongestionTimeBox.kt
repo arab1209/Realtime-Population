@@ -1,12 +1,17 @@
 package com.example.realtimepopulation.ui.shared.detailpopulation
 
 import android.util.Log
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -17,6 +22,7 @@ import coil.compose.AsyncImage
 import com.example.realtimepopulation.domain.model.map.MapData
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 fun CongestionTimeBox(
@@ -25,24 +31,41 @@ fun CongestionTimeBox(
     detailScreenData: MapData,
     flag: Int,
 ) {
-    val congestIconUrl = viewModel.congestIconUrl.collectAsState()
 
-    with(viewModel) {
-        analyzeCongestIconUrl(flag)
-        analyzeMaxMinPopulation(detailScreenData.forecasts)
+    viewModel.analyzeCongestIconUrl(flag)
+    viewModel.analyzeMaxMinPopulation(detailScreenData.forecasts)
+
+    val congestIconUrl = when(flag) {
+        0 -> viewModel.congestIconUrl0.collectAsState()
+        1 -> viewModel.congestIconUrl1.collectAsState()
+        else -> remember { mutableStateOf("") }
     }
 
-    Text(
+    val minMaxTime = when(flag) {
+        0 -> viewModel.maxPopulationHour.collectAsState()
+        1 -> viewModel.minPopulationHour.collectAsState()
+        else -> remember { mutableStateOf(Triple("00:00", "0", "0")) }
+    }
+
+    Text(modifier = Modifier.padding(top = 15.dp),
         text = subTitleText, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.Black
     )
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 15.dp)
+            .padding(top = 10.dp)
     ) {
         AsyncImage(
-            model = congestIconUrl, contentDescription = "시간 아이콘"
+            modifier = Modifier.align(Alignment.CenterVertically),
+            model = congestIconUrl.value, contentDescription = "시간 아이콘"
         )
+
+        Column(modifier = Modifier.padding(start = 15.dp)) {
+            PopulationForecastText(
+                minMaxTime.value,
+                viewModel.getForecastText(flag)
+            )
+        }
     }
 }

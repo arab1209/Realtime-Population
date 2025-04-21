@@ -1,8 +1,11 @@
 package com.example.realtimepopulation.ui.shared.viewmodel
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import com.example.realtimepopulation.domain.model.main.PopulationForecastTextData
 import com.example.realtimepopulation.domain.model.map.ForecastData
 import com.example.realtimepopulation.domain.usecase.detail.AnalyzeCongestIconUrlUscase
 import com.example.realtimepopulation.domain.usecase.detail.AnalyzeCongestLevelUseCase
@@ -13,6 +16,7 @@ import com.example.realtimepopulation.domain.usecase.detail.CalcTimeUseCase
 import com.example.realtimepopulation.domain.usecase.detail.GetFirstTabColorUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
@@ -30,15 +34,17 @@ class DetailScreenViewModel @Inject constructor(
     private val _congestLevelImgUrl = MutableStateFlow("")
     val congestLevelImgUrl = _congestLevelImgUrl.asStateFlow()
 
-    private val _congestIconUrl = MutableStateFlow("")
-    val congestIconUrl = _congestIconUrl.asStateFlow()
-
     private val _maxPopulationHour = MutableStateFlow(Triple("00:00", "0", "0"))
     val maxPopulationHour = _maxPopulationHour.asStateFlow()
 
     private val _minPopulationHour = MutableStateFlow(Triple("00:00", "0", "0"))
     val minPopulationHour = _minPopulationHour.asStateFlow()
 
+    private val _congestIconUrl0 = MutableStateFlow("")
+    val congestIconUrl0: StateFlow<String> = _congestIconUrl0
+
+    private val _congestIconUrl1 = MutableStateFlow("")
+    val congestIconUrl1: StateFlow<String> = _congestIconUrl1
 
     fun calcTime(time: String): String {
         return calcTimeUseCase(time)
@@ -57,7 +63,10 @@ class DetailScreenViewModel @Inject constructor(
     }
 
     fun analyzeCongestIconUrl(flag: Int) {
-        _congestIconUrl.value = analyzeCongestIconUrlUscase(flag)
+        when(flag) {
+            0 -> _congestIconUrl0.value = analyzeCongestIconUrlUscase(0)
+            1 -> _congestIconUrl1.value = analyzeCongestIconUrlUscase(1)
+        }
     }
 
     fun analyzeMaxMinPopulation(detailScreenData: List<ForecastData>) {
@@ -66,12 +75,17 @@ class DetailScreenViewModel @Inject constructor(
     }
 
     private fun getMaxTimePopulation(detailScreenData: List<ForecastData>) {
-        Log.d("test max", analyzeMaxTimeUseCase(detailScreenData).toString())
         _maxPopulationHour.value = analyzeMaxTimeUseCase(detailScreenData)
     }
 
     private fun getMinTimePopulation(detailScreenData: List<ForecastData>) {
-        Log.d("test", analyzeMinTimeUseCase(detailScreenData).toString())
         _minPopulationHour.value = analyzeMinTimeUseCase(detailScreenData)
+    }
+
+    fun getForecastText(flag: Int): PopulationForecastTextData {
+        return when(flag) {
+            0 -> PopulationForecastTextData("많고", "높을", "붐빔", "일 것으로 예상돼요", Color(0xFFFF5675))
+            else -> PopulationForecastTextData("적고", "낮을", "여유", "로울 것으로 예상돼요", Color(0xFF80E12A))
+        }
     }
 }

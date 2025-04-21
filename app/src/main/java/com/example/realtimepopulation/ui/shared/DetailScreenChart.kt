@@ -64,7 +64,8 @@ fun DetailScreenChart(
                 (chartData.map {
                     it.time
                 }[value.toInt()])
-            }), chartScrollState = rememberChartScrollState()
+            }), chartScrollState = rememberChartScrollState(),
+            runInitialAnimation = false
         )
     }
 }
