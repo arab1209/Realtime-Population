@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun DetailScreenRtimeHumanCount(minCount: String?, maxCount: String?, congestList: List<String>) {
     Box(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth().padding(top = 10.dp)
     ) {
         Column() {
             Text(
@@ -28,7 +28,7 @@ fun DetailScreenRtimeHumanCount(minCount: String?, maxCount: String?, congestLis
                 Text(
                     text = it,
                     color = Color(0xff626262),
-                    fontSize = 14.sp,
+                    fontSize = 12.sp,
                     modifier = Modifier.padding(top = 10.dp)
                 )
             }

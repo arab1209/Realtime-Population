@@ -40,7 +40,7 @@ fun DetailScreenSubTitleBox(
         Text(
             congetionLevel,
             color = viewModel.calcAreaColor(congetionLevel),
-            fontSize = 24.sp,
+            fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(vertical = 5.dp)
         )

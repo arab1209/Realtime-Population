@@ -12,21 +12,27 @@ class AnalyzeMinTimeUseCase @Inject constructor() {
         val minPopulationData =
             detailScreenData.minByOrNull { it.maxPopulation } ?: return Triple("00시", "0", "0")
 
-        val minTime = minPopulationData.time.substring(11, 16) // "14:00" 또는 "01:00"
-        val currentTime =
-            LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm")) // 현재 시간 "11:06"
+        val minTime = minPopulationData.time.substring(11, 16)
+        val now = LocalTime.now()
 
-        // 24시간제 + 앞에 0을 붙이는 형식
-        val minTimeFormatted =
-            LocalTime.parse(minTime).format(DateTimeFormatter.ofPattern("HH시")) // "14시" 또는 "01시"
+        val minLocalTime = LocalTime.parse(minTime)
+        val minTimeFormatted = minLocalTime.format(DateTimeFormatter.ofPattern("HH시"))
 
-        // 시간 차이 계산 후 올림
-        val minutesLeft =
-            LocalTime.parse(currentTime).until(LocalTime.parse(minTime), ChronoUnit.MINUTES)
+        val minutesLeft = calculateMinutesDifference(now, minLocalTime)
         val hoursLeft = ceil(minutesLeft / 60.0).toInt()
 
         return Triple(
             minTimeFormatted, minPopulationData.maxPopulation.toString(), hoursLeft.toString()
         )
+    }
+
+    private fun calculateMinutesDifference(current: LocalTime, target: LocalTime): Long {
+        var minutesLeft = current.until(target, ChronoUnit.MINUTES)
+
+        if (minutesLeft < 0) {
+            minutesLeft += 24 * 60
+        }
+
+        return minutesLeft
     }
 }

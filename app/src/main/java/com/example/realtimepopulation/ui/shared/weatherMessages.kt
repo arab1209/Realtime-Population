@@ -16,7 +16,7 @@ fun weatherMessages(weather: WeatherStts) {
             text = msg,
             color = Color(0xff626262),
             fontSize = 12.sp,
-            modifier = Modifier.padding(top = 5.dp)
+            modifier = Modifier.padding(vertical = 5.dp)
         )
     }
 }
