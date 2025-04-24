@@ -1,5 +1,6 @@
 package com.example.realtimepopulation.ui.shared.detailpopulation
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,25 +44,32 @@ fun CongestionTimeBox(
         else -> remember { mutableStateOf(Triple("00:00", "0", "0")) }
     }
 
-    Text(modifier = Modifier.padding(top = 15.dp),
-        text = subTitleText, fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color.Black
-    )
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 10.dp)
-    ) {
-        AsyncImage(
-            modifier = Modifier.align(Alignment.CenterVertically),
-            model = congestIconUrl.value, contentDescription = "시간 아이콘"
-        )
-
-        Column(modifier = Modifier.padding(start = 15.dp)) {
-            PopulationForecastText(
-                minMaxTime.value,
-                viewModel.getForecastText(flag)
+    Box(modifier = Modifier.padding(start = 10.dp, top = 10.dp)) {
+        Column() {
+            Text(
+                text = subTitleText,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
             )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp)
+            ) {
+                AsyncImage(
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                    model = congestIconUrl.value, contentDescription = "시간 아이콘"
+                )
+
+                Column(modifier = Modifier.padding(start = 15.dp)) {
+                    PopulationForecastText(
+                        minMaxTime.value,
+                        viewModel.getForecastText(flag)
+                    )
+                }
+            }
         }
     }
 }

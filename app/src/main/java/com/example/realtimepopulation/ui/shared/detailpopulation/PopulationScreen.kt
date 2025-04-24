@@ -67,7 +67,9 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                 .background(Color.White)
         ) {
             Column(
-                modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState())
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
             ) {
                 // 인구 혼잡도 표시
                 Row(
@@ -87,60 +89,54 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                     )
                 }
 
-                // 이미지 및 메시지 출력
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp)
-                ) {
-                    AsyncImage(
-                        model = congestImgUrl.value,
-                        contentDescription = detailScreenData.value!!.areaName,
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                AsyncImage(
+                    model = congestImgUrl.value,
+                    contentDescription = detailScreenData.value!!.areaName,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
+                viewModel.congestMessage.value.forEach { string ->
+                    Text(
+                        fontSize = 14.sp,
+                        text = string,
+                        modifier = Modifier.padding(horizontal = 30.dp, vertical = 10.dp)
                     )
-                    viewModel.congestMessage.value.forEach { string ->
-                        Text(
-                            fontSize = 14.sp,
-                            text = string,
-                            modifier = Modifier.padding(horizontal = 30.dp, vertical = 10.dp)
-                        )
-                    }
-
-                    // 사전 공지 박스
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 30.dp, vertical = 10.dp)
-                            .background(Color(0xfffcfaf4))
-                    ) {
-                        Text(
-                            modifier = Modifier.padding(5.dp),
-                            fontSize = 12.sp,
-                            text = "※ 혼잡도는 통신사의 실시간 인구 데이터를 분석하여 가공한 것으로, 실제 현장과는 차이가 있을 수 있음을 알려드립니다."
-                        )
-                    }
-
-                    Divider(
-                        color = Color(0xffe7e8ee), thickness = 5.dp
-                    )
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 15.dp, vertical = 15.dp) // 공통 패딩 적용
-                    ) {
-                        PopulationTitleBox("실시간 인구 및 혼잡도 추이 전망")
-
-                        DetailScreenChart(
-                            viewModel,
-                            detailScreenData.value?.forecasts,
-                            viewModel.chartMinMax.value,
-                            viewModel.chartData.value
-                        )
-
-                        CongestionTimeBox("인구 밀집 시간대", dtViewModel, detailScreenData.value!!, 0)
-                        CongestionTimeBox("인구 분산 시간대", dtViewModel, detailScreenData.value!!, 1)
-                    }
                 }
+
+                Box(
+                    modifier = Modifier
+                        .padding(top = 10.dp, start= 30.dp, end = 30.dp)
+                        .background(Color(0xfffcfaf4))
+                ) {
+                    Text(
+                        modifier = Modifier.padding(5.dp),
+                        fontSize = 12.sp,
+                        text = "※ 혼잡도는 통신사의 실시간 인구 데이터를 분석하여 가공한 것으로, 실제 현장과는 차이가 있을 수 있음을 알려드립니다."
+                    )
+                }
+
+                Divider(
+                    color = Color(0xffe7e8ee), thickness = 5.dp,
+                    modifier = Modifier.padding(top = 10.dp)
+                )
+
+                PopulationTitleBox("실시간 인구 및 혼잡도 추이 전망")
+
+                DetailScreenChart(
+                    viewModel,
+                    detailScreenData.value?.forecasts,
+                    viewModel.chartMinMax.value,
+                    viewModel.chartData.value
+                )
+
+                CongestionTimeBox("인구 밀집 시간대", dtViewModel, detailScreenData.value!!, 0)
+                CongestionTimeBox("인구 분산 시간대", dtViewModel, detailScreenData.value!!, 1)
+
+                Divider(
+                    color = Color(0xffe7e8ee), thickness = 5.dp,
+                    modifier = Modifier.padding(top = 10.dp)
+                )
+
+                PopulationTitleBox("실시간 인구 구성 비율")
             }
         }
     }
