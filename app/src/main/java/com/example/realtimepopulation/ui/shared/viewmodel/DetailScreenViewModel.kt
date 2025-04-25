@@ -3,6 +3,7 @@ package com.example.realtimepopulation.ui.shared.viewmodel
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import com.example.realtimepopulation.domain.model.detail.GenderChartUiModel
 import com.example.realtimepopulation.domain.model.main.PopulationForecastTextData
 import com.example.realtimepopulation.domain.model.map.ForecastData
 import com.example.realtimepopulation.domain.usecase.detail.AnalyzeCongestIconUrlUscase
@@ -11,6 +12,7 @@ import com.example.realtimepopulation.domain.usecase.detail.AnalyzeMaxTimeUseCas
 import com.example.realtimepopulation.domain.usecase.detail.AnalyzeMinTimeUseCase
 import com.example.realtimepopulation.domain.usecase.detail.AnalyzeTextUseCase
 import com.example.realtimepopulation.domain.usecase.detail.CalcTimeUseCase
+import com.example.realtimepopulation.domain.usecase.detail.GenderUseCase
 import com.example.realtimepopulation.domain.usecase.detail.GetFirstTabColorUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +29,7 @@ class DetailScreenViewModel @Inject constructor(
     private val analyzeCongestIconUrlUscase: AnalyzeCongestIconUrlUscase,
     private val analyzeMaxTimeUseCase: AnalyzeMaxTimeUseCase,
     private val analyzeMinTimeUseCase: AnalyzeMinTimeUseCase,
+    private val genderUseCase: GenderUseCase
 ) : ViewModel() {
 
     private val _congestLevelImgUrl = MutableStateFlow("")
@@ -39,10 +42,13 @@ class DetailScreenViewModel @Inject constructor(
     val minPopulationHour = _minPopulationHour.asStateFlow()
 
     private val _congestIconUrl0 = MutableStateFlow("")
-    val congestIconUrl0: StateFlow<String> = _congestIconUrl0
+    val congestIconUrl0 = _congestIconUrl0.asStateFlow()
 
     private val _congestIconUrl1 = MutableStateFlow("")
-    val congestIconUrl1: StateFlow<String> = _congestIconUrl1
+    val congestIconUrl1 = _congestIconUrl1.asStateFlow()
+
+    private val _chartUiModel = MutableStateFlow<GenderChartUiModel?>(null)
+    val chartUiModel = _chartUiModel.asStateFlow()
 
     fun calcTime(time: String): String {
         return calcTimeUseCase(time)
@@ -85,5 +91,11 @@ class DetailScreenViewModel @Inject constructor(
             0 -> PopulationForecastTextData("많고", "높을", "붐빔", "일 것으로 예상돼요", Color(0xFFFF5675))
             else -> PopulationForecastTextData("적고", "낮을", "여유", "로울 것으로 예상돼요", Color(0xFF80E12A))
         }
+    }
+
+    fun calculateChart(canvasWidth: Float, canvasHeight: Float, malePercent: Float, femalePercent: Float) {
+        _chartUiModel.value = genderUseCase(
+            canvasWidth, canvasHeight, malePercent, femalePercent
+        )
     }
 }
