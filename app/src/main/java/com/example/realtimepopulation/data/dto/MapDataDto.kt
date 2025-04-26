@@ -28,6 +28,36 @@ data class SeoulRtd(
     @PropertyElement(name = "AREA_PPLTN_MAX")
     val maxCount: String? = null,
 
+    @PropertyElement(name = "MALE_PPLTN_RATE")
+    val maleRate: String? = null,
+
+    @PropertyElement(name = "FEMALE_PPLTN_RATE")
+    val femaleRate: String? = null,
+
+    @PropertyElement(name = "PPLTN_RATE_0")
+    val populationRate0s: String,
+
+    @PropertyElement(name = "PPLTN_RATE_10")
+    val populationRate10s: String,
+
+    @PropertyElement(name = "PPLTN_RATE_20")
+    val populationRate20s: String,
+
+    @PropertyElement(name = "PPLTN_RATE_30")
+    val populationRate30s: String,
+
+    @PropertyElement(name = "PPLTN_RATE_40")
+    val populationRate40s: String,
+
+    @PropertyElement(name = "PPLTN_RATE_50")
+    val populationRate50s: String,
+
+    @PropertyElement(name = "PPLTN_RATE_60")
+    val populationRate60s: String,
+
+    @PropertyElement(name = "PPLTN_RATE_70")
+    val populationRate70s: String,
+
     @Element(name = "FCST_PPLTN")
     val fcstPpltn: FcstPpltn
 )

@@ -25,8 +25,8 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun GenderDistributionChart(
     dtViewModel: DetailScreenViewModel,
-    malePercentage: Float,
-    femalePercentage: Float,
+    maleRate: String?,
+    femaleRate: String?
 ) {
     val chartUiModel by dtViewModel.chartUiModel.collectAsState()
 
@@ -40,7 +40,7 @@ fun GenderDistributionChart(
             .fillMaxSize()
             .onSizeChanged {
                 dtViewModel.calculateChart(
-                    it.width.toFloat(), it.height.toFloat(), malePercentage, femalePercentage
+                    it.width.toFloat(), it.height.toFloat(), maleRate!!.toFloat(), femaleRate!!.toFloat()
                 )
             }) {
             chartUiModel?.let { model ->
@@ -98,7 +98,7 @@ fun GenderDistributionChart(
                 drawCircle(color = Color(0xFF6365CF))
             }
             Text("남성", fontSize = 14.sp, color = Color.DarkGray)
-            Text("${malePercentage}%", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color(0xFF6365CF))
+            Text("${maleRate}%", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color(0xFF6365CF))
         }
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -106,7 +106,7 @@ fun GenderDistributionChart(
                 drawCircle(color = Color(0xFFE9546B))
             }
             Text("여성", fontSize = 14.sp, color = Color.DarkGray)
-            Text("${femalePercentage}%", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color(0xFFE9546B))
+            Text("${femaleRate}%", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = Color(0xFFE9546B))
         }
     }
 }

@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.realtimepopulation.domain.model.map.MapData
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.shared.DetailScreenChart
 import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
@@ -141,8 +142,8 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                 PopulationTitleBox("실시간 인구 구성 비율")
                 GenderDistributionChart(
                     dtViewModel,
-                    malePercentage = 50.2f,
-                    femalePercentage = 49.8f,
+                    detailScreenData.value?.maleRate,
+                    detailScreenData.value?.femaleRate
                 )
             }
         }
