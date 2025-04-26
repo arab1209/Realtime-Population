@@ -28,9 +28,6 @@ fun GenderDistributionChart(
     malePercentage: Float,
     femalePercentage: Float,
 ) {
-    var canvasWidth by remember { mutableStateOf(0f) }
-    var canvasHeight by remember { mutableStateOf(0f) }
-
     val chartUiModel by dtViewModel.chartUiModel.collectAsState()
 
     Box(
