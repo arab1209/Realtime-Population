@@ -132,8 +132,8 @@ class MainViewModel @Inject constructor(
     }
 
     fun setDetailScreenData(mapData: List<MapData>, query: String) {
+        Log.d("test123", mapData.toString())
         _detailScreenData.value = getDetailScreenDataUseCase(mapData, query)
-        Log.d("test1", _detailScreenData.value.toString())
     }
 
     fun getCongestMessage(query: String) {

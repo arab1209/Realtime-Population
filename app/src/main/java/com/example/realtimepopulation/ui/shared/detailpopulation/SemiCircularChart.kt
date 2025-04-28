@@ -15,7 +15,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
@@ -28,12 +31,9 @@ import kotlin.math.min
 fun SemiCircularChart(
     segments: List<ChartSegment>,
     modifier: Modifier = Modifier,
-    strokeWidth: Float = 300f,
+    strokeWidth: Float = 60f,
     showLegend: Boolean = false,
 ) {
-    segments.forEach {
-        Log.d("test", it.value.toString())
-    }
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -41,26 +41,30 @@ fun SemiCircularChart(
         Box(
             modifier = Modifier
                 .weight(2f)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 16.dp),
             contentAlignment = Alignment.Center
         ) {
             Canvas(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(8.dp)
+                modifier = Modifier.fillMaxSize()
             ) {
                 val width = size.width
                 val height = size.height
-                val radius = min(width / 2f, height)
+
+                val halfStrokeWidth = strokeWidth / 2f
+                val maxRadius = min(width / 2f - halfStrokeWidth, height - halfStrokeWidth)
+                val radius = maxRadius * 0.9f
+
                 val centerX = width / 2f
                 val centerY = height
 
-                // 데이터 세그먼트 그리기
                 var startAngle = 180f
                 val total = segments.sumOf { it.value.toDouble() }.toFloat()
 
+                val gapAngle = 1.5f // 조각 사이에 1.5도 틈을 준다
+
                 segments.forEach { segment ->
-                    val sweepAngle = (segment.value / total) * 180f
+                    val sweepAngle = (segment.value / total) * 180f - gapAngle
 
                     drawArc(
                         color = segment.color,
@@ -69,15 +73,14 @@ fun SemiCircularChart(
                         useCenter = false,
                         topLeft = Offset(centerX - radius, centerY - radius),
                         size = Size(radius * 2f, radius * 2f),
-                        style = Stroke(width = strokeWidth, cap = StrokeCap.Butt)
+                        style = Stroke(width = 60f, cap = StrokeCap.Butt) // Butt로 유지
                     )
 
-                    startAngle += sweepAngle
+                    startAngle += sweepAngle + gapAngle // 다음 조각 시작할 때 gapAngle만큼 띄워줌
                 }
             }
         }
 
-        // 레전드 (범례) 표시
         if (showLegend) {
             Row(
                 modifier = Modifier

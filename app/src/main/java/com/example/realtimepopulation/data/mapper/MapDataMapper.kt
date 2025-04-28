@@ -14,14 +14,14 @@ fun MapDataDto.toDomain(): MapData {
         maxCount = this.seoulRtd.maxCount ?: "",
         maleRate = this.seoulRtd.maleRate ?: "",
         femaleRate = this.seoulRtd.femaleRate ?: "",
-        populationRate0s = this.seoulRtd.populationRate0s ?: 0.0f,
-        populationRate10s = this.seoulRtd.populationRate0s ?: 0.0f,
-        populationRate20s = this.seoulRtd.populationRate0s ?: 0.0f,
-        populationRate30s = this.seoulRtd.populationRate0s ?: 0.0f,
-        populationRate40s = this.seoulRtd.populationRate0s ?: 0.0f,
-        populationRate50s = this.seoulRtd.populationRate0s ?: 0.0f,
-        populationRate60s = this.seoulRtd.populationRate0s ?: 0.0f,
-        populationRate70s = this.seoulRtd.populationRate0s ?: 0.0f,
+        populationRate0s = this.seoulRtd.populationRate0s,
+        populationRate10s = this.seoulRtd.populationRate10s,
+        populationRate20s = this.seoulRtd.populationRate20s,
+        populationRate30s = this.seoulRtd.populationRate30s,
+        populationRate40s = this.seoulRtd.populationRate40s,
+        populationRate50s = this.seoulRtd.populationRate50s,
+        populationRate60s = this.seoulRtd.populationRate60s,
+        populationRate70s = this.seoulRtd.populationRate70s,
         forecasts = this.seoulRtd.fcstPpltn.fcstPpltnList.map { it.toDomain() }
     )
 }

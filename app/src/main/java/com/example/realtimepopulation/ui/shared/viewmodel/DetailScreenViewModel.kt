@@ -111,7 +111,6 @@ class DetailScreenViewModel @Inject constructor(
 
     fun toDomainModel(detailScreenData: MapData) {
         _chartModel.value = mapDataToPopulationDistributionUseCase(detailScreenData)
-        Log.d("test", _chartModel.value!!.ageDistributionChartUiModel.toString())
         _genderChartSection.value = genderDistributionUseCase(_chartModel.value!!.genderDistributionChartUiModel)
         _ageChartSection.value = getAgeChartSectionUseCase(_chartModel.value!!.ageDistributionChartUiModel)
     }

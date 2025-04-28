@@ -8,14 +8,14 @@ data class MapData(
     val maxCount: String,
     val maleRate: String,
     val femaleRate: String,
-    val populationRate0s: Float,
-    val populationRate10s: Float,
-    val populationRate20s: Float,
-    val populationRate30s: Float,
-    val populationRate40s: Float,
-    val populationRate50s: Float,
-    val populationRate60s: Float,
-    val populationRate70s: Float,
+    val populationRate0s: String,
+    val populationRate10s: String,
+    val populationRate20s: String,
+    val populationRate30s: String,
+    val populationRate40s: String,
+    val populationRate50s: String,
+    val populationRate60s: String,
+    val populationRate70s: String,
     val forecasts: List<ForecastData>
 )
 

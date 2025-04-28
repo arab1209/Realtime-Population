@@ -1,7 +1,6 @@
 package com.example.realtimepopulation.domain.usecase.detail
 
 import com.example.realtimepopulation.domain.model.detail.AgeDistributionChartUiModel
-import com.example.realtimepopulation.domain.model.detail.GenderChartUiModel
 import com.example.realtimepopulation.domain.model.detail.GenderDistribtuionChartUiModel
 import com.example.realtimepopulation.domain.model.detail.PopulationDistributionData
 import com.example.realtimepopulation.domain.model.map.MapData
