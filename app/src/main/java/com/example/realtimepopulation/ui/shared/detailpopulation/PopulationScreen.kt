@@ -1,6 +1,5 @@
 package com.example.realtimepopulation.ui.shared.detailpopulation
 
-import GenderDistributionChart
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -47,6 +46,9 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
     val detailScreenData = viewModel.detailScreenData.observeAsState()
     val dtViewModel: DetailScreenViewModel = hiltViewModel()
     val congestImgUrl = dtViewModel.congestLevelImgUrl.collectAsState()
+
+
+    dtViewModel.toDomainModel(detailScreenData.value!!)
 
     with(dtViewModel) {
         analyzeCongestImgUrl(detailScreenData.value!!.congestionLevel)
@@ -140,11 +142,8 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                 )
 
                 PopulationTitleBox("실시간 인구 구성 비율")
-                GenderDistributionChart(
-                    dtViewModel,
-                    detailScreenData.value?.maleRate,
-                    detailScreenData.value?.femaleRate
-                )
+
+                PopulationDistributionChartRate(dtViewModel)
             }
         }
     }

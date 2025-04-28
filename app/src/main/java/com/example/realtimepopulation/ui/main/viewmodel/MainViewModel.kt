@@ -1,5 +1,6 @@
 package com.example.realtimepopulation.ui.main.viewmodel
 
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -132,6 +133,7 @@ class MainViewModel @Inject constructor(
 
     fun setDetailScreenData(mapData: List<MapData>, query: String) {
         _detailScreenData.value = getDetailScreenDataUseCase(mapData, query)
+        Log.d("test1", _detailScreenData.value.toString())
     }
 
     fun getCongestMessage(query: String) {

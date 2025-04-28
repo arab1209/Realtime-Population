@@ -35,28 +35,28 @@ data class SeoulRtd(
     val femaleRate: String? = null,
 
     @PropertyElement(name = "PPLTN_RATE_0")
-    val populationRate0s: String,
+    val populationRate0s: Float ?= null,
 
     @PropertyElement(name = "PPLTN_RATE_10")
-    val populationRate10s: String,
+    val populationRate10s: Float ?= null,
 
     @PropertyElement(name = "PPLTN_RATE_20")
-    val populationRate20s: String,
+    val populationRate20s: Float ?= null,
 
     @PropertyElement(name = "PPLTN_RATE_30")
-    val populationRate30s: String,
+    val populationRate30s: Float ?= null,
 
     @PropertyElement(name = "PPLTN_RATE_40")
-    val populationRate40s: String,
+    val populationRate40s: Float ?= null,
 
     @PropertyElement(name = "PPLTN_RATE_50")
-    val populationRate50s: String,
+    val populationRate50s: Float ?= null,
 
     @PropertyElement(name = "PPLTN_RATE_60")
-    val populationRate60s: String,
+    val populationRate60s: Float ?= null,
 
     @PropertyElement(name = "PPLTN_RATE_70")
-    val populationRate70s: String,
+    val populationRate70s: Float ?= null,
 
     @Element(name = "FCST_PPLTN")
     val fcstPpltn: FcstPpltn

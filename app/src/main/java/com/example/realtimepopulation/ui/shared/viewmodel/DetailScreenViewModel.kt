@@ -1,19 +1,27 @@
 package com.example.realtimepopulation.ui.shared.viewmodel
 
+import android.util.Log
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import com.example.realtimepopulation.domain.model.detail.AgeDistributionChartUiModel
+import com.example.realtimepopulation.domain.model.detail.ChartSectionData
 import com.example.realtimepopulation.domain.model.detail.GenderChartUiModel
+import com.example.realtimepopulation.domain.model.detail.GenderDistribtuionChartUiModel
+import com.example.realtimepopulation.domain.model.detail.PopulationDistributionData
 import com.example.realtimepopulation.domain.model.main.PopulationForecastTextData
 import com.example.realtimepopulation.domain.model.map.ForecastData
+import com.example.realtimepopulation.domain.model.map.MapData
 import com.example.realtimepopulation.domain.usecase.detail.AnalyzeCongestIconUrlUscase
 import com.example.realtimepopulation.domain.usecase.detail.AnalyzeCongestLevelUseCase
 import com.example.realtimepopulation.domain.usecase.detail.AnalyzeMaxTimeUseCase
 import com.example.realtimepopulation.domain.usecase.detail.AnalyzeMinTimeUseCase
 import com.example.realtimepopulation.domain.usecase.detail.AnalyzeTextUseCase
 import com.example.realtimepopulation.domain.usecase.detail.CalcTimeUseCase
-import com.example.realtimepopulation.domain.usecase.detail.GenderUseCase
+import com.example.realtimepopulation.domain.usecase.detail.GenderDistributionUseCase
+import com.example.realtimepopulation.domain.usecase.detail.GetAgeChartSectionUseCase
 import com.example.realtimepopulation.domain.usecase.detail.GetFirstTabColorUseCase
+import com.example.realtimepopulation.domain.usecase.detail.MapDataToPopulationDistributionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,7 +37,9 @@ class DetailScreenViewModel @Inject constructor(
     private val analyzeCongestIconUrlUscase: AnalyzeCongestIconUrlUscase,
     private val analyzeMaxTimeUseCase: AnalyzeMaxTimeUseCase,
     private val analyzeMinTimeUseCase: AnalyzeMinTimeUseCase,
-    private val genderUseCase: GenderUseCase
+    private val mapDataToPopulationDistributionUseCase: MapDataToPopulationDistributionUseCase,
+    private val genderDistributionUseCase: GenderDistributionUseCase,
+    private val getAgeChartSectionUseCase: GetAgeChartSectionUseCase
 ) : ViewModel() {
 
     private val _congestLevelImgUrl = MutableStateFlow("")
@@ -47,8 +57,14 @@ class DetailScreenViewModel @Inject constructor(
     private val _congestIconUrl1 = MutableStateFlow("")
     val congestIconUrl1 = _congestIconUrl1.asStateFlow()
 
-    private val _chartUiModel = MutableStateFlow<GenderChartUiModel?>(null)
-    val chartUiModel = _chartUiModel.asStateFlow()
+    private val _chartModel = MutableStateFlow<PopulationDistributionData?>(null)
+    val chartModel = _chartModel.asStateFlow()
+
+    private val _genderChartSection = MutableStateFlow<ChartSectionData?>(null)
+    val genderChartSection: StateFlow<ChartSectionData?> = _genderChartSection
+
+    private val _ageChartSection = MutableStateFlow<ChartSectionData?>(null)
+    val ageChartSection: StateFlow<ChartSectionData?> = _ageChartSection
 
     fun calcTime(time: String): String {
         return calcTimeUseCase(time)
@@ -67,7 +83,7 @@ class DetailScreenViewModel @Inject constructor(
     }
 
     fun analyzeCongestIconUrl(flag: Int) {
-        when(flag) {
+        when (flag) {
             0 -> _congestIconUrl0.value = analyzeCongestIconUrlUscase(0)
             1 -> _congestIconUrl1.value = analyzeCongestIconUrlUscase(1)
         }
@@ -87,15 +103,16 @@ class DetailScreenViewModel @Inject constructor(
     }
 
     fun getForecastText(flag: Int): PopulationForecastTextData {
-        return when(flag) {
+        return when (flag) {
             0 -> PopulationForecastTextData("많고", "높을", "붐빔", "일 것으로 예상돼요", Color(0xFFFF5675))
             else -> PopulationForecastTextData("적고", "낮을", "여유", "로울 것으로 예상돼요", Color(0xFF80E12A))
         }
     }
 
-    fun calculateChart(canvasWidth: Float, canvasHeight: Float, malePercent: Float, femalePercent: Float) {
-        _chartUiModel.value = genderUseCase(
-            canvasWidth, canvasHeight, malePercent, femalePercent
-        )
+    fun toDomainModel(detailScreenData: MapData) {
+        _chartModel.value = mapDataToPopulationDistributionUseCase(detailScreenData)
+        Log.d("test", _chartModel.value!!.ageDistributionChartUiModel.toString())
+        _genderChartSection.value = genderDistributionUseCase(_chartModel.value!!.genderDistributionChartUiModel)
+        _ageChartSection.value = getAgeChartSectionUseCase(_chartModel.value!!.ageDistributionChartUiModel)
     }
 }

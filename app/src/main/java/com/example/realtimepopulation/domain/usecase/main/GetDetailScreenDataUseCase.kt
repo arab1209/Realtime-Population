@@ -1,5 +1,6 @@
 package com.example.realtimepopulation.domain.usecase.main
 
+import android.util.Log
 import com.example.realtimepopulation.domain.model.map.MapData
 import javax.inject.Inject
 
