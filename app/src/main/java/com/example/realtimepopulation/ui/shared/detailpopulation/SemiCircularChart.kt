@@ -1,6 +1,5 @@
 package com.example.realtimepopulation.ui.shared.detailpopulation
 
-import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,26 +12,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeJoin
-import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.realtimepopulation.domain.model.detail.ChartSegment
-import com.patrykandpatrick.vico.core.legend.LegendItem
+import kotlin.math.cos
 import kotlin.math.min
+import kotlin.math.sin
 
 @Composable
 fun SemiCircularChart(
     segments: List<ChartSegment>,
     modifier: Modifier = Modifier,
-    strokeWidth: Float = 60f,
     showLegend: Boolean = false,
+    innerRadiusRatio: Float = 0.1f,
+    startAngleDegrees: Float = 180f,
+    sweepAngleDegrees: Float = 180f
 ) {
     Column(
         modifier = modifier,
@@ -45,38 +44,53 @@ fun SemiCircularChart(
                 .padding(horizontal = 16.dp, vertical = 16.dp),
             contentAlignment = Alignment.Center
         ) {
-            Canvas(
-                modifier = Modifier.fillMaxSize()
-            ) {
+            Canvas(modifier = Modifier.fillMaxSize()) {
                 val width = size.width
                 val height = size.height
 
-                val halfStrokeWidth = strokeWidth / 2f
-                val maxRadius = min(width / 2f - halfStrokeWidth, height - halfStrokeWidth)
-                val radius = maxRadius * 0.9f
-
+                val outerRadius = min(width / 2f, height) * 0.9f
+                val innerRadius = outerRadius * innerRadiusRatio
                 val centerX = width / 2f
                 val centerY = height
 
-                var startAngle = 180f
-                val total = segments.sumOf { it.value.toDouble() }.toFloat()
+                drawArc(
+                    color = Color.Transparent,
+                    startAngle = startAngleDegrees,
+                    sweepAngle = sweepAngleDegrees,
+                    useCenter = false,
+                    topLeft = Offset(centerX - outerRadius, centerY - outerRadius),
+                    size = Size(outerRadius * 2f, outerRadius * 2f),
+                    style = Stroke(width = outerRadius - innerRadius, cap = StrokeCap.Butt)
+                )
 
-                val gapAngle = 1.5f // 조각 사이에 1.5도 틈을 준다
+                val donutPath = Path()
+                val total = segments.sumOf { it.value.toDouble() }.toFloat()
+                var currentAngle = startAngleDegrees
 
                 segments.forEach { segment ->
-                    val sweepAngle = (segment.value / total) * 180f - gapAngle
+                    val segmentAngle = (segment.value / total) * sweepAngleDegrees
+                    donutPath.reset()
 
-                    drawArc(
-                        color = segment.color,
-                        startAngle = startAngle,
-                        sweepAngle = sweepAngle,
-                        useCenter = false,
-                        topLeft = Offset(centerX - radius, centerY - radius),
-                        size = Size(radius * 2f, radius * 2f),
-                        style = Stroke(width = 60f, cap = StrokeCap.Butt) // Butt로 유지
+                    val rect = Rect(
+                        left = centerX - outerRadius,
+                        top = centerY - outerRadius,
+                        right = centerX + outerRadius,
+                        bottom = centerY + outerRadius
                     )
 
-                    startAngle += sweepAngle + gapAngle // 다음 조각 시작할 때 gapAngle만큼 띄워줌
+                    donutPath.addArc(
+                        oval = rect,
+                        startAngleDegrees = currentAngle,
+                        sweepAngleDegrees = segmentAngle
+                    )
+
+                    drawPath(
+                        path = donutPath,
+                        color = segment.color,
+                        style = Stroke(width = outerRadius - innerRadius, cap = StrokeCap.Butt)
+                    )
+
+                    currentAngle += segmentAngle
                 }
             }
         }
@@ -90,9 +104,41 @@ fun SemiCircularChart(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 segments.forEach { segment ->
-                    LegendItem(color = segment.color, label = segment.label, percentage = segment.value)
+                    LegendItem(
+                        color = segment.color,
+                        label = segment.label,
+                        percentage = segment.value
+                    )
                 }
             }
         }
     }
+}
+
+// Path 확장 함수
+fun Path.addArc(
+    oval: Rect,
+    startAngleDegrees: Float,
+    sweepAngleDegrees: Float
+): Path {
+    val startAngle = Math.toRadians(startAngleDegrees.toDouble()).toFloat()
+    val endAngle = Math.toRadians((startAngleDegrees + sweepAngleDegrees).toDouble()).toFloat()
+
+    val centerX = oval.center.x
+    val centerY = oval.center.y
+    val radiusX = oval.width / 2f
+    val radiusY = oval.height / 2f
+
+    val startX = centerX + radiusX * cos(startAngle)
+    val startY = centerY + radiusY * sin(startAngle)
+
+    moveTo(startX, startY)
+
+    arcTo(
+        oval,
+        startAngleDegrees = startAngleDegrees,
+        sweepAngleDegrees = sweepAngleDegrees,
+        forceMoveTo = false
+    )
+    return this
 }

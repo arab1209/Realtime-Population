@@ -1,13 +1,10 @@
 package com.example.realtimepopulation.ui.shared.viewmodel
 
-import android.util.Log
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
-import com.example.realtimepopulation.domain.model.detail.AgeDistributionChartUiModel
 import com.example.realtimepopulation.domain.model.detail.ChartSectionData
-import com.example.realtimepopulation.domain.model.detail.GenderChartUiModel
-import com.example.realtimepopulation.domain.model.detail.GenderDistribtuionChartUiModel
+import com.example.realtimepopulation.domain.model.detail.ChartSegment
 import com.example.realtimepopulation.domain.model.detail.PopulationDistributionData
 import com.example.realtimepopulation.domain.model.main.PopulationForecastTextData
 import com.example.realtimepopulation.domain.model.map.ForecastData
@@ -24,7 +21,6 @@ import com.example.realtimepopulation.domain.usecase.detail.GetFirstTabColorUseC
 import com.example.realtimepopulation.domain.usecase.detail.MapDataToPopulationDistributionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
@@ -61,10 +57,10 @@ class DetailScreenViewModel @Inject constructor(
     val chartModel = _chartModel.asStateFlow()
 
     private val _genderChartSection = MutableStateFlow<ChartSectionData?>(null)
-    val genderChartSection: StateFlow<ChartSectionData?> = _genderChartSection
+    val genderChartSection = _genderChartSection.asStateFlow()
 
     private val _ageChartSection = MutableStateFlow<ChartSectionData?>(null)
-    val ageChartSection: StateFlow<ChartSectionData?> = _ageChartSection
+    val ageChartSection = _ageChartSection.asStateFlow()
 
     fun calcTime(time: String): String {
         return calcTimeUseCase(time)
