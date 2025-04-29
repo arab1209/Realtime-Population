@@ -24,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -34,7 +35,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.realtimepopulation.domain.model.detail.ChartConfigData
+import com.example.realtimepopulation.domain.model.detail.ChartSegmentData
 import com.example.realtimepopulation.domain.model.map.MapData
+import com.example.realtimepopulation.domain.usecase.detail.CalculateChartUseCase
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.shared.DetailScreenChart
 import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
@@ -46,7 +50,6 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
     val detailScreenData = viewModel.detailScreenData.observeAsState()
     val dtViewModel: DetailScreenViewModel = hiltViewModel()
     val congestImgUrl = dtViewModel.congestLevelImgUrl.collectAsState()
-
 
     dtViewModel.toDomainModel(detailScreenData.value!!)
 
@@ -144,6 +147,7 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                 PopulationTitleBox("실시간 인구 구성 비율")
 
                 PopulationDistributionChartRate(dtViewModel)
+
             }
         }
     }

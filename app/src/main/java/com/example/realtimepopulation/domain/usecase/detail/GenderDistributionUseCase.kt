@@ -3,7 +3,7 @@ package com.example.realtimepopulation.domain.usecase.detail
 import android.annotation.SuppressLint
 import androidx.compose.ui.graphics.Color
 import com.example.realtimepopulation.domain.model.detail.ChartSectionData
-import com.example.realtimepopulation.domain.model.detail.ChartSegment
+import com.example.realtimepopulation.domain.model.detail.ChartSegmentData
 import com.example.realtimepopulation.domain.model.detail.GenderDistribtuionChartUiModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -26,12 +26,12 @@ class GenderDistributionUseCase @Inject constructor() {
         return ChartSectionData(
             title = "성별 비율",
             segments = listOf(
-                ChartSegment(
-                    value = maleValue,
+                ChartSegmentData(
+                    value = data.male.toFloatOrNull() ?: 0f,
                     color = Color(0xFF6C63FF), // 남성 - 파란색
                     label = "남성"
                 ),
-                ChartSegment(
+                ChartSegmentData(
                     value = femaleValue,
                     color = Color(0xFFE86B7C), // 여성 - 분홍색
                     label = "여성"

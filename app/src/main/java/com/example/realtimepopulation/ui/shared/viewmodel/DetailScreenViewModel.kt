@@ -3,8 +3,11 @@ package com.example.realtimepopulation.ui.shared.viewmodel
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import com.example.realtimepopulation.domain.model.detail.ChartConfigData
+import com.example.realtimepopulation.domain.model.detail.ChartDimensionsData
 import com.example.realtimepopulation.domain.model.detail.ChartSectionData
-import com.example.realtimepopulation.domain.model.detail.ChartSegment
+import com.example.realtimepopulation.domain.model.detail.ChartSegmentData
+import com.example.realtimepopulation.domain.model.detail.ChartSegmentDrawaData
 import com.example.realtimepopulation.domain.model.detail.PopulationDistributionData
 import com.example.realtimepopulation.domain.model.main.PopulationForecastTextData
 import com.example.realtimepopulation.domain.model.map.ForecastData
@@ -15,6 +18,8 @@ import com.example.realtimepopulation.domain.usecase.detail.AnalyzeMaxTimeUseCas
 import com.example.realtimepopulation.domain.usecase.detail.AnalyzeMinTimeUseCase
 import com.example.realtimepopulation.domain.usecase.detail.AnalyzeTextUseCase
 import com.example.realtimepopulation.domain.usecase.detail.CalcTimeUseCase
+import com.example.realtimepopulation.domain.usecase.detail.CalculateChartUseCase
+import com.example.realtimepopulation.domain.usecase.detail.CalculateSegmentDrawUseCase
 import com.example.realtimepopulation.domain.usecase.detail.GenderDistributionUseCase
 import com.example.realtimepopulation.domain.usecase.detail.GetAgeChartSectionUseCase
 import com.example.realtimepopulation.domain.usecase.detail.GetFirstTabColorUseCase
@@ -35,7 +40,9 @@ class DetailScreenViewModel @Inject constructor(
     private val analyzeMinTimeUseCase: AnalyzeMinTimeUseCase,
     private val mapDataToPopulationDistributionUseCase: MapDataToPopulationDistributionUseCase,
     private val genderDistributionUseCase: GenderDistributionUseCase,
-    private val getAgeChartSectionUseCase: GetAgeChartSectionUseCase
+    private val getAgeChartSectionUseCase: GetAgeChartSectionUseCase,
+    private val calculateChartUseCase: CalculateChartUseCase,
+    private val calculateSegmentDrawUseCase: CalculateSegmentDrawUseCase
 ) : ViewModel() {
 
     private val _congestLevelImgUrl = MutableStateFlow("")
@@ -54,7 +61,6 @@ class DetailScreenViewModel @Inject constructor(
     val congestIconUrl1 = _congestIconUrl1.asStateFlow()
 
     private val _chartModel = MutableStateFlow<PopulationDistributionData?>(null)
-    val chartModel = _chartModel.asStateFlow()
 
     private val _genderChartSection = MutableStateFlow<ChartSectionData?>(null)
     val genderChartSection = _genderChartSection.asStateFlow()
@@ -109,5 +115,17 @@ class DetailScreenViewModel @Inject constructor(
         _chartModel.value = mapDataToPopulationDistributionUseCase(detailScreenData)
         _genderChartSection.value = genderDistributionUseCase(_chartModel.value!!.genderDistributionChartUiModel)
         _ageChartSection.value = getAgeChartSectionUseCase(_chartModel.value!!.ageDistributionChartUiModel)
+    }
+
+    fun calculateChart(width: Float, height: Float, config: ChartConfigData): ChartDimensionsData {
+        return calculateChartUseCase(width, height, config)
+    }
+
+    fun calculateSegmentDraw(
+        segments: List<ChartSegmentData>,
+        dimensions: ChartDimensionsData,
+        config: ChartConfigData
+    ): List<ChartSegmentDrawaData> {
+        return calculateSegmentDrawUseCase(segments, dimensions, config)
     }
 }
