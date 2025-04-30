@@ -58,6 +58,12 @@ data class SeoulRtd(
     @PropertyElement(name = "PPLTN_RATE_70")
     val populationRate70s: String,
 
+    @PropertyElement(name = "RESNT_PPLTN_RATE")
+    val resident: String,
+
+    @PropertyElement(name = "NON_RESNT_PPLTN_RATE")
+    val nonResident: String,
+
     @Element(name = "FCST_PPLTN")
     val fcstPpltn: FcstPpltn
 )

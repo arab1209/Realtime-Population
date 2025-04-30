@@ -3,6 +3,7 @@ package com.example.realtimepopulation.domain.usecase.detail
 import com.example.realtimepopulation.domain.model.detail.AgeDistributionChartUiModel
 import com.example.realtimepopulation.domain.model.detail.GenderDistribtuionChartUiModel
 import com.example.realtimepopulation.domain.model.detail.PopulationDistributionData
+import com.example.realtimepopulation.domain.model.detail.ResidentStatusChartUiModel
 import com.example.realtimepopulation.domain.model.map.MapData
 import javax.inject.Inject
 
@@ -22,6 +23,10 @@ class MapDataToPopulationDistributionUseCase @Inject constructor(){
                 populationRate50s = detailScreenData.populationRate50s,
                 populationRate60s = detailScreenData.populationRate60s,
                 populationRate70s = detailScreenData.populationRate70s
+            ),
+            residentStatusChartUiModel = ResidentStatusChartUiModel(
+                resident = detailScreenData.resident,
+                nonResident = detailScreenData.nonResident
             )
         )
     }

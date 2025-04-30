@@ -16,6 +16,8 @@ data class MapData(
     val populationRate50s: String,
     val populationRate60s: String,
     val populationRate70s: String,
+    val resident: String,
+    val nonResident: String,
     val forecasts: List<ForecastData>
 )
 

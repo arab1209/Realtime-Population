@@ -22,6 +22,8 @@ fun MapDataDto.toDomain(): MapData {
         populationRate50s = this.seoulRtd.populationRate50s,
         populationRate60s = this.seoulRtd.populationRate60s,
         populationRate70s = this.seoulRtd.populationRate70s,
+        resident = this.seoulRtd.resident,
+        nonResident = this.seoulRtd.nonResident,
         forecasts = this.seoulRtd.fcstPpltn.fcstPpltnList.map { it.toDomain() }
     )
 }

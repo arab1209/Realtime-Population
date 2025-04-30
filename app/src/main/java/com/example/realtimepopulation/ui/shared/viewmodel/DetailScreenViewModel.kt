@@ -23,6 +23,7 @@ import com.example.realtimepopulation.domain.usecase.detail.CalculateSegmentDraw
 import com.example.realtimepopulation.domain.usecase.detail.GenderDistributionUseCase
 import com.example.realtimepopulation.domain.usecase.detail.GetAgeChartSectionUseCase
 import com.example.realtimepopulation.domain.usecase.detail.GetFirstTabColorUseCase
+import com.example.realtimepopulation.domain.usecase.detail.GetResidentStatusChartSectionUseCase
 import com.example.realtimepopulation.domain.usecase.detail.MapDataToPopulationDistributionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -42,7 +43,8 @@ class DetailScreenViewModel @Inject constructor(
     private val genderDistributionUseCase: GenderDistributionUseCase,
     private val getAgeChartSectionUseCase: GetAgeChartSectionUseCase,
     private val calculateChartUseCase: CalculateChartUseCase,
-    private val calculateSegmentDrawUseCase: CalculateSegmentDrawUseCase
+    private val calculateSegmentDrawUseCase: CalculateSegmentDrawUseCase,
+    private val getResidentStatusChartSectionUseCase: GetResidentStatusChartSectionUseCase
 ) : ViewModel() {
 
     private val _congestLevelImgUrl = MutableStateFlow("")
@@ -67,6 +69,9 @@ class DetailScreenViewModel @Inject constructor(
 
     private val _ageChartSection = MutableStateFlow<ChartSectionData?>(null)
     val ageChartSection = _ageChartSection.asStateFlow()
+
+    private val _residentChartSection = MutableStateFlow<ChartSectionData?>(null)
+    val residentChartSection = _residentChartSection.asStateFlow()
 
     fun calcTime(time: String): String {
         return calcTimeUseCase(time)
@@ -115,6 +120,7 @@ class DetailScreenViewModel @Inject constructor(
         _chartModel.value = mapDataToPopulationDistributionUseCase(detailScreenData)
         _genderChartSection.value = genderDistributionUseCase(_chartModel.value!!.genderDistributionChartUiModel)
         _ageChartSection.value = getAgeChartSectionUseCase(_chartModel.value!!.ageDistributionChartUiModel)
+        _residentChartSection.value = getResidentStatusChartSectionUseCase(_chartModel.value!!.residentStatusChartUiModel)
     }
 
     fun calculateChart(width: Float, height: Float, config: ChartConfigData): ChartDimensionsData {

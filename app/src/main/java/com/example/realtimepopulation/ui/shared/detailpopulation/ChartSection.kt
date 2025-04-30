@@ -20,12 +20,10 @@ import com.example.realtimepopulation.domain.model.detail.ChartSectionData
 import com.example.realtimepopulation.domain.model.detail.ChartSegmentData
 import com.example.realtimepopulation.domain.model.detail.ChartSegmentDrawaData
 import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
-
 @Composable
 fun ChartSection(
     data: ChartSectionData,
-    calculateChartUseCase: (Float, Float, ChartConfigData) -> ChartDimensionsData,
-    calculateSegmentDrawUseCase: (List<ChartSegmentData>, ChartDimensionsData, ChartConfigData) -> List<ChartSegmentDrawaData>
+    viewModel: DetailScreenViewModel
 ) {
     Text(
         modifier = Modifier.padding(top = 15.dp, start = 10.dp),
@@ -40,8 +38,7 @@ fun ChartSection(
             .fillMaxWidth()
             .height(200.dp),
         showLegend = true,
-        calculateChartUseCase = calculateChartUseCase,
-        calculateSegmentDrawUseCase = calculateSegmentDrawUseCase
+        viewModel
     )
 
     Spacer(modifier = Modifier.height(8.dp))
@@ -50,7 +47,7 @@ fun ChartSection(
         Row(modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center) {
             Text(
-                        text = "• ${data.summary}", fontSize = 14.sp, color = Color.Gray
+                text = "• ${data.summary}", fontSize = 14.sp, color = Color.Gray
             )
         }
     }

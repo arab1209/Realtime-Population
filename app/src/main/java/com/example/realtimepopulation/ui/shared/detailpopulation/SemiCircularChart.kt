@@ -39,8 +39,7 @@ fun SemiCircularChart(
     segments: List<ChartSegmentData>,
     modifier: Modifier = Modifier,
     showLegend: Boolean = false,
-    calculateChartUseCase: (Float, Float, ChartConfigData) -> ChartDimensionsData,
-    calculateSegmentDrawUseCase: (List<ChartSegmentData>, ChartDimensionsData, ChartConfigData) -> List<ChartSegmentDrawaData>
+    viewModel: DetailScreenViewModel
 ) {
     var chartConfig by remember { mutableStateOf(ChartConfigData(0.1f, 180f, 180f)) }
     var chartDimensions by remember { mutableStateOf<ChartDimensionsData?>(null) }
@@ -55,13 +54,13 @@ fun SemiCircularChart(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 16.dp)
                 .onSizeChanged { size ->
-                    val dimensions = calculateChartUseCase(
+                    val dimensions = viewModel.calculateChart(
                         size.width.toFloat(),
                         size.height.toFloat(),
                         chartConfig
                     )
                     chartDimensions = dimensions
-                    segmentDrawData = calculateSegmentDrawUseCase(
+                    segmentDrawData = viewModel.calculateSegmentDraw(
                         segments,
                         dimensions,
                         chartConfig

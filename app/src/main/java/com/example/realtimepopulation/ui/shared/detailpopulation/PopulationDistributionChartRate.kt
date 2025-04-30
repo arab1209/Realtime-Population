@@ -9,19 +9,25 @@ import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
 fun PopulationDistributionChartRate(viewModel: DetailScreenViewModel) {
     val genderChartSection by viewModel.genderChartSection.collectAsState()
     val ageChartSection by viewModel.ageChartSection.collectAsState()
+    val residentChartSection by viewModel.residentChartSection.collectAsState()
 
     genderChartSection?.let {
         ChartSection(
             data = it,
-            calculateChartUseCase = viewModel::calculateChart,
-            calculateSegmentDrawUseCase = viewModel::calculateSegmentDraw
+            viewModel
         )
     }
     ageChartSection?.let {
         ChartSection(
             data = it,
-            calculateChartUseCase = viewModel::calculateChart,
-            calculateSegmentDrawUseCase = viewModel::calculateSegmentDraw
+            viewModel
+        )
+    }
+
+    residentChartSection?.let {
+        ChartSection(
+            data = it,
+            viewModel
         )
     }
 }
