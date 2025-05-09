@@ -1,6 +1,8 @@
 package com.example.realtimepopulation.ui.shared.detailtemp
 
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -67,45 +70,45 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                 PopulationTitleBox("실시간 날씨 현황")
 
                 // 온도 정보 행
-                CenterDividerRow(
-                    leftContent = {
-                        TempInfoItem(
-                            iconUrl = "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/icon_temperature.png",
-                            text = "${weatherSttsData.value!!.cityData.weatherStts.temp}°C",
-                            fontSize = 22.sp,
-                            isBold = true,
-                            color = Color(0xFF4169E1)
-                        )
-                    },
-                    rightContent = {
-                        Text(
-                            text = "체감 ${weatherSttsData.value!!.cityData.weatherStts.sensibleTemp}°C",
-                            fontSize = 22.sp
-                        )
-                    },
-                    dividerHeight = 24.dp
+                CenterDividerRow(leftContent = {
+                    TempInfoItem(
+                        iconUrl = "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/icon_temperature.png",
+                        text = "${weatherSttsData.value!!.cityData.weatherStts.temp}°C",
+                        fontSize = 22.sp,
+                        isBold = true,
+                        color = Color(0xFF4169E1)
+                    )
+                }, rightContent = {
+                    Text(
+                        text = "체감 ${weatherSttsData.value!!.cityData.weatherStts.sensibleTemp}°C",
+                        fontSize = 22.sp
+                    )
+                }, dividerHeight = 24.dp
                 )
 
                 // 습도와 바람 정보 행
-                CenterDividerRow(
-                    leftContent = {
-                        TempInfoItem(
-                            iconUrl = "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/icon_moisture.png",
-                            text = "습도 ${weatherSttsData.value!!.cityData.weatherStts.humidity}%"
-                        )
-                    },
-                    rightContent = {
-                        TempInfoItem(
-                            iconUrl = "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/icon_wind.png",
-                            text = "바람 ${weatherSttsData.value!!.cityData.weatherStts.windSpeed}m/s"
-                        )
-                    },
-                    dividerHeight = 24.dp
+                CenterDividerRow(leftContent = {
+                    TempInfoItem(
+                        iconUrl = "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/icon_moisture.png",
+                        text = "습도 ${weatherSttsData.value!!.cityData.weatherStts.humidity}%"
+                    )
+                }, rightContent = {
+                    TempInfoItem(
+                        iconUrl = "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/icon_wind.png",
+                        text = "바람 ${weatherSttsData.value!!.cityData.weatherStts.windSpeed}m/s"
+                    )
+                }, dividerHeight = 24.dp
                 )
 
                 // 최저/최고 기온과 일출/일몰 정보 행
-                CenterDividerRow(
-                    leftContent = {
+                Box(
+                    modifier = Modifier
+                        .border(
+                            BorderStroke(1.dp, Color.LightGray)
+                        )
+                        .padding(vertical = 5.dp)
+                ) {
+                    CenterDividerRow(leftContent = {
                         Row(
                             horizontalArrangement = Arrangement.SpaceEvenly,
                             modifier = Modifier.fillMaxWidth()
@@ -119,8 +122,7 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                                 value = weatherSttsData.value!!.cityData.weatherStts.maxTemp
                             )
                         }
-                    },
-                    rightContent = {
+                    }, rightContent = {
                         Row(
                             horizontalArrangement = Arrangement.SpaceEvenly,
                             modifier = Modifier.fillMaxWidth()
@@ -134,8 +136,17 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                                 value = weatherSttsData.value!!.cityData.weatherStts.sunset
                             )
                         }
-                    },
-                    dividerHeight = 40.dp
+                    }, dividerHeight = 40.dp
+                    )
+                }
+                TempRainUvInfoBox("강수량",
+                    weatherSttsData.value!!.cityData.weatherStts.precipitation,
+                    "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/ico_weather_rain.png"
+                )
+                TempRainUvInfoBox(
+                    "자외선지수",
+                    weatherSttsData.value!!.cityData.weatherStts.uvIndex,
+                    "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/ico_weather_uv.png"
                 )
             }
         }
