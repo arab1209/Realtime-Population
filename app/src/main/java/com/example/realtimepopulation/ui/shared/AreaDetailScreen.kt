@@ -31,13 +31,15 @@ import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
+fun  AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
     val detailScreenData = viewModel.detailScreenData.observeAsState()
 
     LaunchedEffect(detailScreenData) {
-        viewModel.getCongestMessage(detailScreenData.value!!.congestionMessage)
-        viewModel.getChartData(detailScreenData.value!!)
-        viewModel.getWeatherStatus(detailScreenData.value!!.areaName)
+        with(viewModel) {
+            getCongestMessage(detailScreenData.value!!.congestionMessage)
+            getChartData(detailScreenData.value!!)
+            getWeatherStatus(detailScreenData.value!!.areaName)
+        }
     }
 
     val weatherSttsData = viewModel.weatherSttsData.observeAsState()

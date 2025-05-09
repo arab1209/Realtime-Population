@@ -132,7 +132,6 @@ class MainViewModel @Inject constructor(
     }
 
     fun setDetailScreenData(mapData: List<MapData>, query: String) {
-        Log.d("test123", mapData.toString())
         _detailScreenData.value = getDetailScreenDataUseCase(mapData, query)
     }
 
