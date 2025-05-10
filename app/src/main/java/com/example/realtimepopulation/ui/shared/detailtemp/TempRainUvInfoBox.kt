@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 
 @Composable
-fun TempRainUvInfoBox(labelText: String, dataText: String, url: String) {
+fun TempRainUvInfoBox(labelText: String, dataText: String, url: String, msg: String) {
     Box(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp, vertical = 10.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             AsyncImage(
@@ -28,6 +28,10 @@ fun TempRainUvInfoBox(labelText: String, dataText: String, url: String) {
             Column(modifier = Modifier.padding(start = 10.dp)) {
                 Text(text = labelText)
                 Text(text = dataText)
+            }
+
+            Column() {
+                Text(text = msg)
             }
         }
     }

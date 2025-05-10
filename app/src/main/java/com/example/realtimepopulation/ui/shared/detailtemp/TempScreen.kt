@@ -141,13 +141,17 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                 }
                 TempRainUvInfoBox("강수량",
                     weatherSttsData.value!!.cityData.weatherStts.precipitation,
-                    "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/ico_weather_rain.png"
+                    "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/ico_weather_rain.png",
+                    weatherSttsData.value!!.cityData.weatherStts.pcpMsg
                 )
                 TempRainUvInfoBox(
                     "자외선지수",
                     weatherSttsData.value!!.cityData.weatherStts.uvIndex,
-                    "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/ico_weather_uv.png"
+                    "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/ico_weather_uv.png",
+                    weatherSttsData.value!!.cityData.weatherStts.uvMsg
                 )
+
+
             }
         }
     }
