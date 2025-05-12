@@ -83,6 +83,9 @@ class MainViewModel @Inject constructor(
     private val _weatherSttsData = MutableLiveData<WeatherSttsData>()
     val weatherSttsData: LiveData<WeatherSttsData> get() = _weatherSttsData
 
+    private val _airMsg = MutableStateFlow("")
+    val airMsg = _airMsg.asStateFlow()
+
     init {
         readSeoulAreasFromExcel()
     }
@@ -148,5 +151,10 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             _weatherSttsData.value = getWeatherSttsUseCase(areaName)
         }
+    }
+
+    fun updateSafetyMessage(message: String) {
+        // "."을 기준으로 줄바꿈 처리
+        _airMsg.value = message.replace(".", ".\n")
     }
 }

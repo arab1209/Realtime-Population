@@ -15,7 +15,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -27,6 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +42,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
+import com.example.realtimepopulation.ui.shared.DetailScreenSubTitleBox
 import com.example.realtimepopulation.ui.shared.detailpopulation.PopulationTitleBox
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -46,10 +50,12 @@ import com.example.realtimepopulation.ui.shared.detailpopulation.PopulationTitle
 fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
     val detailScreenData = viewModel.detailScreenData.observeAsState()
     val weatherSttsData = viewModel.weatherSttsData.observeAsState()
+    val airMsg = viewModel.airMsg.collectAsState()
 
     LaunchedEffect(weatherSttsData) {
-        Log.d("test", weatherSttsData.toString())
+        viewModel.updateSafetyMessage(weatherSttsData.value!!.cityData.weatherStts.airMsg)
     }
+
     Scaffold(topBar = {
         CenterAlignedTopAppBar(modifier = Modifier.shadow(10.dp),
             title = { Text(detailScreenData.value!!.areaName + " 날씨/환경 현황", fontSize = 20.sp) },
@@ -65,7 +71,9 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                 .fillMaxSize()
         ) {
             Column(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()),
             ) {
                 PopulationTitleBox("실시간 날씨 현황")
 
@@ -139,19 +147,56 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                     }, dividerHeight = 40.dp
                     )
                 }
-                TempRainUvInfoBox("강수량",
-                    weatherSttsData.value!!.cityData.weatherStts.precipitation,
-                    "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/ico_weather_rain.png",
-                    weatherSttsData.value!!.cityData.weatherStts.pcpMsg
-                )
-                TempRainUvInfoBox(
-                    "자외선지수",
-                    weatherSttsData.value!!.cityData.weatherStts.uvIndex,
-                    "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/ico_weather_uv.png",
-                    weatherSttsData.value!!.cityData.weatherStts.uvMsg
+                /**
+                 * 자외선 및 강수량 박스
+                 **/
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    TempRainUvInfoBox(
+                        "강수량",
+                        weatherSttsData.value!!.cityData.weatherStts.precipitation,
+                        "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/ico_weather_rain.png",
+                        weatherSttsData.value!!.cityData.weatherStts.pcpMsg,
+                        modifier = Modifier.weight(1f)
+                    )
+                    TempRainUvInfoBox(
+                        "자외선지수",
+                        weatherSttsData.value!!.cityData.weatherStts.uvIndex,
+                        "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/ico_weather_uv.png",
+                        weatherSttsData.value!!.cityData.weatherStts.uvMsg,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                Divider(
+                    color = Color(0xffe7e8ee),
+                    thickness = 5.dp,
+                    modifier = Modifier.padding(top = 10.dp)
                 )
 
-
+                /**
+                 *   대기오염현황 섹션
+                 **/
+                PopulationTitleBox("대기오염 현황")
+                DetailScreenSubTitleBox(
+                    "통합대기환경지수", viewModel, weatherSttsData.value!!.cityData.weatherStts.airIndex
+                )
+                Text(
+                    text = airMsg.value,
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
+                )
+                AirMsgCenterDividerRow(leftContent = {
+                    Text(
+                        text = "미세먼지 ${weatherSttsData.value!!.cityData.weatherStts.pm25} ${weatherSttsData.value!!.cityData.weatherStts.pm25Index}"
+                    )
+                }, rightContent = {
+                    Text(
+                        text = "미세먼지 ${weatherSttsData.value!!.cityData.weatherStts.pm10} ${weatherSttsData.value!!.cityData.weatherStts.pm10Index}"
+                    )
+                }, dividerHeight = 24.dp
+                )
             }
         }
     }
