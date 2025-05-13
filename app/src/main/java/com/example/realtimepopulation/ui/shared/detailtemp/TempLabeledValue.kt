@@ -22,7 +22,7 @@ fun TempLabeledValue(
         Text(
             text = value,
             fontSize = valueFontSize,
-            fontWeight = if (isBold) FontWeight.Bold else FontWeight.Normal,
+            fontWeight = FontWeight.Bold,
             color = valueColor
         )
     }

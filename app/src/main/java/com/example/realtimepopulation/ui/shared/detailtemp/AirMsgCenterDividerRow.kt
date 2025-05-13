@@ -48,7 +48,9 @@ fun AirMsgCenterDividerRow(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.CenterEnd) {
-                    leftContent()
+                    Row() {
+                        leftContent()
+                    }
                 }
                 Spacer(modifier = Modifier.width(24.dp)) // 구분선까지의 간격
             }
@@ -64,7 +66,9 @@ fun AirMsgCenterDividerRow(
             ) {
                 Spacer(modifier = Modifier.width(24.dp)) // 구분선부터의 간격
                 Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
-                    rightContent()
+                    Row() {
+                        rightContent()
+                    }
                 }
             }
         }

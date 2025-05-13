@@ -2,10 +2,12 @@ package com.example.realtimepopulation.ui.shared.detailtemp
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -41,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.realtimepopulation.domain.model.detail.AirQualityData
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.shared.DetailScreenSubTitleBox
 import com.example.realtimepopulation.ui.shared.detailpopulation.PopulationTitleBox
@@ -53,6 +56,7 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
     val airMsg = viewModel.airMsg.collectAsState()
 
     LaunchedEffect(weatherSttsData) {
+        Log.d("test", weatherSttsData.value.toString())
         viewModel.updateSafetyMessage(weatherSttsData.value!!.cityData.weatherStts.airMsg)
     }
 
@@ -159,14 +163,16 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                         weatherSttsData.value!!.cityData.weatherStts.precipitation,
                         "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/ico_weather_rain.png",
                         weatherSttsData.value!!.cityData.weatherStts.pcpMsg,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        viewModel
                     )
                     TempRainUvInfoBox(
                         "자외선지수",
                         weatherSttsData.value!!.cityData.weatherStts.uvIndex,
                         "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/ico_weather_uv.png",
                         weatherSttsData.value!!.cityData.weatherStts.uvMsg,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier.weight(1f),
+                        viewModel
                     )
                 }
 
@@ -189,14 +195,52 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                 )
                 AirMsgCenterDividerRow(leftContent = {
                     Text(
-                        text = "미세먼지 ${weatherSttsData.value!!.cityData.weatherStts.pm25} ${weatherSttsData.value!!.cityData.weatherStts.pm25Index}"
+                        text = "미세먼지 ", fontSize = 16.sp
+                    )
+                    Text(
+                        text = "${weatherSttsData.value!!.cityData.weatherStts.pm10}㎍/㎥ ${weatherSttsData.value!!.cityData.weatherStts.pm10Index}",
+                        color = viewModel.calcAreaColor(weatherSttsData.value!!.cityData.weatherStts.pm10Index),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
                     )
                 }, rightContent = {
                     Text(
-                        text = "미세먼지 ${weatherSttsData.value!!.cityData.weatherStts.pm10} ${weatherSttsData.value!!.cityData.weatherStts.pm10Index}"
+                        text = "초미세먼지 ", fontSize = 16.sp
+                    )
+                    Text(
+                        text = "${weatherSttsData.value!!.cityData.weatherStts.pm25}㎍/㎥ ${weatherSttsData.value!!.cityData.weatherStts.pm25Index}",
+                        color = viewModel.calcAreaColor(weatherSttsData.value!!.cityData.weatherStts.pm25Index),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
                     )
                 }, dividerHeight = 24.dp
-                )
+                )/*Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(IntrinsicSize.Min)
+                        .padding(horizontal = 4.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    airQualityData.forEachIndexed { index, item ->
+                        AirQualityItem(
+                            name = item.name,
+                            value = item.value,
+                            status = item.status,
+                            modifier = Modifier.weight(1f)
+                        )
+
+                        // 마지막 아이템이 아니면 구분선 추가
+                        if (index < airQualityData.size - 1) {
+                            Box(
+                                modifier = Modifier
+                                    .width(1.dp)
+                                    .fillMaxHeight()
+                                    .padding(vertical = 8.dp)
+                                    .background(Color.LightGray)
+                            )
+                        }
+                    }
+                    */
             }
         }
     }

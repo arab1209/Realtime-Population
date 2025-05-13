@@ -15,7 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 
 @Composable
 fun TempRainUvInfoBox(
@@ -24,6 +26,7 @@ fun TempRainUvInfoBox(
     url: String,
     msg: String,
     modifier: Modifier,
+    viewModel: MainViewModel = hiltViewModel()
 ) {
     Box(
         modifier = modifier
@@ -41,7 +44,7 @@ fun TempRainUvInfoBox(
             )
 
             Text(text = labelText)
-            Text(text = dataText)
+            Text(text = dataText, color = viewModel.calcAreaColor(dataText))
             Text(text = msg, modifier = Modifier.padding(top = 10.dp))
 
         }
