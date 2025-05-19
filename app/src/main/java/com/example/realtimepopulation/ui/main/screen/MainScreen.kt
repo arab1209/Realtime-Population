@@ -42,7 +42,7 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel(), navController: Na
                 .background(Color.White)
                 .height(scrollState.headerHeight)) {
                 TitleSection()
-                SearchBarSection(mainViewModel)
+                SearchBarSection(mainViewModel, navController)
             }
         },
         containerColor = MaterialTheme.colorScheme.background,

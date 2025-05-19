@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.realtimepopulation.ui.main.screen.MainScreen
+import com.example.realtimepopulation.ui.main.screen.SearchScreen
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.map.screen.MapScreen
 import com.example.realtimepopulation.ui.shared.AreaDetailScreen
@@ -30,6 +31,9 @@ fun NavigationGraph(navController: NavHostController) {
         }
         composable(Screen.DetailPopulation.route) {
             PopulationScreen(viewModel, navController)
+        }
+        composable(Screen.Search.route) {
+            SearchScreen(viewModel, navController)
         }
     }
 }

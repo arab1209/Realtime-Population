@@ -3,6 +3,7 @@ package com.example.realtimepopulation.ui.main.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,11 +28,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.realtimepopulation.R
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
+import com.example.realtimepopulation.ui.util.Screen
 
 @Composable
-fun SearchBarSection(viewModel: MainViewModel) {
+fun SearchBarSection(viewModel: MainViewModel, navController: NavController) {
     val searchQuery by viewModel.searchQuery.collectAsState()
 
     Box(  //서치바
@@ -41,7 +44,9 @@ fun SearchBarSection(viewModel: MainViewModel) {
             .padding(start = 20.dp, end = 20.dp, top = 20.dp)
             .clip(RoundedCornerShape(40.dp))
             .background(color = Color(0xFFF3F8FE))
-
+            .clickable {
+                navController.navigate(Screen.Search.route)
+            }
     ) {
         Row(
             modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically
