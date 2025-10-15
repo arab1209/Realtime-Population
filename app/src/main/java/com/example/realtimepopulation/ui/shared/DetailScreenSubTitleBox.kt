@@ -28,7 +28,7 @@ fun DetailScreenSubTitleBox(
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 15.dp)
+            .padding(vertical = 10.dp, horizontal = 15.dp)
             .background(Color(0xfff7f7f7))
     ) {
         Text(
