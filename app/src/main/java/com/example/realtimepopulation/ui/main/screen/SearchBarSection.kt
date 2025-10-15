@@ -42,9 +42,7 @@ import com.example.realtimepopulation.ui.util.Screen
 
 @Composable
 fun SearchBarSection(viewModel: MainViewModel, navController: NavController) {
-    val searchQuery by viewModel.searchQuery.collectAsState()
-
-    Box(  //서치바
+    Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(70.dp)
@@ -53,9 +51,11 @@ fun SearchBarSection(viewModel: MainViewModel, navController: NavController) {
             .background(color = Color(0xFFF3F8FE))
             .clickable {
                 navController.navigate(Screen.Search.route)
-            }) {
+            }
+    ) {
         Row(
-            modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_main_search),
@@ -65,29 +65,12 @@ fun SearchBarSection(viewModel: MainViewModel, navController: NavController) {
                     .padding(start = 12.dp, top = 10.dp, bottom = 10.dp)
             )
 
-            BasicTextField(textStyle = TextStyle(
-                color = Color.Black, fontSize = 10.sp, textDecoration = TextDecoration.None
-            ),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text, imeAction = ImeAction.Search
-                ),
-                keyboardActions = KeyboardActions(onSearch = {
-                    viewModel.saveSearchQuery(searchQuery)
-                }),
-                cursorBrush = SolidColor(Color.Transparent),
-                value = searchQuery,
-                onValueChange = { viewModel.setQueryText(it) },
-                modifier = Modifier
-                    .padding(start = 5.dp)
-                    .border(width = 0.dp, color = Color.Transparent),
-                decorationBox = { innerTextField ->
-                    if (searchQuery.isEmpty()) {
-                        Text(
-                            text = "무엇을 하고 놀까요 ?", color = Color(0xFFB8B8B8), fontSize = 8.sp
-                        )
-                    }
-                    innerTextField()
-                })
+            Text(
+                text = "무엇을 하고 놀까요?",
+                color = Color(0xFFB8B8B8),
+                fontSize = 10.sp,
+                modifier = Modifier.padding(start = 5.dp)
+            )
         }
     }
 }
