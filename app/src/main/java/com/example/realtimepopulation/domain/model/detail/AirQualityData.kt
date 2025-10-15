@@ -1,7 +1,8 @@
 package com.example.realtimepopulation.domain.model.detail
 
 data class AirQualityData(
-    val name: String,
-    val value: String,
-    val status: String
+    val no2: String,
+    val o3: String,
+    val c0: String,
+    val so2: String
 )

@@ -6,4 +6,5 @@ data class LocationData(
     val lat: Double,
     val long: Double,
     val imgURL: String,
+    val region: String
 )

@@ -2,7 +2,6 @@ package com.example.realtimepopulation.domain.usecase.detail
 
 import android.annotation.SuppressLint
 import androidx.compose.ui.graphics.Color
-import com.example.realtimepopulation.domain.model.detail.AgeDistributionChartUiModel
 import com.example.realtimepopulation.domain.model.detail.ChartSectionData
 import com.example.realtimepopulation.domain.model.detail.ChartSegmentData
 import com.example.realtimepopulation.domain.model.detail.ResidentStatusChartUiModel

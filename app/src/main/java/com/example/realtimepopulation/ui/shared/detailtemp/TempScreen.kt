@@ -1,24 +1,15 @@
 package com.example.realtimepopulation.ui.shared.detailtemp
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material.icons.Icons
@@ -33,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
@@ -42,8 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.AsyncImage
-import com.example.realtimepopulation.domain.model.detail.AirQualityData
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.shared.DetailScreenSubTitleBox
 import com.example.realtimepopulation.ui.shared.detailpopulation.PopulationTitleBox
@@ -54,11 +42,17 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
     val detailScreenData = viewModel.detailScreenData.observeAsState()
     val weatherSttsData = viewModel.weatherSttsData.observeAsState()
     val airMsg = viewModel.airMsg.collectAsState()
+    val airQualityData = viewModel.airQualityData.observeAsState()
 
     LaunchedEffect(weatherSttsData) {
-        Log.d("test", weatherSttsData.value.toString())
         viewModel.updateSafetyMessage(weatherSttsData.value!!.cityData.weatherStts.airMsg)
     }
+
+    LaunchedEffect(viewModel.regionName) {
+        viewModel.getAirQualityData(viewModel.regionName.value)
+    }
+
+    viewModel.getRegionName()
 
     Scaffold(topBar = {
         CenterAlignedTopAppBar(modifier = Modifier.shadow(10.dp),
@@ -214,33 +208,34 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                         fontSize = 16.sp
                     )
                 }, dividerHeight = 24.dp
-                )/*Row(
+                )
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(IntrinsicSize.Min)
-                        .padding(horizontal = 4.dp, vertical = 8.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    airQualityData.forEachIndexed { index, item ->
-                        AirQualityItem(
-                            name = item.name,
-                            value = item.value,
-                            status = item.status,
-                            modifier = Modifier.weight(1f)
-                        )
-
-                        // 마지막 아이템이 아니면 구분선 추가
-                        if (index < airQualityData.size - 1) {
-                            Box(
-                                modifier = Modifier
-                                    .width(1.dp)
-                                    .fillMaxHeight()
-                                    .padding(vertical = 8.dp)
-                                    .background(Color.LightGray)
-                            )
-                        }
-                    }
-                    */
+                    AirQualityCard(
+                        modifier = Modifier.weight(1f),
+                        label = "오존농도",
+                        value = airQualityData.value?.o3 ?: "0.000"
+                    )
+                    AirQualityCard(
+                        modifier = Modifier.weight(1f),
+                        label = "이산화질소",
+                        value = airQualityData.value?.no2 ?: "0.000"
+                    )
+                    AirQualityCard(
+                        modifier = Modifier.weight(1f),
+                        label = "일산화탄소",
+                        value = airQualityData.value?.c0 ?: "0.000"
+                    )
+                    AirQualityCard(
+                        modifier = Modifier.weight(1f),
+                        label = "아황산가스",
+                        value = airQualityData.value?.so2 ?: "0.000"
+                    )
+                }
             }
         }
     }

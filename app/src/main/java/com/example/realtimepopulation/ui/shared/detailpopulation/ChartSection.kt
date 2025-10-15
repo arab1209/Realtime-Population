@@ -1,6 +1,5 @@
 package com.example.realtimepopulation.ui.shared.detailpopulation
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,12 +13,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.realtimepopulation.domain.model.detail.ChartConfigData
-import com.example.realtimepopulation.domain.model.detail.ChartDimensionsData
 import com.example.realtimepopulation.domain.model.detail.ChartSectionData
-import com.example.realtimepopulation.domain.model.detail.ChartSegmentData
-import com.example.realtimepopulation.domain.model.detail.ChartSegmentDrawaData
 import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
+
 @Composable
 fun ChartSection(
     data: ChartSectionData,

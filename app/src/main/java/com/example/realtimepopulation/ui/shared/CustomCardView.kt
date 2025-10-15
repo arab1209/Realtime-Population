@@ -46,7 +46,7 @@ fun CustomCardView(viewModel: MainViewModel = hiltViewModel(), loc: LocationData
                 containerColor = Color(0xFFF3F8FE)
             )
         ) {
-            AsyncImage( // 카드뷰 이미지
+            AsyncImage(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth()
@@ -56,12 +56,15 @@ fun CustomCardView(viewModel: MainViewModel = hiltViewModel(), loc: LocationData
                         viewModel.setDetailScreenData(populationData.value, loc.areaName)
                         navController.navigate(Screen.Detail.route)
                     },
-                model = ImageRequest.Builder(LocalContext.current).data(loc.imgURL).build(),
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(loc.imgURL)
+                    .crossfade(true)
+                    .build(),
                 contentDescription = loc.areaName,
                 contentScale = ContentScale.Crop,
             )
 
-            Row( //카드뷰 텍스트 큰 영역
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp),

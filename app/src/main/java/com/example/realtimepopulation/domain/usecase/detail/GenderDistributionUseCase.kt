@@ -5,7 +5,6 @@ import androidx.compose.ui.graphics.Color
 import com.example.realtimepopulation.domain.model.detail.ChartSectionData
 import com.example.realtimepopulation.domain.model.detail.ChartSegmentData
 import com.example.realtimepopulation.domain.model.detail.GenderDistribtuionChartUiModel
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GenderDistributionUseCase @Inject constructor() {

@@ -1,16 +1,18 @@
 package com.example.realtimepopulation.ui.main.viewmodel
 
-import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.realtimepopulation.domain.model.detail.AirQualityData
 import com.example.realtimepopulation.domain.model.main.ChartData
 import com.example.realtimepopulation.domain.model.main.LocationData
 import com.example.realtimepopulation.domain.model.main.ScrollStateData
 import com.example.realtimepopulation.domain.model.main.WeatherSttsData
 import com.example.realtimepopulation.domain.model.map.MapData
+import com.example.realtimepopulation.domain.usecase.detail.GetAirQualityDataUseCase
+import com.example.realtimepopulation.domain.usecase.detail.GetRegionNameUseCase
 import com.example.realtimepopulation.domain.usecase.main.CalcAreaColorUseCase
 import com.example.realtimepopulation.domain.usecase.main.GetAreaPopulationDataUseCase
 import com.example.realtimepopulation.domain.usecase.main.GetChartDataUseCase
@@ -42,11 +44,13 @@ class MainViewModel @Inject constructor(
     private val getChartMinMaxDataUseCase: GetChartMinMaxDataUseCase,
     private val getChartDataUseCase: GetChartDataUseCase,
     private val getWeatherSttsUseCase: GetWeatherSttsUseCase,
+    private val getRegionNameUseCase: GetRegionNameUseCase,
+    private val getAirQualityDataUseCase: GetAirQualityDataUseCase
 ) : ViewModel() {
     private val _seoulLocationData = MutableStateFlow<List<LocationData>>(emptyList())
     val seoulLocationData = _seoulLocationData.asStateFlow()
 
-    private val _searchQuery = MutableStateFlow<String>("")
+    private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
 
     val areaTypes = listOf("관광특구", "고궁·문화유산", "인구밀집지역", "발달상권", "공원")
@@ -86,6 +90,12 @@ class MainViewModel @Inject constructor(
     private val _airMsg = MutableStateFlow("")
     val airMsg = _airMsg.asStateFlow()
 
+    private val _regionName = MutableStateFlow("")
+    val regionName = _regionName.asStateFlow()
+
+    private val _airQualityData = MutableLiveData<AirQualityData>()
+    val airQualityData: LiveData<AirQualityData> get() = _airQualityData
+
     init {
         readSeoulAreasFromExcel()
     }
@@ -96,7 +106,6 @@ class MainViewModel @Inject constructor(
             _selectChipData.value =
                 getSelectChipDataUseCase(_seoulLocationData.value, areaTypes.first())
             _populationData.value = getAreaPopulationDataUseCase(_seoulLocationData.value)
-
         }
     }
 
@@ -154,7 +163,16 @@ class MainViewModel @Inject constructor(
     }
 
     fun updateSafetyMessage(message: String) {
-        // "."을 기준으로 줄바꿈 처리
         _airMsg.value = message.replace(".", ".\n")
+    }
+
+    fun getRegionName() {
+        _regionName.value = getRegionNameUseCase(seoulLocationData.value, detailScreenData.value)
+    }
+
+    fun getAirQualityData(regionName: String) {
+        viewModelScope.launch {
+            _airQualityData.value = getAirQualityDataUseCase(regionName)
+        }
     }
 }

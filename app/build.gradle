@@ -115,6 +115,7 @@ dependencies {
 
     // FILE READ
     implementation libs.poi.ooxml
+    implementation libs.stax.api
 
     // IMG URL
     implementation(libs.coil.compose)

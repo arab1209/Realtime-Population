@@ -1,13 +1,17 @@
 package com.example.realtimepopulation.di
 
 import android.content.Context
+import com.example.realtimepopulation.data.repository.AirQualityRepositoryImpl
 import com.example.realtimepopulation.data.repository.PopulationRepositoryImpl
 import com.example.realtimepopulation.data.repository.SeoulLocationRepositoryImpl
 import com.example.realtimepopulation.data.repository.WeatherStatusRepositoryImpl
+import com.example.realtimepopulation.di.api.SeoulAirQualityApiService
 import com.example.realtimepopulation.di.api.SeoulAreaApiService
+import com.example.realtimepopulation.domain.repository.AirQualityRepository
 import com.example.realtimepopulation.domain.repository.PopulationRepository
 import com.example.realtimepopulation.domain.repository.SeoulLocationRepository
 import com.example.realtimepopulation.domain.repository.WeatherSttsRepository
+import com.example.realtimepopulation.domain.usecase.detail.GetAirQualityDataUseCase
 import com.example.realtimepopulation.domain.usecase.main.GetAreaPopulationDataUseCase
 import com.example.realtimepopulation.domain.usecase.main.GetSeoulLocationDataUseCase
 import com.example.realtimepopulation.domain.usecase.main.GetWeatherSttsUseCase
@@ -64,4 +68,15 @@ object AppModule {
         return GetWeatherSttsUseCase(repository)
     }
 
+    @Provides
+    @Singleton
+    fun provideAirQualityRepository(seoulAirQualityApiService: SeoulAirQualityApiService): AirQualityRepository {
+        return AirQualityRepositoryImpl(seoulAirQualityApiService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAirQualityDataUseCase(repository: AirQualityRepository): GetAirQualityDataUseCase {
+        return GetAirQualityDataUseCase(repository)
+    }
 }

@@ -31,7 +31,8 @@ class SeoulLocationRepositoryImpl @Inject constructor(
                         imgURL = "https://data.seoul.go.kr/SeoulRtd/images/hotspot/${
                             URLEncoder.encode(row.getCell(3)?.toString() ?: "", "UTF-8")
                                 .replace("+", "%20")
-                        }.jpg"
+                        }.jpg",
+                        region = row.getCell(7)?.toString() ?: ""
                     )
                 )
             }
