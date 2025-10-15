@@ -1,5 +1,6 @@
 package com.example.realtimepopulation.ui.main.screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,11 +14,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,7 +30,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -46,8 +53,7 @@ fun SearchBarSection(viewModel: MainViewModel, navController: NavController) {
             .background(color = Color(0xFFF3F8FE))
             .clickable {
                 navController.navigate(Screen.Search.route)
-            }
-    ) {
+            }) {
         Row(
             modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically
         ) {
@@ -60,9 +66,14 @@ fun SearchBarSection(viewModel: MainViewModel, navController: NavController) {
             )
 
             BasicTextField(textStyle = TextStyle(
-                color = Color.Black, fontSize = 8.sp
+                color = Color.Black, fontSize = 10.sp, textDecoration = TextDecoration.None
             ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password), // 실 입력 텍스트 UnderLine 없애기
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text, imeAction = ImeAction.Search
+                ),
+                keyboardActions = KeyboardActions(onSearch = {
+                    viewModel.saveSearchQuery(searchQuery)
+                }),
                 cursorBrush = SolidColor(Color.Transparent),
                 value = searchQuery,
                 onValueChange = { viewModel.setQueryText(it) },

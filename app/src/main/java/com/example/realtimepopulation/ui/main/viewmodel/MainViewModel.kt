@@ -24,10 +24,15 @@ import com.example.realtimepopulation.domain.usecase.main.GetSelectChipDataUseCa
 import com.example.realtimepopulation.domain.usecase.main.GetSeoulLocationDataUseCase
 import com.example.realtimepopulation.domain.usecase.main.GetWeatherSttsUseCase
 import com.example.realtimepopulation.domain.usecase.main.HeaderScrollUseCase
+import com.example.realtimepopulation.domain.usecase.search.SearchSeoulLocationUseCase
 import com.example.realtimepopulation.ui.util.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -45,7 +50,8 @@ class MainViewModel @Inject constructor(
     private val getChartDataUseCase: GetChartDataUseCase,
     private val getWeatherSttsUseCase: GetWeatherSttsUseCase,
     private val getRegionNameUseCase: GetRegionNameUseCase,
-    private val getAirQualityDataUseCase: GetAirQualityDataUseCase
+    private val getAirQualityDataUseCase: GetAirQualityDataUseCase,
+    private val searchSeoulLocationUseCase: SearchSeoulLocationUseCase
 ) : ViewModel() {
     private val _seoulLocationData = MutableStateFlow<List<LocationData>>(emptyList())
     val seoulLocationData = _seoulLocationData.asStateFlow()
@@ -95,6 +101,12 @@ class MainViewModel @Inject constructor(
 
     private val _airQualityData = MutableLiveData<AirQualityData>()
     val airQualityData: LiveData<AirQualityData> get() = _airQualityData
+
+    private val _savedSearchQuery = MutableStateFlow("")
+    val savedSearchQuery = _savedSearchQuery.asStateFlow()
+
+    private val _searchList = MutableStateFlow<List<LocationData>>(emptyList())
+    val searchList = _searchList.asStateFlow()
 
     init {
         readSeoulAreasFromExcel()
@@ -174,5 +186,13 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             _airQualityData.value = getAirQualityDataUseCase(regionName)
         }
+    }
+
+    fun saveSearchQuery(query: String) {
+        _savedSearchQuery.value = query
+    }
+
+    fun searchLocationData(query: String) {
+        _searchList.value = searchSeoulLocationUseCase(_seoulLocationData.value, query)
     }
 }
