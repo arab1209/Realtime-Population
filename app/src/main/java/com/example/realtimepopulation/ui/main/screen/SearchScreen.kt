@@ -5,14 +5,19 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -37,29 +42,29 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.realtimepopulation.R
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
+import com.example.realtimepopulation.ui.shared.CustomCardView
 import com.example.realtimepopulation.ui.util.Screen
 
 @Composable
-fun SearchScreen (viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
+fun SearchScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
     val searchQuery by viewModel.searchQuery.collectAsState()
     val savedSearchQuery by viewModel.savedSearchQuery.collectAsState()
     val searchList by viewModel.searchList.collectAsState()
 
-    if(savedSearchQuery.isNotBlank()) {
-        viewModel.searchLocationData(savedSearchQuery)
+    savedSearchQuery.takeIf { it.isNotBlank() }?.let {
+        viewModel.searchLocationData(it)
     }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(70.dp)
-                .padding(start = 20.dp, end = 20.dp, top = 20.dp)
-                .clip(RoundedCornerShape(40.dp))
-                .background(color = Color(0xFFF3F8FE))
-                .clickable {
-                    navController.navigate(Screen.Search.route)
-                }) {
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .height(70.dp)
+            .padding(start = 20.dp, end = 20.dp, top = 20.dp)
+            .clip(RoundedCornerShape(40.dp))
+            .background(color = Color(0xFFF3F8FE))
+            .clickable {
+                navController.navigate(Screen.Search.route)
+            }) {
             Row(
                 modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically
             ) {
@@ -97,11 +102,24 @@ fun SearchScreen (viewModel: MainViewModel = hiltViewModel(), navController: Nav
             }
         }
 
-        searchList.forEach {
-            Text(
-                text = it.areaName
-            )
+        LazyColumn() {
+            items(count = searchList.chunked(2).size) { index ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center,
+                ) {
+                    searchList.chunked(2)[index].forEach {
+                        CustomCardView(
+                            viewModel,
+                            it,
+                            modifier = Modifier
+                                .weight(1f)
+                                .aspectRatio(1f)
+                                .fillMaxHeight(),
+                            navController
+                        )
+                    }
+                }
+            }
         }
-
     }
 }
