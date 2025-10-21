@@ -12,11 +12,15 @@ import com.example.realtimepopulation.ui.map.screen.MapScreen
 import com.example.realtimepopulation.ui.shared.AreaDetailScreen
 import com.example.realtimepopulation.ui.shared.detailpopulation.PopulationScreen
 import com.example.realtimepopulation.ui.shared.detailtemp.TempScreen
+import com.example.realtimepopulation.ui.splash.SplashScreen
 
 @Composable
 fun NavigationGraph(navController: NavHostController) {
     val viewModel: MainViewModel = hiltViewModel()
-    NavHost(navController = navController, startDestination = Screen.Home.route) {
+    NavHost(navController = navController, startDestination = Screen.Splash.route) {
+        composable(Screen.Splash.route) {
+            SplashScreen(navController)
+        }
         composable(Screen.Home.route) {
             MainScreen(viewModel, navController)
         }

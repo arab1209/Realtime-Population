@@ -14,4 +14,5 @@ sealed class Screen (
     object DetailTemp : Screen("detailTemp", "상세보기", 0, 0)
     object DetailPopulation : Screen("detailPopulation", "상세보기", 0, 0)
     object Search : Screen("search", "검색", 0, 0)
+    object Splash : Screen("splash", "시작", 0, 0)
 }

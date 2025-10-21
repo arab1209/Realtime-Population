@@ -39,6 +39,7 @@ fun DetailScreenChart(
         Chart(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(end = 10.dp)
                 .height(200.dp), chart = columnChart(
                 columns = foreCastData?.map { dataItem ->
                     lineComponent(
