@@ -67,10 +67,7 @@ fun SearchScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavC
             .height(SearchBarDimens.Height)
             .padding(start = AppSpacing.XLarge, end = AppSpacing.XLarge, top = AppSpacing.XLarge)
             .clip(RoundedCornerShape(AppCornerRadius.Large))
-            .background(AppColors.LightBlue)
-            .clickable {
-                navController.navigate(Screen.Search.route)
-            }) {
+            .background(AppColors.LightBlue)) {
             Row(
                 modifier = Modifier.fillMaxSize(), verticalAlignment = Alignment.CenterVertically
             ) {
