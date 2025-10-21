@@ -18,8 +18,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
+import com.example.realtimepopulation.ui.theme.AppColors
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @Composable
 fun ChipSection(viewModel: MainViewModel) {
@@ -31,8 +33,8 @@ fun ChipSection(viewModel: MainViewModel) {
         Row(
             modifier = Modifier
                 .horizontalScroll(rememberScrollState())
-                .padding(start = 20.dp, top = 10.dp, end = 20.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(start = AppSpacing.XLarge, top = AppSpacing.Medium, end = AppSpacing.XLarge),
+            horizontalArrangement = Arrangement.spacedBy(AppSpacing.Large)
         ) {
             viewModel.areaTypes.forEach { area ->
                 AssistChip(
@@ -41,18 +43,16 @@ fun ChipSection(viewModel: MainViewModel) {
                     },
                     label = {
                         Text(
-                            area, fontSize = 10.sp
+                            area, fontSize = AppFontSizes.Small
                         )
                     },
                     border = BorderStroke(0.dp, Color.Transparent),
-                    shape = RoundedCornerShape(16.dp),
+                    shape = RoundedCornerShape(AppSpacing.Large),
                     colors = AssistChipDefaults.assistChipColors(
-                        containerColor = if (selectChip == area) Color(0xFFF3F8FE) else Color.Transparent,
-                        labelColor = if (selectChip == area) Color(0xFF196EEF) else Color(
-                            0xFFB8B8B8
+                        containerColor = if (selectChip == area) AppColors.LightBlue else Color.Transparent,
+                        labelColor = if (selectChip == area) AppColors.Blue else AppColors.Gray
                         )
                     )
-                )
             }
         }
     }

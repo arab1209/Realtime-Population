@@ -9,16 +9,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.realtimepopulation.ui.theme.AppColors
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
+import com.example.realtimepopulation.ui.theme.TitleSectionDimens
 
 @Composable
 fun TitleSection() {
-    Box(modifier = Modifier.padding(top = 20.dp, start = 20.dp)) {// 상단 나라, 지역 이름
+    Box(modifier = Modifier.padding(top = AppSpacing.XLarge, start = AppSpacing.XLarge)) {// 상단 나라, 지역 이름
         Column() {
             Text(
-                fontSize = 10.sp, color = Color.Black, text = "Korea"
+                fontSize = AppFontSizes.Small, color = AppColors.Black, text = TitleSectionDimens.CountryName
             )
             Text(
-                fontSize = 32.sp, color = Color.Black, text = "Seoul"
+                fontSize = AppFontSizes.Title, color = AppColors.Black, text = TitleSectionDimens.RegionName
             )
         }
     }

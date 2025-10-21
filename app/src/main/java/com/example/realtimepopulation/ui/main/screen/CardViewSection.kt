@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import com.example.realtimepopulation.domain.model.main.LocationData
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.shared.CustomCardView
+import com.example.realtimepopulation.ui.theme.CardViewDimens
 
 @Composable
 fun CardViewSection(
@@ -29,15 +30,15 @@ fun CardViewSection(
                 mainViewModel,
                 it,
                 modifier = Modifier
-                    .weight(1f)
-                    .aspectRatio(1f)
+                    .weight(CardViewDimens.Weight)
+                    .aspectRatio(CardViewDimens.AspectRatio)
                     .fillMaxHeight(),
                 navController,
             )
         }
 
         if (selectChipData.chunked(2)[index].size == 1) {
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.weight(CardViewDimens.Weight))
         }
     }
 }

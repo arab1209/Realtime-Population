@@ -32,6 +32,11 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.realtimepopulation.domain.model.main.LocationData
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
+import com.example.realtimepopulation.ui.theme.AppColors
+import com.example.realtimepopulation.ui.theme.AppCornerRadius
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
+import com.example.realtimepopulation.ui.theme.CardViewDimens
 import com.example.realtimepopulation.ui.util.Screen
 
 @Composable
@@ -39,19 +44,18 @@ fun CustomCardView(viewModel: MainViewModel = hiltViewModel(), loc: LocationData
     val populationData = viewModel.populationData.collectAsState()
     val temp = populationData.value.find { it.areaName == loc.areaName }
 
-
-    Box(modifier = modifier.padding(horizontal = 10.dp, vertical = 10.dp)) { // 카드뷰 큰 영역
+    Box(modifier = modifier.padding(horizontal = AppSpacing.Medium, vertical = AppSpacing.Medium)) { // 카드뷰 큰 영역
         Card(
-            elevation = CardDefaults.elevatedCardElevation(6.dp), colors = CardDefaults.cardColors(
-                containerColor = Color(0xFFF3F8FE)
+            elevation = CardDefaults.elevatedCardElevation(CardViewDimens.Elevation), colors = CardDefaults.cardColors(
+                containerColor = AppColors.LightBlue
             )
         ) {
             AsyncImage(
                 modifier = Modifier
-                    .weight(1f)
+                    .weight(CardViewDimens.Weight)
                     .fillMaxWidth()
-                    .padding(5.dp)
-                    .clip(RoundedCornerShape(6.dp))
+                    .padding(AppSpacing.XSmall)
+                    .clip(RoundedCornerShape(AppCornerRadius.Small))
                     .clickable {
                         viewModel.setDetailScreenData(populationData.value, loc.areaName)
                         navController.navigate(Screen.Detail.route)
@@ -67,25 +71,25 @@ fun CustomCardView(viewModel: MainViewModel = hiltViewModel(), loc: LocationData
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
+                    .padding(horizontal = AppSpacing.Small),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(// 카드뷰 텍스트 왼쪽 영역
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(CardViewDimens.Weight)
                 ) {
                     Text(
                         text = loc.category,
-                        fontSize = 8.sp,
-                        lineHeight = 8.sp,
+                        fontSize = AppFontSizes.ExtraSmall,
+                        lineHeight = AppFontSizes.ExtraSmall,
                     )
 
                     Text(
                         text = loc.areaName,
-                        fontSize = 8.sp,
-                        lineHeight = 8.sp,
+                        fontSize = AppFontSizes.ExtraSmall,
+                        lineHeight = AppFontSizes.ExtraSmall,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(bottom = 6.dp),
+                        modifier = Modifier.padding(bottom = AppSpacing.MediumSmall),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -93,8 +97,8 @@ fun CustomCardView(viewModel: MainViewModel = hiltViewModel(), loc: LocationData
 
                 Box( //카드뷰 텍스트 오른쪽 인구 분포도
                     modifier = Modifier
-                        .padding(8.dp)
-                        .size(10.dp)
+                        .padding(AppSpacing.Small)
+                        .size(AppSpacing.Medium)
                         .background(
                             if (temp != null) viewModel.calcAreaColor(temp.congestionLevel) else Color.Transparent,
                             shape = CircleShape

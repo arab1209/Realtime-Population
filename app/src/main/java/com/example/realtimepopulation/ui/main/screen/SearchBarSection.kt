@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,17 +39,23 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.realtimepopulation.R
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
+import com.example.realtimepopulation.ui.theme.AppColors
+import com.example.realtimepopulation.ui.theme.AppCornerRadius
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
+import com.example.realtimepopulation.ui.theme.SearchBarDimens
+import com.example.realtimepopulation.ui.theme.TitleSectionDimens
 import com.example.realtimepopulation.ui.util.Screen
 
 @Composable
-fun SearchBarSection(viewModel: MainViewModel, navController: NavController) {
+fun SearchBarSection(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(70.dp)
-            .padding(start = 20.dp, end = 20.dp, top = 20.dp)
-            .clip(RoundedCornerShape(40.dp))
-            .background(color = Color(0xFFF3F8FE))
+            .height(SearchBarDimens.Height)
+            .padding(start = AppSpacing.XLarge, end = AppSpacing.XLarge, top = AppSpacing.XLarge)
+            .clip(RoundedCornerShape(AppCornerRadius.Large))
+            .background(AppColors.LightBlue)
             .clickable {
                 navController.navigate(Screen.Search.route)
             }
@@ -59,17 +66,17 @@ fun SearchBarSection(viewModel: MainViewModel, navController: NavController) {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_main_search),
-                contentDescription = "ic_main_search",
+                contentDescription = SearchBarDimens.PlaceholderText,
                 modifier = Modifier
-                    .size(40.dp)
-                    .padding(start = 12.dp, top = 10.dp, bottom = 10.dp)
+                    .size(AppSpacing.XXLarge)
+                    .padding(start = AppSpacing.MediumLarge, top = AppSpacing.Medium, bottom = AppSpacing.Medium)
             )
 
             Text(
-                text = "무엇을 하고 놀까요?",
-                color = Color(0xFFB8B8B8),
-                fontSize = 10.sp,
-                modifier = Modifier.padding(start = 5.dp)
+                text = SearchBarDimens.PlaceholderText,
+                color = AppColors.Gray,
+                fontSize = AppFontSizes.Small,
+                modifier = Modifier.padding(start = AppSpacing.XSmall)
             )
         }
     }

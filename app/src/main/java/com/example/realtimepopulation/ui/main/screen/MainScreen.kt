@@ -21,6 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.realtimepopulation.ui.main.rememberScrollHandler
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
+import com.example.realtimepopulation.ui.theme.AppColors
 import kotlin.math.roundToInt
 
 @Composable
@@ -39,10 +40,10 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel(), navController: Na
                 .offset {
                     IntOffset(x = 0, y = scrollState.headerOffset.roundToInt())
                 }
-                .background(Color.White)
+                .background(AppColors.White)
                 .height(scrollState.headerHeight)) {
                 TitleSection()
-                SearchBarSection(mainViewModel, navController)
+                SearchBarSection(navController)
             }
         },
         containerColor = MaterialTheme.colorScheme.background,
@@ -52,7 +53,7 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel(), navController: Na
                 top = innerPadding.calculateTopPadding()
             ), modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(AppColors.White)
         ) {
             item {
                 ChipSection(mainViewModel)
