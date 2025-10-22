@@ -1,6 +1,7 @@
 package com.example.realtimepopulation.ui.map.screen
 
 import com.example.realtimepopulation.domain.model.main.LocationData
+import com.example.realtimepopulation.ui.theme.MapDimens
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.overlay.Marker
@@ -19,8 +20,8 @@ fun setupMarkers(
             captionText = area.areaName
             iconTintColor = getMarkerColor(area)
             icon = MarkerIcons.BLACK
-            width = (25 * densityValue).toInt()
-            height = (35 * densityValue).toInt()
+            width = (MapDimens.CardMarkerSizeX * densityValue).toInt()
+            height = (MapDimens.CardMarkerSizeY * densityValue).toInt()
             setOnClickListener {
                 onMarkerClick(area)
                 true

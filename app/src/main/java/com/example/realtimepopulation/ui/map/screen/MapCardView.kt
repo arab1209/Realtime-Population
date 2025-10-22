@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import com.example.realtimepopulation.domain.model.main.LocationData
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.shared.CustomCardView
+import com.example.realtimepopulation.ui.theme.MapDimens
 
 @Composable
 fun MapCardView(
@@ -34,10 +35,10 @@ fun MapCardView(
         mainViewModel,
         loc = location,
         modifier = Modifier
-            .offset(x = with(LocalDensity.current) { cardPosition.x.toDp() - 100.dp },
-                y = with(LocalDensity.current) { cardPosition.y.toDp() - 120.dp })
-            .width(300.dp)
-            .height(250.dp)
+            .offset(x = with(LocalDensity.current) { cardPosition.x.toDp() - MapDimens.CardPositionX },
+                y = with(LocalDensity.current) { cardPosition.y.toDp() - MapDimens.CardPositionY })
+            .width(MapDimens.CardSizeX)
+            .height(MapDimens.CardSizeY)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() }, indication = null
             ) { },

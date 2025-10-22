@@ -22,6 +22,15 @@ object AppSpacing {
     val XXLarge: Dp = 40.dp
 }
 
+object MapDimens {
+    val CardPositionX = 100.dp
+    val CardPositionY = 120.dp
+    val CardSizeX = 300.dp
+    val CardSizeY = 250.dp
+    const val CardMarkerSizeX = 25
+    const val CardMarkerSizeY = 35
+}
+
 object AppCornerRadius {
     val Small: Dp = 6.dp
     val Medium: Dp = 16.dp
