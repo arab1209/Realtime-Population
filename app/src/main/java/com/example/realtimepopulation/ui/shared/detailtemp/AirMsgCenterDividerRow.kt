@@ -16,16 +16,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @Composable
 fun AirMsgCenterDividerRow(
     leftContent: @Composable () -> Unit,
     rightContent: @Composable () -> Unit,
-    dividerHeight: Dp = 24.dp,
-    padding: PaddingValues = PaddingValues(vertical = 8.dp),
+    dividerHeight: Dp = AppSpacing.ExtraLarge,
+    padding: PaddingValues = PaddingValues(vertical = AppSpacing.Small),
 ) {
     Box(modifier = Modifier.fillMaxWidth()) {
-        // 중앙 수직선
         Divider(
             color = Color.LightGray,
             modifier = Modifier
@@ -52,7 +52,7 @@ fun AirMsgCenterDividerRow(
                         leftContent()
                     }
                 }
-                Spacer(modifier = Modifier.width(24.dp)) // 구분선까지의 간격
+                Spacer(modifier = Modifier.width(AppSpacing.ExtraLarge)) // 구분선까지의 간격
             }
 
             // 간격 유지를 위한 투명한 spacer (구분선 영역)
@@ -64,7 +64,7 @@ fun AirMsgCenterDividerRow(
                 horizontalArrangement = Arrangement.Start,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Spacer(modifier = Modifier.width(24.dp)) // 구분선부터의 간격
+                Spacer(modifier = Modifier.width(AppSpacing.ExtraLarge)) // 구분선부터의 간격
                 Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
                     Row() {
                         rightContent()

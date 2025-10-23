@@ -30,6 +30,7 @@ object AppFontSizes {
 object AppSpacing {
     // Material 3 spacing scale (4dp 기반)
     val None: Dp = 0.dp
+    val ExtraExtraSmall: Dp = 2.dp
     val ExtraSmall: Dp = 4.dp
     val Small: Dp = 8.dp
     val Medium: Dp = 12.dp

@@ -89,7 +89,7 @@ fun CustomCardView(viewModel: MainViewModel = hiltViewModel(), loc: LocationData
                         fontSize = AppFontSizes.LabelSmall,
                         lineHeight = AppFontSizes.LabelSmall,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(bottom = AppSpacing.Small),
+                        modifier = Modifier.padding(bottom = AppSpacing.ExtraSmall, top = AppSpacing.ExtraExtraSmall),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )

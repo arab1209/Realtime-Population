@@ -12,6 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @Composable
 fun AirQualityItem(
@@ -21,28 +23,28 @@ fun AirQualityItem(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.padding(4.dp),
+        modifier = modifier.padding(AppSpacing.Small),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = name,
-            fontSize = 14.sp,
+            fontSize = AppFontSizes.BodyMedium,
             color = Color.DarkGray,
             fontWeight = FontWeight.Medium
         )
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(AppSpacing.Small))
 
         Text(
             text = value,
-            fontSize = 16.sp,
+            fontSize = AppFontSizes.BodyLarge,
             color = Color(0xFFF0AD4E),
             fontWeight = FontWeight.Bold
         )
 
         Text(
             text = status,
-            fontSize = 14.sp,
+            fontSize = AppFontSizes.BodyMedium,
             color = Color(0xFFF0AD4E)
         )
     }

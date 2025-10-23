@@ -35,6 +35,8 @@ import androidx.navigation.NavController
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.shared.DetailScreenSubTitleBox
 import com.example.realtimepopulation.ui.shared.detailpopulation.PopulationTitleBox
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,7 +58,7 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
 
     Scaffold(topBar = {
         CenterAlignedTopAppBar(modifier = Modifier.shadow(10.dp),
-            title = { Text(detailScreenData.value!!.areaName + " 날씨/환경 현황", fontSize = 20.sp) },
+            title = { Text(detailScreenData.value!!.areaName + " 날씨/환경 현황", fontSize = AppFontSizes.TitleLarge) },
             navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(Icons.Default.ArrowBack, contentDescription = "뒤로가기")
@@ -80,16 +82,16 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                     TempInfoItem(
                         iconUrl = "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/icon_temperature.png",
                         text = "${weatherSttsData.value!!.cityData.weatherStts.temp}°C",
-                        fontSize = 22.sp,
+                        fontSize = AppFontSizes.TitleLarge,
                         isBold = true,
                         color = Color(0xFF4169E1)
                     )
                 }, rightContent = {
                     Text(
                         text = "체감 ${weatherSttsData.value!!.cityData.weatherStts.sensibleTemp}°C",
-                        fontSize = 22.sp
+                        fontSize = AppFontSizes.TitleLarge
                     )
-                }, dividerHeight = 24.dp
+                }, dividerHeight = AppSpacing.ExtraLarge
                 )
 
                 // 습도와 바람 정보 행
@@ -103,7 +105,7 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                         iconUrl = "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/icon_wind.png",
                         text = "바람 ${weatherSttsData.value!!.cityData.weatherStts.windSpeed}m/s"
                     )
-                }, dividerHeight = 24.dp
+                }, dividerHeight = AppSpacing.ExtraLarge
                 )
 
                 // 최저/최고 기온과 일출/일몰 정보 행
@@ -112,7 +114,7 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                         .border(
                             BorderStroke(1.dp, Color.LightGray)
                         )
-                        .padding(vertical = 5.dp)
+                        .padding(vertical = AppSpacing.Small)
                 ) {
                     CenterDividerRow(leftContent = {
                         Row(
@@ -142,7 +144,7 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                                 value = weatherSttsData.value!!.cityData.weatherStts.sunset
                             )
                         }
-                    }, dividerHeight = 40.dp
+                    }, dividerHeight = AppSpacing.ExtraExtraExtraLarge
                     )
                 }
                 /**
@@ -173,7 +175,7 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                 Divider(
                     color = Color(0xffe7e8ee),
                     thickness = 5.dp,
-                    modifier = Modifier.padding(top = 10.dp)
+                    modifier = Modifier.padding(top = AppSpacing.Medium)
                 )
 
                 /**
@@ -185,35 +187,35 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                 )
                 Text(
                     text = airMsg.value,
-                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
+                    modifier = Modifier.padding(horizontal = AppSpacing.MediumLarge, vertical = AppSpacing.Medium)
                 )
                 AirMsgCenterDividerRow(leftContent = {
                     Text(
-                        text = "미세먼지 ", fontSize = 16.sp
+                        text = "미세먼지 ", fontSize = AppFontSizes.BodyLarge
                     )
                     Text(
                         text = "${weatherSttsData.value!!.cityData.weatherStts.pm10}㎍/㎥ ${weatherSttsData.value!!.cityData.weatherStts.pm10Index}",
                         color = viewModel.calcAreaColor(weatherSttsData.value!!.cityData.weatherStts.pm10Index),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        fontSize = AppFontSizes.BodyLarge
                     )
                 }, rightContent = {
                     Text(
-                        text = "초미세먼지 ", fontSize = 16.sp
+                        text = "초미세먼지 ", fontSize = AppFontSizes.BodyLarge
                     )
                     Text(
                         text = "${weatherSttsData.value!!.cityData.weatherStts.pm25}㎍/㎥ ${weatherSttsData.value!!.cityData.weatherStts.pm25Index}",
                         color = viewModel.calcAreaColor(weatherSttsData.value!!.cityData.weatherStts.pm25Index),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        fontSize = AppFontSizes.BodyLarge
                     )
-                }, dividerHeight = 24.dp
+                }, dividerHeight = AppSpacing.ExtraLarge
                 )
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        .padding(AppSpacing.Large),
+                    horizontalArrangement = Arrangement.spacedBy(AppSpacing.Small)
                 ) {
                     AirQualityCard(
                         modifier = Modifier.weight(1f),

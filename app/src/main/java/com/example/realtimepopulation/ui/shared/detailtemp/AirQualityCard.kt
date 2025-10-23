@@ -20,6 +20,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.realtimepopulation.ui.theme.AppColors
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @Composable
 fun AirQualityCard(
@@ -30,36 +33,36 @@ fun AirQualityCard(
     Card(
         modifier = modifier
             .aspectRatio(1f), // 정사각형 비율
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = AppColors.White),
         border = BorderStroke(1.dp, Color(0xFFE0E0E0)),
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(AppSpacing.Small)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(6.dp),
+                .padding(AppSpacing.Small),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
             Text(
                 text = label,
-                fontSize = 10.sp,
+                fontSize = AppFontSizes.LabelSmall,
                 color = Color.Gray,
                 textAlign = TextAlign.Center,
                 maxLines = 2,
-                lineHeight = 12.sp
+                lineHeight = AppFontSizes.LabelMedium
             )
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(AppSpacing.Small))
             Text(
                 text = "${value}ppm",
-                fontSize = 12.sp,
+                fontSize = AppFontSizes.BodySmall,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF00C73C),
                 maxLines = 1
             )
             Text(
                 text = "좋음",
-                fontSize = 10.sp,
+                fontSize = AppFontSizes.LabelSmall,
                 color = Color(0xFF00C73C)
             )
         }
