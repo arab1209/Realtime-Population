@@ -29,6 +29,7 @@ import com.example.realtimepopulation.domain.model.detail.ChartDimensionsData
 import com.example.realtimepopulation.domain.model.detail.ChartSegmentData
 import com.example.realtimepopulation.domain.model.detail.ChartSegmentDrawaData
 import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
+import com.example.realtimepopulation.ui.theme.AppSpacing
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -50,7 +51,7 @@ fun SemiCircularChart(
             modifier = Modifier
                 .weight(2f)
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 16.dp)
+                .padding(horizontal = AppSpacing.Large, vertical = AppSpacing.Large)
                 .onSizeChanged { size ->
                     val dimensions = viewModel.calculateChart(
                         size.width.toFloat(),

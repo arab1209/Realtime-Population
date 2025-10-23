@@ -36,6 +36,9 @@ import coil.compose.AsyncImage
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.shared.DetailScreenChart
 import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
+import com.example.realtimepopulation.ui.theme.AppColors
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,7 +69,7 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .background(Color.White)
+                .background(AppColors.White)
         ) {
             Column(
                 modifier = Modifier
@@ -77,12 +80,12 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 10.dp),
+                        .padding(top = AppSpacing.Medium),
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    Text("인구 혼잡도 ", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    Text("인구 혼잡도 ", fontWeight = FontWeight.Bold, fontSize = AppFontSizes.TitleLarge)
                     Text(
-                        fontSize = 20.sp,
+                        fontSize = AppFontSizes.BodyLarge,
                         text = detailScreenData.value?.congestionLevel ?: "",
                         color = viewModel.calcAreaColor(
                             detailScreenData.value?.congestionLevel ?: "",
@@ -98,27 +101,27 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                 )
                 viewModel.congestMessage.value.forEach { string ->
                     Text(
-                        fontSize = 14.sp,
+                        fontSize = AppFontSizes.BodyMedium,
                         text = string,
-                        modifier = Modifier.padding(horizontal = 30.dp, vertical = 10.dp)
+                        modifier = Modifier.padding(horizontal = AppSpacing.ExtraExtraLarge, vertical = AppSpacing.Medium)
                     )
                 }
 
                 Box(
                     modifier = Modifier
-                        .padding(top = 10.dp, start= 30.dp, end = 30.dp)
+                        .padding(top = AppSpacing.Medium, start= AppSpacing.ExtraExtraLarge, end = AppSpacing.ExtraExtraLarge)
                         .background(Color(0xfffcfaf4))
                 ) {
                     Text(
-                        modifier = Modifier.padding(5.dp),
-                        fontSize = 12.sp,
+                        modifier = Modifier.padding(AppSpacing.ExtraSmall),
+                        fontSize = AppFontSizes.BodySmall,
                         text = "※ 혼잡도는 통신사의 실시간 인구 데이터를 분석하여 가공한 것으로, 실제 현장과는 차이가 있을 수 있음을 알려드립니다."
                     )
                 }
 
                 Divider(
                     color = Color(0xffe7e8ee), thickness = 5.dp,
-                    modifier = Modifier.padding(top = 10.dp)
+                    modifier = Modifier.padding(top = AppSpacing.Medium)
                 )
 
                 PopulationTitleBox("실시간 인구 및 혼잡도 추이 전망")
@@ -135,7 +138,7 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
 
                 Divider(
                     color = Color(0xffe7e8ee), thickness = 5.dp,
-                    modifier = Modifier.padding(top = 10.dp)
+                    modifier = Modifier.padding(top = AppSpacing.Medium)
                 )
 
                 PopulationTitleBox("실시간 인구 구성 비율")

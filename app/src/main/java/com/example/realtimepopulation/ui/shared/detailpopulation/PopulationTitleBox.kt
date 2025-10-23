@@ -8,14 +8,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @Composable
 fun PopulationTitleBox(titleText: String) {
     Text(
         text = titleText,
-        fontSize = 22.sp,
+        fontSize = AppFontSizes.TitleLarge,
         fontWeight = FontWeight.Bold,
         color = Color(0xff4c65a7),
-        modifier = Modifier.padding(start = 10.dp, top = 10.dp)
+        modifier = Modifier.padding(start = AppSpacing.Medium, top = AppSpacing.Medium)
     )
 }

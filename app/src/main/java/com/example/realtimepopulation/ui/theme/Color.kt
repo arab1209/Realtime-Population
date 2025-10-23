@@ -16,6 +16,7 @@ object AppColors {
     val LightBlue = Color(0xFFF3F8FE)
     val Blue = Color(0xFF196EEF)
     val Gray = Color(0xFFB8B8B8)
+    val ForecastColor = Color(0xff5568a4)
 }
 
 object SemanticColors {

@@ -15,6 +15,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.realtimepopulation.domain.model.detail.ChartSectionData
 import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
+import com.example.realtimepopulation.ui.theme.AppColors
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @Composable
 fun ChartSection(
@@ -22,11 +25,11 @@ fun ChartSection(
     viewModel: DetailScreenViewModel
 ) {
     Text(
-        modifier = Modifier.padding(top = 15.dp, start = 10.dp),
-        text = data.title, fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.Black
+        modifier = Modifier.padding(top = AppSpacing.Large, start = AppSpacing.Medium),
+        text = data.title, fontSize = AppFontSizes.TitleMedium, fontWeight = FontWeight.Bold, color = Color.Black
     )
 
-    Spacer(modifier = Modifier.height(16.dp))
+    Spacer(modifier = Modifier.height(AppSpacing.Large))
 
     SemiCircularChart(
         segments = data.segments,
@@ -37,13 +40,13 @@ fun ChartSection(
         viewModel
     )
 
-    Spacer(modifier = Modifier.height(8.dp))
+    Spacer(modifier = Modifier.height(AppSpacing.Small))
 
     if (data.summary != null) {
         Row(modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center) {
             Text(
-                text = "• ${data.summary}", fontSize = 14.sp, color = Color.Gray
+                text = "• ${data.summary}", fontSize = AppFontSizes.TitleSmall, color = AppColors.Gray
             )
         }
     }

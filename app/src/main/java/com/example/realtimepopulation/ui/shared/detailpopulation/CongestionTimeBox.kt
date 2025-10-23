@@ -20,6 +20,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.realtimepopulation.domain.model.map.MapData
 import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
+import com.example.realtimepopulation.ui.theme.AppColors
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @Composable
 fun CongestionTimeBox(
@@ -44,26 +47,26 @@ fun CongestionTimeBox(
         else -> remember { mutableStateOf(Triple("00:00", "0", "0")) }
     }
 
-    Box(modifier = Modifier.padding(start = 10.dp, top = 10.dp)) {
+    Box(modifier = Modifier.padding(start = AppSpacing.Medium, top = AppSpacing.Medium)) {
         Column() {
             Text(
                 text = subTitleText,
-                fontSize = 16.sp,
+                fontSize = AppFontSizes.TitleMedium,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = AppColors.Black
             )
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 10.dp)
+                    .padding(top = AppSpacing.Medium)
             ) {
                 AsyncImage(
                     modifier = Modifier.align(Alignment.CenterVertically),
                     model = congestIconUrl.value, contentDescription = "시간 아이콘"
                 )
 
-                Column(modifier = Modifier.padding(start = 15.dp)) {
+                Column(modifier = Modifier.padding(start = AppSpacing.Large)) {
                     PopulationForecastText(
                         minMaxTime.value,
                         viewModel.getForecastText(flag)

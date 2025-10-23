@@ -14,6 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.realtimepopulation.ui.theme.AppColors
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @Composable
 fun LegendItem(
@@ -31,19 +34,19 @@ fun LegendItem(
         ) {
             Box(
                 modifier = Modifier
-                    .size(16.dp)
+                    .size(AppSpacing.Large)
                     .background(color = color, shape = MaterialTheme.shapes.small)
             )
             Text(
                 text = label,
-                fontSize = 12.sp,
+                fontSize = AppFontSizes.BodySmall,
                 color = Color.Black
             )
         }
         Text(
             text = String.format("%.1f%%", percentage), // 퍼센트 표시
-            fontSize = 12.sp,
-            color = Color.Gray
+            fontSize = AppFontSizes.BodySmall,
+            color = AppColors.Gray
         )
     }
 }

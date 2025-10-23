@@ -30,14 +30,14 @@ object AppFontSizes {
 object AppSpacing {
     // Material 3 spacing scale (4dp 기반)
     val None: Dp = 0.dp
-    val ExtraSmall: Dp = 4.dp      // 기존 XSmall 대체
+    val ExtraSmall: Dp = 4.dp
     val Small: Dp = 8.dp
-    val Medium: Dp = 12.dp         // 기존 MediumLarge 대체
+    val Medium: Dp = 12.dp
     val Large: Dp = 16.dp
     val MediumLarge: Dp = 20.dp
-    val ExtraLarge: Dp = 24.dp     // 기존 XLarge 대체
+    val ExtraLarge: Dp = 24.dp
     val ExtraExtraLarge: Dp = 32.dp
-    val ExtraExtraExtraLarge: Dp = 40.dp // 기존 XXLarge 대체
+    val ExtraExtraExtraLarge: Dp = 40.dp
 }
 
 object MapDimens {
