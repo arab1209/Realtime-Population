@@ -6,20 +6,38 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 object AppFontSizes {
-    val ExtraSmall: TextUnit = 8.sp
-    val Small: TextUnit = 10.sp
-    val Title: TextUnit = 32.sp
+    val LabelSmall: TextUnit = 11.sp
+    val LabelMedium: TextUnit = 12.sp
+    val LabelLarge: TextUnit = 14.sp
+
+    val BodySmall: TextUnit = 12.sp
+    val BodyMedium: TextUnit = 14.sp
+    val BodyLarge: TextUnit = 16.sp
+
+    val TitleSmall: TextUnit = 14.sp
+    val TitleMedium: TextUnit = 16.sp
+    val TitleLarge: TextUnit = 22.sp
+
+    val HeadlineSmall: TextUnit = 24.sp
+    val HeadlineMedium: TextUnit = 28.sp
+    val HeadlineLarge: TextUnit = 32.sp
+
+    val DisplaySmall: TextUnit = 36.sp
+    val DisplayMedium: TextUnit = 45.sp
+    val DisplayLarge: TextUnit = 57.sp
 }
 
 object AppSpacing {
-    val XSmall: Dp = 5.dp
-    val MediumSmall: Dp = 6.dp
+    // Material 3 spacing scale (4dp 기반)
+    val None: Dp = 0.dp
+    val ExtraSmall: Dp = 4.dp      // 기존 XSmall 대체
     val Small: Dp = 8.dp
-    val Medium: Dp = 10.dp
-    val MediumLarge: Dp = 12.dp
+    val Medium: Dp = 12.dp         // 기존 MediumLarge 대체
     val Large: Dp = 16.dp
-    val XLarge: Dp = 20.dp
-    val XXLarge: Dp = 40.dp
+    val MediumLarge: Dp = 20.dp
+    val ExtraLarge: Dp = 24.dp     // 기존 XLarge 대체
+    val ExtraExtraLarge: Dp = 32.dp
+    val ExtraExtraExtraLarge: Dp = 40.dp // 기존 XXLarge 대체
 }
 
 object MapDimens {
@@ -35,18 +53,6 @@ object AppCornerRadius {
     val Small: Dp = 6.dp
     val Medium: Dp = 16.dp
     val Large: Dp = 40.dp
-}
-
-// 섹션별 고유 값만 정의
-object TitleSectionDimens {
-    const val CountryName = "Korea"
-    const val RegionName = "Seoul"
-}
-
-object SearchBarDimens {
-    val Height: Dp = 70.dp
-    const val IconDescription = "ic_main_search"
-    const val PlaceholderText = "무엇을 하고 놀까요?"
 }
 
 object CardViewDimens {

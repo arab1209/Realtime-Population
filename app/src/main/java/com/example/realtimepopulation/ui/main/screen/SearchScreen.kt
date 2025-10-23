@@ -65,7 +65,7 @@ fun SearchScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavC
         Box(modifier = Modifier
             .fillMaxWidth()
             .height(SearchBarDimens.Height)
-            .padding(start = AppSpacing.XLarge, end = AppSpacing.XLarge, top = AppSpacing.XLarge)
+            .padding(start = AppSpacing.MediumLarge, end = AppSpacing.MediumLarge, top = AppSpacing.MediumLarge)
             .clip(RoundedCornerShape(AppCornerRadius.Large))
             .background(AppColors.LightBlue)) {
             Row(
@@ -75,12 +75,12 @@ fun SearchScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavC
                     painter = painterResource(id = R.drawable.ic_main_search),
                     contentDescription = SearchBarDimens.PlaceholderText,
                     modifier = Modifier
-                        .size(AppSpacing.XXLarge)
-                        .padding(start = AppSpacing.MediumLarge, top = AppSpacing.Medium, bottom = AppSpacing.Medium)
+                        .size(AppSpacing.ExtraExtraExtraLarge)
+                        .padding(start = AppSpacing.Medium, top = AppSpacing.Small, bottom = AppSpacing.Small)
                 )
 
                 BasicTextField(textStyle = TextStyle(
-                    color = AppColors.Black, fontSize = AppFontSizes.Small, textDecoration = TextDecoration.None
+                    color = AppColors.Black, fontSize = AppFontSizes.LabelSmall, textDecoration = TextDecoration.None
                 ),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text, imeAction = ImeAction.Search
@@ -92,12 +92,12 @@ fun SearchScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavC
                     value = searchQuery,
                     onValueChange = { viewModel.setQueryText(it) },
                     modifier = Modifier
-                        .padding(start = AppSpacing.XSmall)
+                        .padding(start = AppSpacing.ExtraSmall)
                         .border(width = 0.dp, color = Color.Transparent),
                     decorationBox = { innerTextField ->
                         if (searchQuery.isEmpty()) {
                             Text(
-                                text = SearchBarDimens.PlaceholderText, color = AppColors.Gray, fontSize = AppFontSizes.ExtraSmall
+                                text = SearchBarDimens.PlaceholderText, color = AppColors.Gray, fontSize = AppFontSizes.LabelSmall
                             )
                         }
                         innerTextField()

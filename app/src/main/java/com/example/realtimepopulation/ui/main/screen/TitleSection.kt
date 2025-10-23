@@ -16,13 +16,13 @@ import com.example.realtimepopulation.ui.theme.TitleSectionDimens
 
 @Composable
 fun TitleSection() {
-    Box(modifier = Modifier.padding(top = AppSpacing.XLarge, start = AppSpacing.XLarge)) {// 상단 나라, 지역 이름
+    Box(modifier = Modifier.padding(top = AppSpacing.MediumLarge, start = AppSpacing.MediumLarge)) {// 상단 나라, 지역 이름
         Column() {
             Text(
-                fontSize = AppFontSizes.Small, color = AppColors.Black, text = TitleSectionDimens.CountryName
+                fontSize = AppFontSizes.LabelSmall, color = AppColors.Black, text = TitleSectionDimens.CountryName
             )
             Text(
-                fontSize = AppFontSizes.Title, color = AppColors.Black, text = TitleSectionDimens.RegionName
+                fontSize = AppFontSizes.HeadlineLarge, color = AppColors.Black, text = TitleSectionDimens.RegionName
             )
         }
     }

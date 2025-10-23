@@ -53,7 +53,7 @@ fun SearchBarSection(navController: NavController) {
         modifier = Modifier
             .fillMaxWidth()
             .height(SearchBarDimens.Height)
-            .padding(start = AppSpacing.XLarge, end = AppSpacing.XLarge, top = AppSpacing.XLarge)
+            .padding(start = AppSpacing.MediumLarge, end = AppSpacing.MediumLarge, top = AppSpacing.MediumLarge)
             .clip(RoundedCornerShape(AppCornerRadius.Large))
             .background(AppColors.LightBlue)
             .clickable {
@@ -68,15 +68,15 @@ fun SearchBarSection(navController: NavController) {
                 painter = painterResource(id = R.drawable.ic_main_search),
                 contentDescription = SearchBarDimens.PlaceholderText,
                 modifier = Modifier
-                    .size(AppSpacing.XXLarge)
-                    .padding(start = AppSpacing.MediumLarge, top = AppSpacing.Medium, bottom = AppSpacing.Medium)
+                    .size(AppSpacing.ExtraExtraExtraLarge)
+                    .padding(start = AppSpacing.Medium, top = AppSpacing.Medium, bottom = AppSpacing.Medium)
             )
 
             Text(
                 text = SearchBarDimens.PlaceholderText,
                 color = AppColors.Gray,
-                fontSize = AppFontSizes.Small,
-                modifier = Modifier.padding(start = AppSpacing.XSmall)
+                fontSize = AppFontSizes.BodySmall,
+                modifier = Modifier.padding(start = AppSpacing.ExtraSmall)
             )
         }
     }

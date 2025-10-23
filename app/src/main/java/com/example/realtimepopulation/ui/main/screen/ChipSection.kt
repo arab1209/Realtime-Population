@@ -33,7 +33,7 @@ fun ChipSection(viewModel: MainViewModel) {
         Row(
             modifier = Modifier
                 .horizontalScroll(rememberScrollState())
-                .padding(start = AppSpacing.XLarge, top = AppSpacing.Medium, end = AppSpacing.XLarge),
+                .padding(start = AppSpacing.MediumLarge, end = AppSpacing.MediumLarge),
             horizontalArrangement = Arrangement.spacedBy(AppSpacing.Large)
         ) {
             viewModel.areaTypes.forEach { area ->
@@ -43,7 +43,7 @@ fun ChipSection(viewModel: MainViewModel) {
                     },
                     label = {
                         Text(
-                            area, fontSize = AppFontSizes.Small
+                            area, fontSize = AppFontSizes.LabelSmall
                         )
                     },
                     border = BorderStroke(0.dp, Color.Transparent),

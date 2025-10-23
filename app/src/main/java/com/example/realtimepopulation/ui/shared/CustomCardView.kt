@@ -54,7 +54,7 @@ fun CustomCardView(viewModel: MainViewModel = hiltViewModel(), loc: LocationData
                 modifier = Modifier
                     .weight(CardViewDimens.Weight)
                     .fillMaxWidth()
-                    .padding(AppSpacing.XSmall)
+                    .padding(AppSpacing.ExtraSmall)
                     .clip(RoundedCornerShape(AppCornerRadius.Small))
                     .clickable {
                         viewModel.setDetailScreenData(populationData.value, loc.areaName)
@@ -80,16 +80,16 @@ fun CustomCardView(viewModel: MainViewModel = hiltViewModel(), loc: LocationData
                 ) {
                     Text(
                         text = loc.category,
-                        fontSize = AppFontSizes.ExtraSmall,
-                        lineHeight = AppFontSizes.ExtraSmall,
+                        fontSize = AppFontSizes.LabelSmall,
+                        lineHeight = AppFontSizes.LabelSmall,
                     )
 
                     Text(
                         text = loc.areaName,
-                        fontSize = AppFontSizes.ExtraSmall,
-                        lineHeight = AppFontSizes.ExtraSmall,
+                        fontSize = AppFontSizes.LabelSmall,
+                        lineHeight = AppFontSizes.LabelSmall,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(bottom = AppSpacing.MediumSmall),
+                        modifier = Modifier.padding(bottom = AppSpacing.Small),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
