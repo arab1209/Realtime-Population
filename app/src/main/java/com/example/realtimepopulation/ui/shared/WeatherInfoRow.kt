@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.realtimepopulation.domain.model.main.WeatherStts
+import com.example.realtimepopulation.ui.theme.AppFontSizes
 
 @Composable
 fun WeatherInfoRow(weather: WeatherStts, items: List<Triple<String, String, Color>>) {
@@ -28,10 +29,10 @@ fun WeatherInfoRow(weather: WeatherStts, items: List<Triple<String, String, Colo
                 horizontalArrangement = Arrangement.Center,
             ) {
                 Text(
-                    text = text, fontSize = 12.sp, color = Color.Black
+                    text = text, fontSize = AppFontSizes.BodySmall, color = Color.Black
                 )
                 Text(
-                    text = text2, fontSize = 12.sp, color = color, fontWeight = FontWeight.Bold
+                    text = text2, fontSize = AppFontSizes.BodySmall, color = color, fontWeight = FontWeight.Bold
                 )
             }
             if (index < items.lastIndex) WeatherBoxDivider()

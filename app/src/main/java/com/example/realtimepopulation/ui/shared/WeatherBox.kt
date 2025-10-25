@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.realtimepopulation.ui.theme.AppFontSizes
 
 @Composable
 fun WeatherBox(
@@ -30,7 +31,7 @@ fun WeatherBox(
             text = text,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
-            fontSize = 12.sp,
+            fontSize = AppFontSizes.BodySmall,
             color = Color.Black
         )
     }

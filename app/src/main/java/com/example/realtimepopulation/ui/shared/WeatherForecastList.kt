@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.realtimepopulation.domain.model.main.WeatherForecast
 import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @Composable
 fun WeatherForecastList(forecastData: List<WeatherForecast>) {
@@ -20,7 +21,7 @@ fun WeatherForecastList(forecastData: List<WeatherForecast>) {
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(
-            modifier = Modifier.padding(top = 10.dp)
+            modifier = Modifier.padding(top = AppSpacing.Medium)
         ) {
             listOf("시간", "온도", "강수량", "강수확률").forEachIndexed { index, label ->
                 WeatherBox(label, viewModel.getFirstTabColor(index))
@@ -29,7 +30,7 @@ fun WeatherForecastList(forecastData: List<WeatherForecast>) {
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 10.dp)
+                .padding(top = AppSpacing.Medium)
         ) {
             items(count = forecastData.size, key = { it }) { index ->
                 WeatherForecastColumn(forecastData[index])

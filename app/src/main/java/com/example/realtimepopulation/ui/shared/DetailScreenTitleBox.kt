@@ -19,6 +19,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.realtimepopulation.R
 import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
 import com.example.realtimepopulation.ui.util.Screen
 
 @Composable
@@ -37,7 +39,7 @@ fun DetailScreenTitleBox (titleText: String, navController: NavController) {
     ) {
         Text(
             text = titleText,
-            fontSize = 22.sp,
+            fontSize = AppFontSizes.TitleLarge,
             fontWeight = FontWeight.Bold,
             color = Color(0xff4c65a7),
         )
@@ -45,8 +47,8 @@ fun DetailScreenTitleBox (titleText: String, navController: NavController) {
             painter = painterResource(R.drawable.ic_right_button),
             contentDescription = "img",
             modifier = Modifier
-                .width(35.dp)
-                .height(35.dp)
+                .width(AppSpacing.ExtraExtraLarge)
+                .height(AppSpacing.ExtraExtraLarge)
         )
     }
 }

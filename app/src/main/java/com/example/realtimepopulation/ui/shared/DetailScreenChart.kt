@@ -11,6 +11,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.realtimepopulation.domain.model.main.ChartData
 import com.example.realtimepopulation.domain.model.map.ForecastData
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
+import com.example.realtimepopulation.ui.theme.AppSpacing
 import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
@@ -34,23 +35,23 @@ fun DetailScreenChart(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 10.dp, start = 10.dp)
+            .padding(top = AppSpacing.Medium, start = AppSpacing.Medium)
     ) {
         Chart(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = 10.dp)
+                .padding(end = AppSpacing.Medium)
                 .height(200.dp), chart = columnChart(
                 columns = foreCastData?.map { dataItem ->
                     lineComponent(
                         color = viewModel.calcAreaColor(dataItem.congestionLevel),
-                        thickness = 15.dp,
+                        thickness = AppSpacing.Medium,
                         shape = Shapes.cutCornerShape(
                             topRightPercent = 20, topLeftPercent = 20
                         )
                     )
                 } ?: emptyList() ,
-                spacing = 30.dp,
+                spacing = AppSpacing.ExtraExtraLarge,
                 dataLabel = TextComponent.Builder().build(),
                 axisValuesOverrider = AxisValuesOverrider.fixed(
                     minY = 0f, maxY = maxData.toFloat()

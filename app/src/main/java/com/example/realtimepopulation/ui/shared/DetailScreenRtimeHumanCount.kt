@@ -11,16 +11,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @Composable
 fun DetailScreenRtimeHumanCount(minCount: String?, maxCount: String?, congestList: List<String>) {
     Box(
-        modifier = Modifier.fillMaxWidth().padding(top = 10.dp)
+        modifier = Modifier.fillMaxWidth().padding(top = AppSpacing.Medium)
     ) {
         Column() {
             Text(
                 text = "현재 실시간 인구 : $minCount ~ ${maxCount}명",
-                fontSize = 16.sp,
+                fontSize = AppFontSizes.BodyLarge,
                 color = Color(0xff798fd2),
                 fontWeight = FontWeight.Bold
             )
@@ -28,8 +30,8 @@ fun DetailScreenRtimeHumanCount(minCount: String?, maxCount: String?, congestLis
                 Text(
                     text = it,
                     color = Color(0xff626262),
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(top = 10.dp)
+                    fontSize = AppFontSizes.BodySmall,
+                    modifier = Modifier.padding(top = AppSpacing.Medium)
                 )
             }
         }

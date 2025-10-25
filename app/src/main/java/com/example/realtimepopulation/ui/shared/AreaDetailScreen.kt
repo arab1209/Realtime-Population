@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,8 +50,8 @@ fun  AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController:
     val chartData = viewModel.chartData.collectAsState()
 
     Scaffold(topBar = {
-        CenterAlignedTopAppBar(modifier = Modifier.shadow(10.dp),
-            title = { Text(detailScreenData.value!!.areaName, fontSize = 20.sp) },
+        CenterAlignedTopAppBar(modifier = Modifier.shadow(AppSpacing.Small),
+            title = { Text(detailScreenData.value!!.areaName, fontSize = AppFontSizes.TitleLarge) },
             navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(Icons.Default.ArrowBack, contentDescription = "뒤로가기")
@@ -66,7 +68,7 @@ fun  AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController:
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 15.dp, vertical = 15.dp)
+                            .padding(horizontal = AppSpacing.Large, vertical = AppSpacing.Large)
                     ) {
                         Column() {
                             DetailScreenTitleBox("실시간 인구", navController)
@@ -87,12 +89,12 @@ fun  AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController:
                         }
                     }
                     Divider(
-                        color = Color(0xffe7e8ee), thickness = 5.dp
+                        color = Color(0xffe7e8ee), thickness = AppSpacing.ExtraSmall
                     )
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 15.dp, vertical = 15.dp)
+                            .padding(horizontal = AppSpacing.Large, vertical = AppSpacing.Large)
                     ) {
                         Column() {
                             DetailScreenTitleBox("날씨/환경 상황", navController)

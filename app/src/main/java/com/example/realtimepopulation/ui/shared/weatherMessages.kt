@@ -8,6 +8,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.realtimepopulation.domain.model.main.WeatherStts
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @Composable
 fun weatherMessages(weather: WeatherStts) {
@@ -15,8 +17,8 @@ fun weatherMessages(weather: WeatherStts) {
         Text(
             text = msg,
             color = Color(0xff626262),
-            fontSize = 12.sp,
-            modifier = Modifier.padding(vertical = 5.dp)
+            fontSize = AppFontSizes.BodySmall,
+            modifier = Modifier.padding(vertical = AppSpacing.ExtraSmall)
         )
     }
 }

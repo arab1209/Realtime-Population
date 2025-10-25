@@ -9,13 +9,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.realtimepopulation.domain.model.main.WeatherSttsData
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @Composable
 fun WeatherScreen(weatherSttsData: WeatherSttsData?, viewModel: MainViewModel = hiltViewModel()) {
     weatherSttsData?.cityData?.weatherStts?.let { weather ->
         Column(modifier = Modifier.fillMaxWidth()) {
             weatherMessages(weather)
-            WeatherDivider(thickness = 3.dp)
+            WeatherDivider(thickness = AppSpacing.ExtraSmall)
             WeatherInfoRow(
                 weather = weather, items = listOf(
                     Triple("현재 ", "${weather.temp}\u2103", Color(0xff4c65a7)),
@@ -24,7 +25,7 @@ fun WeatherScreen(weatherSttsData: WeatherSttsData?, viewModel: MainViewModel = 
                     Triple("강수량 ", weather.precipitation, Color.Unspecified)
                 )
             )
-            WeatherDivider(thickness = 2.dp)
+            WeatherDivider(thickness = AppSpacing.ExtraSmall)
             WeatherInfoRow(
                 weather = weather, items = listOf(
                     Triple(
@@ -38,7 +39,7 @@ fun WeatherScreen(weatherSttsData: WeatherSttsData?, viewModel: MainViewModel = 
                     )
                 )
             )
-            WeatherDivider(thickness = 3.dp)
+            WeatherDivider(thickness = AppSpacing.ExtraSmall)
             WeatherForecastList(weather.forecast)
         }
     }

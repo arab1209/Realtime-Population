@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
+import com.example.realtimepopulation.ui.theme.AppFontSizes
+import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @Composable
 fun DetailScreenSubTitleBox(
@@ -28,24 +30,24 @@ fun DetailScreenSubTitleBox(
         horizontalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 10.dp, horizontal = 15.dp)
+            .padding(vertical = AppSpacing.Medium, horizontal = AppSpacing.Large)
             .background(Color(0xfff7f7f7))
     ) {
         Text(
-            text = mainText, fontSize = 16.sp, textDecoration = TextDecoration.Underline
+            text = mainText, fontSize = AppFontSizes.BodyLarge, textDecoration = TextDecoration.Underline
         )
         Text(
-            "가 ", fontSize = 16.sp
+            "가 ", fontSize = AppFontSizes.BodyLarge
         )
         Text(
             congetionLevel,
             color = viewModel.calcAreaColor(congetionLevel),
-            fontSize = 20.sp,
+            fontSize = AppFontSizes.TitleLarge,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(vertical = 5.dp)
+            modifier = Modifier.padding(vertical = AppSpacing.ExtraSmall)
         )
         Text(
-            " 입니다", fontSize = 16.sp
+            " 입니다", fontSize = AppFontSizes.BodyLarge
         )
     }
 }
