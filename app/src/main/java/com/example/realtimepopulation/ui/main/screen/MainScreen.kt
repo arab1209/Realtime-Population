@@ -42,14 +42,11 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel(), navController: Na
     }
 
     Scaffold(
-        modifier = Modifier.nestedScroll(rememberScrollHandler(onPreScroll = { delta, maxHeight ->
-            mainViewModel.handlePreScroll(
-                delta, maxHeight
-            )
-        }, onPostScroll = { delta, maxHeight ->
-            mainViewModel.handlePostScroll(delta, maxHeight)
-                          },
-            topAppBarHeightPx
+        modifier = Modifier.nestedScroll(
+            rememberScrollHandler(
+                onPreScroll = mainViewModel::handlePreScroll,
+                onPostScroll = mainViewModel::handlePostScroll,
+                topAppBarHeightPx
             )
         ),
         topBar = {
