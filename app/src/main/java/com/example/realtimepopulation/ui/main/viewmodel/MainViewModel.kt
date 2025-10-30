@@ -33,6 +33,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -56,12 +57,11 @@ class MainViewModel @Inject constructor(
     private val _seoulLocationData = MutableStateFlow<List<LocationData>>(emptyList())
     val seoulLocationData = _seoulLocationData.asStateFlow()
 
+
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
 
-    val areaTypes = listOf("관광특구", "고궁·문화유산", "인구밀집지역", "발달상권", "공원")
-
-    private val _selectChip = MutableStateFlow<String?>(areaTypes.first())
+    private val _selectChip = MutableStateFlow("관광특구")
     val selectChip = _selectChip.asStateFlow()
 
     private val _selectChipData = MutableStateFlow<List<LocationData>>(emptyList())
@@ -116,7 +116,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             _seoulLocationData.value = getSeoulLocationDataUseCase()
             _selectChipData.value =
-                getSelectChipDataUseCase(_seoulLocationData.value, areaTypes.first())
+                getSelectChipDataUseCase(_seoulLocationData.value, selectChip.value.toString())
             _populationData.value = getAreaPopulationDataUseCase(_seoulLocationData.value)
         }
     }
@@ -139,16 +139,25 @@ class MainViewModel @Inject constructor(
     }
 
     fun handlePreScroll(delta: Float, maxHeight: Float) {
-        headerScrollUseCase.updateHeaderOffset(
-            _scrollState, headerScrollUseCase(delta, _scrollState.value.headerOffset, maxHeight)
+        val newOffset = headerScrollUseCase(
+            delta = delta,
+            currentOffset = _scrollState.value.headerOffset,
+            maxHeight = maxHeight
         )
+        updateHeaderOffset(newOffset)
     }
 
     fun handlePostScroll(delta: Float, maxHeight: Float) {
-        headerScrollUseCase.updateHeaderOffset(
-            _scrollState,
-            headerScrollUseCase.handlePostScroll(delta, _scrollState.value.headerOffset, maxHeight)
+        val newOffset = headerScrollUseCase.handlePostScroll(
+            delta = delta,
+            currentOffset = _scrollState.value.headerOffset,
+            maxHeight = maxHeight
         )
+        updateHeaderOffset(newOffset)
+    }
+
+    private fun updateHeaderOffset(offset: Float) {
+        _scrollState.update { it.copy(headerOffset = offset) }
     }
 
     fun calcAreaColor(congestLvl: String): Color {

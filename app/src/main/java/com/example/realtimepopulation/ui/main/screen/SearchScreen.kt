@@ -26,6 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -56,6 +57,11 @@ fun SearchScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavC
     val searchQuery by viewModel.searchQuery.collectAsState()
     val savedSearchQuery by viewModel.savedSearchQuery.collectAsState()
     val searchList by viewModel.searchList.collectAsState()
+    val populationData by viewModel.populationData.collectAsState()
+
+    val populationDataMap = remember(populationData) {
+        populationData.associateBy { it.areaName }
+    }
 
     savedSearchQuery.takeIf { it.isNotBlank() }?.let {
         viewModel.searchLocationData(it)
@@ -105,23 +111,17 @@ fun SearchScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavC
             }
         }
 
-        LazyColumn() {
+        LazyColumn {
             items(count = searchList.chunked(2).size) { index ->
-                Row(
-                    modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center,
-                ) {
-                    searchList.chunked(2)[index].forEach {
-                        CustomCardView(
-                            viewModel,
-                            it,
-                            modifier = Modifier
-                                .weight(CardViewDimens.Weight)
-                                .aspectRatio(CardViewDimens.AspectRatio)
-                                .fillMaxHeight(),
-                            navController
-                        )
+                CardViewSection(
+                    locationDataPair = searchList.chunked(2)[index],
+                    populationDataMap = populationDataMap,
+                    calcAreaColor = viewModel::calcAreaColor,
+                    onCardClick = { areaName ->
+                        viewModel.setDetailScreenData(populationData, areaName)
+                        navController.navigate(Screen.Detail.route)
                     }
-                }
+                )
             }
         }
     }

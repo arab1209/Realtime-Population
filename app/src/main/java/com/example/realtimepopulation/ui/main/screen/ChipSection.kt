@@ -24,8 +24,11 @@ import com.example.realtimepopulation.ui.theme.AppFontSizes
 import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @Composable
-fun ChipSection(viewModel: MainViewModel) {
-    val selectChip by viewModel.selectChip.collectAsState()
+fun ChipSection(
+    selectedChip: String,
+    onChipSelected: (String) -> Unit
+) {
+    val areaTypes = listOf("관광특구", "고궁·문화유산", "인구밀집지역", "발달상권", "공원")
 
     Box(
         modifier = Modifier.fillMaxWidth()
@@ -36,10 +39,10 @@ fun ChipSection(viewModel: MainViewModel) {
                 .padding(start = AppSpacing.MediumLarge, end = AppSpacing.MediumLarge),
             horizontalArrangement = Arrangement.spacedBy(AppSpacing.Large)
         ) {
-            viewModel.areaTypes.forEach { area ->
+            areaTypes.forEach { area ->
                 AssistChip(
                     onClick = {
-                        viewModel.setSelectChip(area)
+                        onChipSelected(area)
                     },
                     label = {
                         Text(
@@ -49,10 +52,10 @@ fun ChipSection(viewModel: MainViewModel) {
                     border = BorderStroke(0.dp, Color.Transparent),
                     shape = RoundedCornerShape(AppSpacing.Large),
                     colors = AssistChipDefaults.assistChipColors(
-                        containerColor = if (selectChip == area) AppColors.LightBlue else Color.Transparent,
-                        labelColor = if (selectChip == area) AppColors.Blue else AppColors.Gray
-                        )
+                        containerColor = if (selectedChip == area) AppColors.LightBlue else Color.Transparent,
+                        labelColor = if (selectedChip == area) AppColors.Blue else AppColors.Gray
                     )
+                )
             }
         }
     }

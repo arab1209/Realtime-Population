@@ -9,16 +9,14 @@ import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 
 @Composable
 fun rememberScrollHandler(
-    viewModel: MainViewModel,
+    onPreScroll: (Float, Float) -> Unit,
+    onPostScroll: (Float, Float) -> Unit,
     topAppBarHeightPx: Float
 ): NestedScrollConnection {
-    return remember {
+    return remember(onPreScroll, onPostScroll, topAppBarHeightPx) {
         object : NestedScrollConnection {
             override fun onPreScroll(available: Offset, source: NestedScrollSource): Offset {
-                viewModel.handlePreScroll(
-                    delta = available.y,
-                    maxHeight = topAppBarHeightPx
-                )
+                onPreScroll(available.y, topAppBarHeightPx)
                 return Offset.Zero
             }
 
@@ -27,10 +25,7 @@ fun rememberScrollHandler(
                 available: Offset,
                 source: NestedScrollSource
             ): Offset {
-                viewModel.handlePostScroll(
-                    delta = available.y,
-                    maxHeight = topAppBarHeightPx
-                )
+                onPostScroll(available.y, topAppBarHeightPx)
                 return Offset.Zero
             }
         }

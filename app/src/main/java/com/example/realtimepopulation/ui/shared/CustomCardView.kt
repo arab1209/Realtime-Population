@@ -40,15 +40,22 @@ import com.example.realtimepopulation.ui.theme.CardViewDimens
 import com.example.realtimepopulation.ui.util.Screen
 
 @Composable
-fun CustomCardView(viewModel: MainViewModel = hiltViewModel(), loc: LocationData, modifier: Modifier, navController: NavController) {
-    val populationData = viewModel.populationData.collectAsState()
-    val temp = populationData.value.find { it.areaName == loc.areaName }
-
-    Box(modifier = modifier.padding(horizontal = AppSpacing.Medium, vertical = AppSpacing.Medium)) { // 카드뷰 큰 영역
+fun CustomCardView(
+    locationData: LocationData,
+    congestionLevel: String?,
+    congestionColor: Color,
+    modifier: Modifier = Modifier,
+    onCardClick: () -> Unit
+) {
+    Box(
+        modifier = modifier.padding(
+            horizontal = AppSpacing.Medium,
+            vertical = AppSpacing.Medium
+        )
+    ) {
         Card(
-            elevation = CardDefaults.elevatedCardElevation(CardViewDimens.Elevation), colors = CardDefaults.cardColors(
-                containerColor = AppColors.LightBlue
-            )
+            elevation = CardDefaults.elevatedCardElevation(CardViewDimens.Elevation),
+            colors = CardDefaults.cardColors(containerColor = AppColors.LightBlue)
         ) {
             AsyncImage(
                 modifier = Modifier
@@ -56,15 +63,12 @@ fun CustomCardView(viewModel: MainViewModel = hiltViewModel(), loc: LocationData
                     .fillMaxWidth()
                     .padding(AppSpacing.ExtraSmall)
                     .clip(RoundedCornerShape(AppCornerRadius.Small))
-                    .clickable {
-                        viewModel.setDetailScreenData(populationData.value, loc.areaName)
-                        navController.navigate(Screen.Detail.route)
-                    },
+                    .clickable { onCardClick() },
                 model = ImageRequest.Builder(LocalContext.current)
-                    .data(loc.imgURL)
+                    .data(locationData.imgURL)
                     .crossfade(true)
                     .build(),
-                contentDescription = loc.areaName,
+                contentDescription = locationData.areaName,
                 contentScale = ContentScale.Crop,
             )
 
@@ -75,32 +79,35 @@ fun CustomCardView(viewModel: MainViewModel = hiltViewModel(), loc: LocationData
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Column(// 카드뷰 텍스트 왼쪽 영역
+                Column(
                     modifier = Modifier.weight(CardViewDimens.Weight)
                 ) {
                     Text(
-                        text = loc.category,
+                        text = locationData.category,
                         fontSize = AppFontSizes.LabelSmall,
                         lineHeight = AppFontSizes.LabelSmall,
                     )
 
                     Text(
-                        text = loc.areaName,
+                        text = locationData.areaName,
                         fontSize = AppFontSizes.LabelSmall,
                         lineHeight = AppFontSizes.LabelSmall,
                         fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(bottom = AppSpacing.ExtraSmall, top = AppSpacing.ExtraExtraSmall),
+                        modifier = Modifier.padding(
+                            bottom = AppSpacing.ExtraSmall,
+                            top = AppSpacing.ExtraExtraSmall
+                        ),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
                 }
 
-                Box( //카드뷰 텍스트 오른쪽 인구 분포도
+                Box(
                     modifier = Modifier
                         .padding(AppSpacing.Small)
                         .size(AppSpacing.Medium)
                         .background(
-                            if (temp != null) viewModel.calcAreaColor(temp.congestionLevel) else Color.Transparent,
+                            color = if (congestionLevel != null) congestionColor else Color.Transparent,
                             shape = CircleShape
                         )
                 )

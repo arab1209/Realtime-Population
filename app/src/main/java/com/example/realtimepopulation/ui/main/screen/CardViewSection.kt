@@ -8,38 +8,43 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.realtimepopulation.domain.model.main.LocationData
+import com.example.realtimepopulation.domain.model.map.MapData
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.shared.CustomCardView
 import com.example.realtimepopulation.ui.theme.CardViewDimens
 
 @Composable
 fun CardViewSection(
-    selectChipData: List<LocationData>,
-    index: Int,
-    navController: NavController,
-    mainViewModel: MainViewModel = hiltViewModel(),
+    locationDataPair: List<LocationData>,
+    populationDataMap: Map<String, MapData>,
+    calcAreaColor: (String) -> Color,
+    onCardClick: (String) -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center, // 가운데 정렬
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center,
     ) {
-        selectChipData.chunked(2)[index].forEach {
+        locationDataPair.forEach { locationData ->
+            val mapData = populationDataMap[locationData.areaName]
+
             CustomCardView(
-                mainViewModel,
-                it,
+                locationData = locationData,
+                congestionLevel = mapData?.congestionLevel,
+                congestionColor = mapData?.congestionLevel?.let { calcAreaColor(it) } ?: Color.Transparent,
                 modifier = Modifier
                     .weight(CardViewDimens.Weight)
                     .aspectRatio(CardViewDimens.AspectRatio)
                     .fillMaxHeight(),
-                navController,
+                onCardClick = { onCardClick(locationData.areaName) }
             )
         }
 
-        if (selectChipData.chunked(2)[index].size == 1) {
+        if (locationDataPair.size == 1) {
             Spacer(modifier = Modifier.weight(CardViewDimens.Weight))
         }
     }
 }
-

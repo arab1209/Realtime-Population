@@ -6,11 +6,22 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 class HeaderScrollUseCase @Inject constructor() {
-    operator fun invoke(delta: Float, currentOffset: Float, maxHeight: Float): Float {
+
+    // PreScroll 계산
+    operator fun invoke(
+        delta: Float,
+        currentOffset: Float,
+        maxHeight: Float
+    ): Float {
         return calculateHeaderOffset(delta, currentOffset, maxHeight)
     }
 
-    fun handlePostScroll(delta: Float, currentOffset: Float, maxHeight: Float): Float {
+    // PostScroll 계산
+    fun handlePostScroll(
+        delta: Float,
+        currentOffset: Float,
+        maxHeight: Float
+    ): Float {
         return when {
             delta > 0 && currentOffset != 0f -> 0f
             delta < 0 && currentOffset != -maxHeight -> -maxHeight
@@ -18,11 +29,11 @@ class HeaderScrollUseCase @Inject constructor() {
         }
     }
 
-    fun updateHeaderOffset(scrollState: MutableStateFlow<ScrollStateData>, offset: Float) {
-        scrollState.update { it.copy(headerOffset = offset) }
-    }
-
-    private fun calculateHeaderOffset(delta: Float, currentOffset: Float, maxHeight: Float): Float {
+    private fun calculateHeaderOffset(
+        delta: Float,
+        currentOffset: Float,
+        maxHeight: Float
+    ): Float {
         return (currentOffset + delta).coerceIn(-maxHeight, 0f)
     }
 }
