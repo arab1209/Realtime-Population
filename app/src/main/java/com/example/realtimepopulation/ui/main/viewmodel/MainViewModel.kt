@@ -1,5 +1,6 @@
 package com.example.realtimepopulation.ui.main.viewmodel
 
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,7 +12,9 @@ import com.example.realtimepopulation.domain.model.main.LocationData
 import com.example.realtimepopulation.domain.model.main.ScrollStateData
 import com.example.realtimepopulation.domain.model.main.WeatherSttsData
 import com.example.realtimepopulation.domain.model.map.MapData
+import com.example.realtimepopulation.domain.usecase.detail.CalcTimeUseCase
 import com.example.realtimepopulation.domain.usecase.detail.GetAirQualityDataUseCase
+import com.example.realtimepopulation.domain.usecase.detail.GetFirstTabColorUseCase
 import com.example.realtimepopulation.domain.usecase.detail.GetRegionNameUseCase
 import com.example.realtimepopulation.domain.usecase.main.CalcAreaColorUseCase
 import com.example.realtimepopulation.domain.usecase.main.GetAreaPopulationDataUseCase
@@ -52,7 +55,9 @@ class MainViewModel @Inject constructor(
     private val getWeatherSttsUseCase: GetWeatherSttsUseCase,
     private val getRegionNameUseCase: GetRegionNameUseCase,
     private val getAirQualityDataUseCase: GetAirQualityDataUseCase,
-    private val searchSeoulLocationUseCase: SearchSeoulLocationUseCase
+    private val searchSeoulLocationUseCase: SearchSeoulLocationUseCase,
+    private val calcTimeUseCase: CalcTimeUseCase,
+    private val getFirstTabColorUseCase: GetFirstTabColorUseCase
 ) : ViewModel() {
     private val _seoulLocationData = MutableStateFlow<List<LocationData>>(emptyList())
     val seoulLocationData = _seoulLocationData.asStateFlow()
@@ -203,5 +208,13 @@ class MainViewModel @Inject constructor(
 
     fun searchLocationData(query: String) {
         _searchList.value = searchSeoulLocationUseCase(_seoulLocationData.value, query)
+    }
+
+    fun calcTime(time: String): String {
+        return calcTimeUseCase(time)
+    }
+
+    fun getFirstTabColor(index: Int): Modifier {
+        return getFirstTabColorUseCase(index)
     }
 }

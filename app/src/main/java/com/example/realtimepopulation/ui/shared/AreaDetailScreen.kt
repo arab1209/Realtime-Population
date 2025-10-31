@@ -33,7 +33,7 @@ import com.example.realtimepopulation.ui.theme.AppSpacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun  AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
+fun AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
     val detailScreenData = viewModel.detailScreenData.observeAsState()
 
     LaunchedEffect(detailScreenData) {
@@ -101,7 +101,12 @@ fun  AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController:
                             weatherSttsData.value?.cityData?.weatherStts?.let { weather ->
                                 DetailScreenSubTitleBox("통합대기환경지수", getColor = viewModel::calcAreaColor, weather.airIndex)
                             }
-                            WeatherScreen(weatherSttsData.value, viewModel)
+                            WeatherScreen(
+                                weatherSttsData = weatherSttsData.value,
+                                calcAreaColor = viewModel::calcAreaColor,
+                                calcTime = viewModel::calcTime,
+                                getFirstTabColor = viewModel::getFirstTabColor
+                            )
                         }
                     }
                 }

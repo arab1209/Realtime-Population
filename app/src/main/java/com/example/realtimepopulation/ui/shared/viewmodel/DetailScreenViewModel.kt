@@ -32,8 +32,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DetailScreenViewModel @Inject constructor(
-    private val calcTimeUseCase: CalcTimeUseCase,
-    private val getFirstTabColorUseCase: GetFirstTabColorUseCase,
     private val analyzeTextUseCase: AnalyzeTextUseCase,
     private val analyzeCongestLevelUseCase: AnalyzeCongestLevelUseCase,
     private val analyzeCongestIconUrlUscase: AnalyzeCongestIconUrlUscase,
@@ -72,14 +70,6 @@ class DetailScreenViewModel @Inject constructor(
 
     private val _residentChartSection = MutableStateFlow<ChartSectionData?>(null)
     val residentChartSection = _residentChartSection.asStateFlow()
-
-    fun calcTime(time: String): String {
-        return calcTimeUseCase(time)
-    }
-
-    fun getFirstTabColor(index: Int): Modifier {
-        return getFirstTabColorUseCase(index)
-    }
 
     fun analyzeText(text: String): Int {
         return analyzeTextUseCase(text)
