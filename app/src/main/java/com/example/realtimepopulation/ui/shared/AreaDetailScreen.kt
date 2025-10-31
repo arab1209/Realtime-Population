@@ -73,7 +73,7 @@ fun  AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController:
                         Column() {
                             DetailScreenTitleBox("실시간 인구", navController)
                             DetailScreenSubTitleBox(
-                                "인구혼잡도", viewModel, detailScreenData.value?.congestionLevel ?: ""
+                                "인구혼잡도", getColor = viewModel::calcAreaColor, detailScreenData.value?.congestionLevel ?: ""
                             )
                             DetailScreenRtimeHumanCount(
                                 detailScreenData.value?.minCount,
@@ -99,7 +99,7 @@ fun  AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController:
                         Column() {
                             DetailScreenTitleBox("날씨/환경 상황", navController)
                             weatherSttsData.value?.cityData?.weatherStts?.let { weather ->
-                                DetailScreenSubTitleBox("통합대기환경지수", viewModel, weather.airIndex)
+                                DetailScreenSubTitleBox("통합대기환경지수", getColor = viewModel::calcAreaColor, weather.airIndex)
                             }
                             WeatherScreen(weatherSttsData.value, viewModel)
                         }

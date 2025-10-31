@@ -22,7 +22,7 @@ import com.example.realtimepopulation.ui.theme.AppSpacing
 @Composable
 fun DetailScreenSubTitleBox(
     mainText: String,
-    viewModel: MainViewModel = hiltViewModel(),
+    getColor: (String) -> Color,
     congetionLevel: String,
 ) {
     Row(
@@ -41,7 +41,7 @@ fun DetailScreenSubTitleBox(
         )
         Text(
             congetionLevel,
-            color = viewModel.calcAreaColor(congetionLevel),
+            color = getColor(congetionLevel),
             fontSize = AppFontSizes.TitleLarge,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(vertical = AppSpacing.ExtraSmall)

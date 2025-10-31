@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -23,7 +24,7 @@ fun TempRainUvInfoBox(
     url: String,
     msg: String,
     modifier: Modifier,
-    viewModel: MainViewModel = hiltViewModel()
+    getColor: (String) -> Color  // ViewModel 대신 콜백
 ) {
     Box(
         modifier = modifier
@@ -41,9 +42,8 @@ fun TempRainUvInfoBox(
             )
 
             Text(text = labelText)
-            Text(text = dataText, color = viewModel.calcAreaColor(dataText))
+            Text(text = dataText, color = getColor(dataText))  // 콜백 사용
             Text(text = msg, modifier = Modifier.padding(top = AppSpacing.Medium))
-
         }
     }
 }

@@ -58,7 +58,12 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
 
     Scaffold(topBar = {
         CenterAlignedTopAppBar(modifier = Modifier.shadow(10.dp),
-            title = { Text(detailScreenData.value!!.areaName + " 날씨/환경 현황", fontSize = AppFontSizes.TitleLarge) },
+            title = {
+                Text(
+                    detailScreenData.value!!.areaName + " 날씨/환경 현황",
+                    fontSize = AppFontSizes.TitleLarge
+                )
+            },
             navigationIcon = {
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(Icons.Default.ArrowBack, contentDescription = "뒤로가기")
@@ -160,7 +165,7 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                         "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/ico_weather_rain.png",
                         weatherSttsData.value!!.cityData.weatherStts.pcpMsg,
                         modifier = Modifier.weight(1f),
-                        viewModel
+                        getColor = viewModel::calcAreaColor
                     )
                     TempRainUvInfoBox(
                         "자외선지수",
@@ -168,7 +173,7 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                         "https://data.seoul.go.kr/SeoulRtd/images/icon/weather/ico_weather_uv.png",
                         weatherSttsData.value!!.cityData.weatherStts.uvMsg,
                         modifier = Modifier.weight(1f),
-                        viewModel
+                        getColor = viewModel::calcAreaColor
                     )
                 }
 
@@ -178,16 +183,18 @@ fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavCon
                     modifier = Modifier.padding(top = AppSpacing.Medium)
                 )
 
-                /**
-                 *   대기오염현황 섹션
-                 **/
                 PopulationTitleBox("대기오염 현황")
                 DetailScreenSubTitleBox(
-                    "통합대기환경지수", viewModel, weatherSttsData.value!!.cityData.weatherStts.airIndex
+                    "통합대기환경지수",
+                    getColor = viewModel::calcAreaColor,
+                    weatherSttsData.value!!.cityData.weatherStts.airIndex
                 )
                 Text(
                     text = airMsg.value,
-                    modifier = Modifier.padding(horizontal = AppSpacing.MediumLarge, vertical = AppSpacing.Medium)
+                    modifier = Modifier.padding(
+                        horizontal = AppSpacing.MediumLarge,
+                        vertical = AppSpacing.Medium
+                    )
                 )
                 AirMsgCenterDividerRow(leftContent = {
                     Text(

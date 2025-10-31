@@ -15,7 +15,6 @@ fun TempLabeledValue(
     labelFontSize: TextUnit = TextUnit.Unspecified,
     valueFontSize: TextUnit = TextUnit.Unspecified,
     valueColor: Color = Color.Unspecified,
-    isBold: Boolean = false
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(text = label, fontSize = labelFontSize)
