@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.realtimepopulation.domain.model.main.ChartData
@@ -27,7 +28,7 @@ import com.patrykandpatrick.vico.core.entry.entryOf
 
 @Composable
 fun DetailScreenChart(
-    viewModel: MainViewModel = hiltViewModel(),
+    getAreaColor: (String) -> Color,
     foreCastData: List<ForecastData>?,
     maxData: Int,
     chartData: List<ChartData>,
@@ -44,7 +45,7 @@ fun DetailScreenChart(
                 .height(200.dp), chart = columnChart(
                 columns = foreCastData?.map { dataItem ->
                     lineComponent(
-                        color = viewModel.calcAreaColor(dataItem.congestionLevel),
+                        color = getAreaColor(dataItem.congestionLevel),
                         thickness = AppSpacing.Medium,
                         shape = Shapes.cutCornerShape(
                             topRightPercent = 20, topLeftPercent = 20

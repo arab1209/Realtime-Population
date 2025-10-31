@@ -22,7 +22,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -47,6 +49,9 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
     val detailScreenData = viewModel.detailScreenData.observeAsState()
     val dtViewModel: DetailScreenViewModel = hiltViewModel()
     val congestImgUrl = dtViewModel.congestLevelImgUrl.collectAsState()
+    val genderChartSection by dtViewModel.genderChartSection.collectAsState()
+    val ageChartSection by dtViewModel.ageChartSection.collectAsState()
+    val residentChartSection by dtViewModel.residentChartSection.collectAsState()
 
     dtViewModel.toDomainModel(detailScreenData.value!!)
 
@@ -127,14 +132,26 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                 PopulationTitleBox("실시간 인구 및 혼잡도 추이 전망")
 
                 DetailScreenChart(
-                    viewModel,
+                    getAreaColor = viewModel::calcAreaColor,
                     detailScreenData.value?.forecasts,
                     viewModel.chartMinMax.value,
                     viewModel.chartData.value
                 )
 
-                CongestionTimeBox("인구 밀집 시간대", dtViewModel, detailScreenData.value!!, 0)
-                CongestionTimeBox("인구 분산 시간대", dtViewModel, detailScreenData.value!!, 1)
+                CongestionTimeBox(
+                    subTitleText = "인구 밀집 시간대",
+                    congestIconUrl = dtViewModel.congestIconUrl0.collectAsState().value,
+                    timeData = dtViewModel.maxPopulationHour.collectAsState().value,
+                    forecastText = dtViewModel.getForecastText(0)
+                )
+
+                CongestionTimeBox(
+                    subTitleText = "인구 분산 시간대",
+                    congestIconUrl = dtViewModel.congestIconUrl1.collectAsState().value,
+                    timeData = dtViewModel.minPopulationHour.collectAsState().value,
+                    forecastText = dtViewModel.getForecastText(1)
+                )
+
 
                 Divider(
                     color = Color(0xffe7e8ee), thickness = 5.dp,
@@ -143,8 +160,13 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
 
                 PopulationTitleBox("실시간 인구 구성 비율")
 
-                PopulationDistributionChartRate(dtViewModel)
-
+                PopulationDistributionChartRate(
+                    genderChartSection = genderChartSection,
+                    ageChartSection = ageChartSection,
+                    residentChartSection = residentChartSection,
+                    calculateChart = dtViewModel::calculateChart,  // 바로 사용
+                    calculateSegmentDraw = dtViewModel::calculateSegmentDraw
+                )
             }
         }
     }

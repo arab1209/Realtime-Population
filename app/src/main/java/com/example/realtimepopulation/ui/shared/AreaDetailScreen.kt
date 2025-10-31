@@ -81,7 +81,7 @@ fun  AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController:
                                 congestMessageList.value
                             )
                             DetailScreenChart(
-                                viewModel,
+                                getAreaColor = viewModel::calcAreaColor,
                                 detailScreenData.value?.forecasts,
                                 maxData.value,
                                 chartData.value

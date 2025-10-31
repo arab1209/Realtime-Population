@@ -38,14 +38,16 @@ fun SemiCircularChart(
     segments: List<ChartSegmentData>,
     modifier: Modifier = Modifier,
     showLegend: Boolean = false,
-    viewModel: DetailScreenViewModel
+    calculateChart: (Float, Float, ChartConfigData) -> ChartDimensionsData,
+    calculateSegmentDraw: (List<ChartSegmentData>, ChartDimensionsData, ChartConfigData) -> List<ChartSegmentDrawaData>
 ) {
     var chartConfig by remember { mutableStateOf(ChartConfigData(0.1f, 180f, 180f)) }
     var chartDimensions by remember { mutableStateOf<ChartDimensionsData?>(null) }
     var segmentDrawData by remember { mutableStateOf<List<ChartSegmentDrawaData>>(emptyList()) }
 
     Column(
-        modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
@@ -53,13 +55,13 @@ fun SemiCircularChart(
                 .fillMaxWidth()
                 .padding(horizontal = AppSpacing.Large, vertical = AppSpacing.Large)
                 .onSizeChanged { size ->
-                    val dimensions = viewModel.calculateChart(
+                    val dimensions = calculateChart(
                         size.width.toFloat(),
                         size.height.toFloat(),
                         chartConfig
                     )
                     chartDimensions = dimensions
-                    segmentDrawData = viewModel.calculateSegmentDraw(
+                    segmentDrawData = calculateSegmentDraw(
                         segments,
                         dimensions,
                         chartConfig
@@ -113,30 +115,4 @@ fun SemiCircularChart(
             }
         }
     }
-}
-
-// 기존의 Path 확장 함수는 그대로 유지
-fun Path.addArc(
-    oval: Rect, startAngleDegrees: Float, sweepAngleDegrees: Float
-): Path {
-    val startAngle = Math.toRadians(startAngleDegrees.toDouble()).toFloat()
-    val endAngle = Math.toRadians((startAngleDegrees + sweepAngleDegrees).toDouble()).toFloat()
-
-    val centerX = oval.center.x
-    val centerY = oval.center.y
-    val radiusX = oval.width / 2f
-    val radiusY = oval.height / 2f
-
-    val startX = centerX + radiusX * cos(startAngle)
-    val startY = centerY + radiusY * sin(startAngle)
-
-    moveTo(startX, startY)
-
-    arcTo(
-        oval,
-        startAngleDegrees = startAngleDegrees,
-        sweepAngleDegrees = sweepAngleDegrees,
-        forceMoveTo = false
-    )
-    return this
 }

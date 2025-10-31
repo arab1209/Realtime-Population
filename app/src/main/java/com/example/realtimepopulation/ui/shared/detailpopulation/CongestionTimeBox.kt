@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.realtimepopulation.domain.model.main.PopulationForecastTextData
 import com.example.realtimepopulation.domain.model.map.MapData
 import com.example.realtimepopulation.ui.shared.viewmodel.DetailScreenViewModel
 import com.example.realtimepopulation.ui.theme.AppColors
@@ -27,28 +28,12 @@ import com.example.realtimepopulation.ui.theme.AppSpacing
 @Composable
 fun CongestionTimeBox(
     subTitleText: String,
-    viewModel: DetailScreenViewModel = hiltViewModel(),
-    detailScreenData: MapData,
-    flag: Int,
+    congestIconUrl: String,
+    timeData: Triple<String, String, String>, // (시간, 인구수1, 인구수2)
+    forecastText: PopulationForecastTextData,
 ) {
-
-    viewModel.analyzeCongestIconUrl(flag)
-    viewModel.analyzeMaxMinPopulation(detailScreenData.forecasts)
-
-    val congestIconUrl = when(flag) {
-        0 -> viewModel.congestIconUrl0.collectAsState()
-        1 -> viewModel.congestIconUrl1.collectAsState()
-        else -> remember { mutableStateOf("") }
-    }
-
-    val minMaxTime = when(flag) {
-        0 -> viewModel.maxPopulationHour.collectAsState()
-        1 -> viewModel.minPopulationHour.collectAsState()
-        else -> remember { mutableStateOf(Triple("00:00", "0", "0")) }
-    }
-
     Box(modifier = Modifier.padding(start = AppSpacing.Medium, top = AppSpacing.Medium)) {
-        Column() {
+        Column {
             Text(
                 text = subTitleText,
                 fontSize = AppFontSizes.TitleMedium,
@@ -63,13 +48,14 @@ fun CongestionTimeBox(
             ) {
                 AsyncImage(
                     modifier = Modifier.align(Alignment.CenterVertically),
-                    model = congestIconUrl.value, contentDescription = "시간 아이콘"
+                    model = congestIconUrl,
+                    contentDescription = "시간 아이콘"
                 )
 
                 Column(modifier = Modifier.padding(start = AppSpacing.Large)) {
                     PopulationForecastText(
-                        minMaxTime.value,
-                        viewModel.getForecastText(flag)
+                        timeData,
+                        forecastText
                     )
                 }
             }
