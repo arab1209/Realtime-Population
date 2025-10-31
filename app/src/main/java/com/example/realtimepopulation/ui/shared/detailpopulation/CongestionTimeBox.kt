@@ -1,5 +1,6 @@
 package com.example.realtimepopulation.ui.shared.detailpopulation
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,9 +30,10 @@ import com.example.realtimepopulation.ui.theme.AppSpacing
 fun CongestionTimeBox(
     subTitleText: String,
     congestIconUrl: String,
-    timeData: Triple<String, String, String>, // (시간, 인구수1, 인구수2)
+    timeData: Triple<String, String, String>,
     forecastText: PopulationForecastTextData,
 ) {
+
     Box(modifier = Modifier.padding(start = AppSpacing.Medium, top = AppSpacing.Medium)) {
         Column {
             Text(

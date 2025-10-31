@@ -97,17 +97,10 @@ class DetailScreenViewModel @Inject constructor(
     }
 
     fun analyzeMaxMinPopulation(detailScreenData: List<ForecastData>) {
-        getMaxTimePopulation(detailScreenData)
-        getMinTimePopulation(detailScreenData)
-    }
-
-    private fun getMaxTimePopulation(detailScreenData: List<ForecastData>) {
         _maxPopulationHour.value = analyzeMaxTimeUseCase(detailScreenData)
-    }
-
-    private fun getMinTimePopulation(detailScreenData: List<ForecastData>) {
         _minPopulationHour.value = analyzeMinTimeUseCase(detailScreenData)
     }
+
 
     fun getForecastText(flag: Int): PopulationForecastTextData {
         return when (flag) {

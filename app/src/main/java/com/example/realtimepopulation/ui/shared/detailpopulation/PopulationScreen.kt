@@ -21,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -46,12 +47,24 @@ import com.example.realtimepopulation.ui.theme.AppSpacing
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
-    val detailScreenData = viewModel.detailScreenData.observeAsState()
     val dtViewModel: DetailScreenViewModel = hiltViewModel()
+    val detailScreenData = viewModel.detailScreenData.observeAsState()
     val congestImgUrl = dtViewModel.congestLevelImgUrl.collectAsState()
     val genderChartSection by dtViewModel.genderChartSection.collectAsState()
     val ageChartSection by dtViewModel.ageChartSection.collectAsState()
     val residentChartSection by dtViewModel.residentChartSection.collectAsState()
+    val maxPopulationHour = dtViewModel.maxPopulationHour.collectAsState()
+    val minPopulationHour = dtViewModel.minPopulationHour.collectAsState()
+    val congestIconUrl0 = dtViewModel.congestIconUrl0.collectAsState()
+    val congestIconUrl1 = dtViewModel.congestIconUrl1.collectAsState()
+
+    LaunchedEffect(detailScreenData.value?.forecasts) {
+        detailScreenData.value?.forecasts?.let { forecasts ->
+            dtViewModel.analyzeMaxMinPopulation(forecasts)
+            dtViewModel.analyzeCongestIconUrl(0)
+            dtViewModel.analyzeCongestIconUrl(1)
+        }
+    }
 
     dtViewModel.toDomainModel(detailScreenData.value!!)
 
@@ -140,15 +153,15 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
 
                 CongestionTimeBox(
                     subTitleText = "인구 밀집 시간대",
-                    congestIconUrl = dtViewModel.congestIconUrl0.collectAsState().value,
-                    timeData = dtViewModel.maxPopulationHour.collectAsState().value,
+                    congestIconUrl = congestIconUrl0.value,
+                    timeData = maxPopulationHour.value,
                     forecastText = dtViewModel.getForecastText(0)
                 )
 
                 CongestionTimeBox(
                     subTitleText = "인구 분산 시간대",
-                    congestIconUrl = dtViewModel.congestIconUrl1.collectAsState().value,
-                    timeData = dtViewModel.minPopulationHour.collectAsState().value,
+                    congestIconUrl = congestIconUrl1.value,
+                    timeData = minPopulationHour.value,
                     forecastText = dtViewModel.getForecastText(1)
                 )
 
