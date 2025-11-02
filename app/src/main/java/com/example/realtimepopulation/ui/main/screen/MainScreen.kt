@@ -33,10 +33,6 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel(), navController: Na
     val selectedChip by mainViewModel.selectChip.collectAsState()
     val populationData by mainViewModel.populationData.collectAsState()
 
-    val populationDataMap = remember(populationData) {
-        populationData.associateBy { it.areaName }
-    }
-
     val topAppBarHeightPx = with(LocalDensity.current) {
         scrollState.headerHeight.roundToPx().toFloat()
     }
@@ -78,7 +74,7 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel(), navController: Na
             items(count = selectChipData.chunked(2).size) { index ->
                 CardViewSection(
                     locationDataPair = selectChipData.chunked(2)[index],
-                    populationDataMap = populationDataMap,
+                    populationDataMap = populationData.associateBy { it.areaName }, // 여기서 바로 변환
                     calcAreaColor = mainViewModel::calcAreaColor,
                     onCardClick = { areaName ->
                         mainViewModel.setDetailScreenData(populationData, areaName)
