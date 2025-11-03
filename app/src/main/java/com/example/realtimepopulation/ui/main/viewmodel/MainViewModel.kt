@@ -17,6 +17,7 @@ import com.example.realtimepopulation.domain.usecase.detail.GetAirQualityDataUse
 import com.example.realtimepopulation.domain.usecase.detail.GetFirstTabColorUseCase
 import com.example.realtimepopulation.domain.usecase.detail.GetRegionNameUseCase
 import com.example.realtimepopulation.domain.usecase.main.CalcAreaColorUseCase
+import com.example.realtimepopulation.domain.usecase.main.ConvertPopulationDataToMapUseCase
 import com.example.realtimepopulation.domain.usecase.main.GetAreaPopulationDataUseCase
 import com.example.realtimepopulation.domain.usecase.main.GetChartDataUseCase
 import com.example.realtimepopulation.domain.usecase.main.GetChartMinMaxDataUseCase
@@ -35,6 +36,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -57,7 +59,8 @@ class MainViewModel @Inject constructor(
     private val getAirQualityDataUseCase: GetAirQualityDataUseCase,
     private val searchSeoulLocationUseCase: SearchSeoulLocationUseCase,
     private val calcTimeUseCase: CalcTimeUseCase,
-    private val getFirstTabColorUseCase: GetFirstTabColorUseCase
+    private val getFirstTabColorUseCase: GetFirstTabColorUseCase,
+    private val convertPopulationDataToMapUseCase: ConvertPopulationDataToMapUseCase
 ) : ViewModel() {
     private val _seoulLocationData = MutableStateFlow<List<LocationData>>(emptyList())
     val seoulLocationData = _seoulLocationData.asStateFlow()
@@ -112,6 +115,14 @@ class MainViewModel @Inject constructor(
 
     private val _searchList = MutableStateFlow<List<LocationData>>(emptyList())
     val searchList = _searchList.asStateFlow()
+
+    val populationDataMap: StateFlow<Map<String, MapData>> = _populationData
+        .map { list -> convertPopulationDataToMapUseCase(list) }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyMap()
+        )
 
     init {
         readSeoulAreasFromExcel()

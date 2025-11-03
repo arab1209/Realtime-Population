@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -32,9 +33,14 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel(), navController: Na
     val selectChipData by mainViewModel.selectChipData.collectAsState()
     val selectedChip by mainViewModel.selectChip.collectAsState()
     val populationData by mainViewModel.populationData.collectAsState()
+    val populationMapData by mainViewModel.populationDataMap.collectAsState()
 
     val topAppBarHeightPx = with(LocalDensity.current) {
         scrollState.headerHeight.roundToPx().toFloat()
+    }
+
+    val chunkedSelectChipData = remember(selectChipData) {
+        selectChipData.chunked(2)
     }
 
     Scaffold(
@@ -46,12 +52,14 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel(), navController: Na
             )
         ),
         topBar = {
-            Column(modifier = Modifier
-                .offset {
-                    IntOffset(x = 0, y = scrollState.headerOffset.roundToInt())
-                }
-                .background(AppColors.White)
-                .height(scrollState.headerHeight)) {
+            Column(
+                modifier = Modifier
+                    .offset {
+                        IntOffset(x = 0, y = scrollState.headerOffset.roundToInt())
+                    }
+                    .background(AppColors.White)
+                    .height(scrollState.headerHeight)
+            ) {
                 TitleSection()
                 SearchBarSection(navController)
             }
@@ -61,7 +69,8 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel(), navController: Na
         LazyColumn(
             contentPadding = PaddingValues(
                 top = innerPadding.calculateTopPadding()
-            ), modifier = Modifier
+            ),
+            modifier = Modifier
                 .fillMaxSize()
                 .background(AppColors.White)
         ) {
@@ -71,10 +80,14 @@ fun MainScreen(mainViewModel: MainViewModel = hiltViewModel(), navController: Na
                     onChipSelected = mainViewModel::setSelectChip
                 )
             }
-            items(count = selectChipData.chunked(2).size) { index ->
+
+            items(
+                items = chunkedSelectChipData,
+                key = { pair -> pair.firstOrNull()?.hashCode() ?: 0 }
+            ) { locationDataPair ->
                 CardViewSection(
-                    locationDataPair = selectChipData.chunked(2)[index],
-                    populationDataMap = populationData.associateBy { it.areaName }, // 여기서 바로 변환
+                    locationDataPair = locationDataPair,
+                    populationDataMap = populationMapData,
                     calcAreaColor = mainViewModel::calcAreaColor,
                     onCardClick = { areaName ->
                         mainViewModel.setDetailScreenData(populationData, areaName)
