@@ -3,6 +3,7 @@ package com.example.realtimepopulation.ui.map.screen
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -35,10 +36,7 @@ fun MapScreen(
     val selectedMarker by mapViewModel.selectedMarker.collectAsState()
     val cardPosition by mapViewModel.cardPosition.collectAsState()
     val isMapMoving by mapViewModel.isMapMoving.collectAsState()
-
-    val populationDataMap = remember(populationData) {
-        populationData.associateBy { it.areaName }
-    }
+    val populationMapData by mainViewModel.populationDataMap.collectAsState()
 
     val mapView = remember { MapView(context) }
 
@@ -60,7 +58,7 @@ fun MapScreen(
                             )
                         },
                         getMarkerColor = { area ->
-                            populationDataMap[area.areaName]?.congestionLevel?.let {
+                            populationMapData[area.areaName]?.congestionLevel?.let {
                                 mainViewModel.calcAreaColor(it).toArgb()
                             } ?: Color.Transparent.toArgb()
                         }
@@ -74,12 +72,18 @@ fun MapScreen(
             selectedMarker = selectedMarker,
             cardPosition = cardPosition,
             seoulLocationData = seoulLocationData,
-            populationDataMap = populationDataMap,
+            populationDataMap = populationMapData,
             calcAreaColor = mainViewModel::calcAreaColor,
             onCardClick = { areaName ->
                 mainViewModel.setDetailScreenData(populationData, areaName)
                 navController.navigate(Screen.Detail.route)
             }
         )
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            mapView.onDestroy()
+        }
     }
 }

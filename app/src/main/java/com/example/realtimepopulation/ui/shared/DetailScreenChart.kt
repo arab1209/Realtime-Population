@@ -13,6 +13,9 @@ import com.example.realtimepopulation.domain.model.main.ChartData
 import com.example.realtimepopulation.domain.model.map.ForecastData
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.theme.AppSpacing
+import com.example.realtimepopulation.ui.theme.AppSpacing.ExtraExtraExtraLarge
+import com.example.realtimepopulation.ui.theme.AppSpacing.ExtraExtraLarge
+import com.example.realtimepopulation.ui.theme.AppSpacing.Medium
 import com.patrykandpatrick.vico.compose.axis.horizontal.rememberBottomAxis
 import com.patrykandpatrick.vico.compose.axis.vertical.rememberStartAxis
 import com.patrykandpatrick.vico.compose.chart.Chart
@@ -36,23 +39,23 @@ fun DetailScreenChart(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = AppSpacing.Medium, start = AppSpacing.Medium)
+            .padding(top = 10.dp, start = 10.dp)
     ) {
         Chart(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = AppSpacing.ExtraSmall)
+                .padding(end = Medium)
                 .height(200.dp), chart = columnChart(
                 columns = foreCastData?.map { dataItem ->
                     lineComponent(
                         color = getAreaColor(dataItem.congestionLevel),
-                        thickness = AppSpacing.Medium,
+                        thickness = 15.dp,
                         shape = Shapes.cutCornerShape(
                             topRightPercent = 20, topLeftPercent = 20
                         )
                     )
                 } ?: emptyList() ,
-                spacing = AppSpacing.ExtraExtraLarge,
+                spacing = ExtraExtraLarge,
                 dataLabel = TextComponent.Builder().build(),
                 axisValuesOverrider = AxisValuesOverrider.fixed(
                     minY = 0f, maxY = maxData.toFloat()

@@ -1,38 +1,33 @@
 package com.example.realtimepopulation.domain.usecase.detail
 
 import com.example.realtimepopulation.domain.model.map.ForecastData
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 import kotlin.math.ceil
 
+
 class AnalyzeMaxTimeUseCase @Inject constructor() {
     operator fun invoke(detailScreenData: List<ForecastData>): Triple<String, String, String> {
         val currentTime = LocalTime.now()
 
-        // 현재 시간 이후의 데이터만 필터링
-        val futureForecasts = detailScreenData.filter {
-            val forecastTime = LocalTime.parse(it.time.substring(11, 16))
-            forecastTime.isAfter(currentTime) || forecastTime == currentTime
-        }
-
-        // 필터링된 데이터 중 최대값 찾기
-        val maxPopulationData = futureForecasts.maxByOrNull { it.maxPopulation }
+        // 미래 시간 중 최대 인구수 데이터 찾기
+        val maxPopulationData = detailScreenData
+            .maxByOrNull { it.maxPopulation }
             ?: return Triple("00시", "0", "0")
 
-        val maxTime = maxPopulationData.time.substring(11, 16) // "14:00"
-        val maxTimeFormatted = LocalTime.parse(maxTime)
-            .format(DateTimeFormatter.ofPattern("HH시")) // "14시"
+        val forecastTime = LocalTime.parse(maxPopulationData.time.substring(11, 16))
 
-        // 시간 차이 계산 (항상 양수)
-        val minutesLeft = currentTime.until(LocalTime.parse(maxTime), ChronoUnit.MINUTES)
-        val hoursLeft = ceil(minutesLeft / 60.0).toInt()
+        // 남은 시간 계산 (음수면 다음날)
+        val minutesLeft = currentTime.until(forecastTime, ChronoUnit.MINUTES)
+            .let { if (it < 0) it + 24 * 60 else it }
 
         return Triple(
-            maxTimeFormatted,
+            forecastTime.format(DateTimeFormatter.ofPattern("HH시")),
             maxPopulationData.maxPopulation.toString(),
-            hoursLeft.toString()
+            ceil(minutesLeft / 60.0).toInt().toString()
         )
     }
 }

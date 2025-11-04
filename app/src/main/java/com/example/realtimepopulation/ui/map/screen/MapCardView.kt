@@ -32,24 +32,31 @@ fun MapCardView(
 ) {
     if (!isVisible || selectedMarker == null || cardPosition == null) return
 
-    val location = seoulLocationData.find { it.areaName == selectedMarker } ?: return
-    val mapData = populationDataMap[selectedMarker]
+    val location = remember(selectedMarker, seoulLocationData) {
+        seoulLocationData.find { it.areaName == selectedMarker }
+    } ?: return
+
+    val mapData = remember(selectedMarker, populationDataMap) {
+        populationDataMap[selectedMarker]
+    }
+
+    val congestionColor = remember(mapData?.congestionLevel) {
+        mapData?.congestionLevel?.let { calcAreaColor(it) } ?: Color.Transparent
+    }
+
+    val density = LocalDensity.current
 
     CustomCardView(
         locationData = location,
         congestionLevel = mapData?.congestionLevel,
-        congestionColor = mapData?.congestionLevel?.let { calcAreaColor(it) } ?: Color.Transparent,
+        congestionColor = congestionColor,
         modifier = Modifier
             .offset(
-                x = with(LocalDensity.current) { cardPosition.x.toDp() - MapDimens.CardPositionX },
-                y = with(LocalDensity.current) { cardPosition.y.toDp() - MapDimens.CardPositionY }
+                x = with(density) { cardPosition.x.toDp() - MapDimens.CardPositionX },
+                y = with(density) { cardPosition.y.toDp() - MapDimens.CardPositionY }
             )
             .width(MapDimens.CardSizeX)
-            .height(MapDimens.CardSizeY)
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = null
-            ) { },
+            .height(MapDimens.CardSizeY),
         onCardClick = { onCardClick(selectedMarker) }
     )
 }

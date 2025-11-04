@@ -99,7 +99,8 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = AppSpacing.Medium),
-                    horizontalArrangement = Arrangement.Center
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text("인구 혼잡도 ", fontWeight = FontWeight.Bold, fontSize = AppFontSizes.TitleLarge)
                     Text(
