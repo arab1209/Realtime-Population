@@ -48,7 +48,7 @@ import com.example.realtimepopulation.ui.theme.AppSpacing
 @Composable
 fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
     val dtViewModel: DetailScreenViewModel = hiltViewModel()
-    val detailScreenData = viewModel.detailScreenData.observeAsState()
+    val detailScreenData by viewModel.detailScreenData.collectAsState()
     val congestImgUrl = dtViewModel.congestLevelImgUrl.collectAsState()
     val genderChartSection by dtViewModel.genderChartSection.collectAsState()
     val ageChartSection by dtViewModel.ageChartSection.collectAsState()
@@ -58,24 +58,24 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
     val congestIconUrl0 = dtViewModel.congestIconUrl0.collectAsState()
     val congestIconUrl1 = dtViewModel.congestIconUrl1.collectAsState()
 
-    LaunchedEffect(detailScreenData.value?.forecasts) {
-        detailScreenData.value?.forecasts?.let { forecasts ->
+    LaunchedEffect(detailScreenData?.forecasts) {
+        detailScreenData?.forecasts?.let { forecasts ->
             dtViewModel.analyzeMaxMinPopulation(forecasts)
             dtViewModel.analyzeCongestIconUrl(0)
             dtViewModel.analyzeCongestIconUrl(1)
         }
     }
 
-    dtViewModel.toDomainModel(detailScreenData.value!!)
+    detailScreenData?.let { dtViewModel.toDomainModel(it) }
 
     with(dtViewModel) {
-        analyzeCongestImgUrl(detailScreenData.value!!.congestionLevel)
+        detailScreenData?.let { analyzeCongestImgUrl(it.congestionLevel) }
     }
 
     Scaffold(topBar = {
         CenterAlignedTopAppBar(modifier = Modifier.shadow(10.dp), title = {
             Text(
-                text = "${detailScreenData.value!!.areaName} 실시간 인구 현황", fontSize = 20.sp
+                text = "${detailScreenData?.areaName} 실시간 인구 현황", fontSize = 20.sp
             )
         }, navigationIcon = {
             IconButton(onClick = { navController.popBackStack() }) {
@@ -94,7 +94,6 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                     .fillMaxSize()
                     .verticalScroll(rememberScrollState())
             ) {
-                // 인구 혼잡도 표시
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -105,9 +104,9 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                     Text("인구 혼잡도 ", fontWeight = FontWeight.Bold, fontSize = AppFontSizes.TitleLarge)
                     Text(
                         fontSize = AppFontSizes.BodyLarge,
-                        text = detailScreenData.value?.congestionLevel ?: "",
+                        text = detailScreenData?.congestionLevel ?: "",
                         color = viewModel.calcAreaColor(
-                            detailScreenData.value?.congestionLevel ?: "",
+                            detailScreenData?.congestionLevel ?: "",
                         ),
                         fontWeight = FontWeight.Bold
                     )
@@ -115,7 +114,7 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
 
                 AsyncImage(
                     model = congestImgUrl.value,
-                    contentDescription = detailScreenData.value!!.areaName,
+                    contentDescription = detailScreenData?.areaName,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 viewModel.congestMessage.value.forEach { string ->
@@ -147,7 +146,7 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
 
                 DetailScreenChart(
                     getAreaColor = viewModel::calcAreaColor,
-                    detailScreenData.value?.forecasts,
+                    detailScreenData?.forecasts,
                     viewModel.chartMinMax.value,
                     viewModel.chartData.value
                 )
@@ -178,7 +177,7 @@ fun PopulationScreen(viewModel: MainViewModel = hiltViewModel(), navController: 
                     genderChartSection = genderChartSection,
                     ageChartSection = ageChartSection,
                     residentChartSection = residentChartSection,
-                    calculateChart = dtViewModel::calculateChart,  // 바로 사용
+                    calculateChart = dtViewModel::calculateChart,
                     calculateSegmentDraw = dtViewModel::calculateSegmentDraw
                 )
             }

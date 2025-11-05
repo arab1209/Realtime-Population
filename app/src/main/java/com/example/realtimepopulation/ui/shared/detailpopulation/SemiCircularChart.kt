@@ -33,6 +33,19 @@ import com.example.realtimepopulation.ui.theme.AppSpacing
 import kotlin.math.cos
 import kotlin.math.sin
 
+/**
+ * 반원형 차트를 그리는 Composable
+ *
+ * 인구 분포 데이터를 시각화하기 위해 사용됩니다.
+ * 각 세그먼트는 비율에 따라 호(arc)로 표현됩니다.
+ *
+ * @param segments 차트에 표시할 데이터 세그먼트 리스트 (색상, 라벨, 값 포함)
+ * @param modifier Composable의 레이아웃 수정자
+ * @param showLegend 범례 표시 여부 (기본값: false)
+ * @param calculateChart 차트 크기 계산 함수 (캔버스 크기 → 차트 치수 변환)
+ * @param calculateSegmentDraw 각 세그먼트의 그리기 데이터 계산 함수
+ */
+
 @Composable
 fun SemiCircularChart(
     segments: List<ChartSegmentData>,

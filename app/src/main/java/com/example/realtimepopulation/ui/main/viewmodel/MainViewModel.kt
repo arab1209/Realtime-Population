@@ -86,8 +86,8 @@ class MainViewModel @Inject constructor(
     private val _scrollState = MutableStateFlow(ScrollStateData())
     val scrollState = _scrollState.asStateFlow()
 
-    private val _detailScreenData = MutableLiveData<MapData>()
-    val detailScreenData: LiveData<MapData> get() = _detailScreenData
+    private val _detailScreenData = MutableStateFlow<MapData?>(null)
+    val detailScreenData: StateFlow<MapData?> = _detailScreenData.asStateFlow()
 
     private val _congestMessage = MutableStateFlow<List<String>>(emptyList())
     val congestMessage = _congestMessage.asStateFlow()
