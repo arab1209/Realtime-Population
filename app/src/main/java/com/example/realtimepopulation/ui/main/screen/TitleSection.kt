@@ -14,6 +14,15 @@ import com.example.realtimepopulation.ui.theme.AppFontSizes
 import com.example.realtimepopulation.ui.theme.AppSpacing
 import com.example.realtimepopulation.ui.theme.TitleSectionDimens
 
+/**
+ * 메인 화면 상단 타이틀 섹션
+ *
+ * 국가명과 지역명을 표시합니다.
+ * 예: "대한민국" / "서울"
+ *
+ * 앱의 지역적 범위를 명확히 보여주는 헤더 역할을 합니다.
+ */
+
 @Composable
 fun TitleSection() {
     Box(modifier = Modifier.padding(top = AppSpacing.MediumLarge, start = AppSpacing.MediumLarge)) {// 상단 나라, 지역 이름

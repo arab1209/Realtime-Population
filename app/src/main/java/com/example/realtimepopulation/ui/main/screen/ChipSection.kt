@@ -25,6 +25,15 @@ import com.example.realtimepopulation.ui.theme.AppSpacing
 
 private val AREA_TYPES = listOf("관광특구", "고궁·문화유산", "인구밀집지역", "발달상권", "공원")
 
+/**
+ * 지역 필터 칩 섹션
+ *
+ * 서울시 구별 필터링을 위한 가로 스크롤 칩 리스트입니다.
+ * 사용자가 칩을 선택하면 해당 구의 데이터만 필터링되어 표시됩니다.
+ *
+ * @param selectedChip 현재 선택된 칩 (구 이름, 예: "전체", "강남구", ...)
+ * @param onChipSelected 칩 선택 시 호출되는 콜백 (선택된 구 이름 전달)
+ */
 
 @Composable
 fun ChipSection(

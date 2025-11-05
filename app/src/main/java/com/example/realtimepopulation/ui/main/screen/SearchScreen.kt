@@ -45,6 +45,23 @@ import com.example.realtimepopulation.ui.theme.AppSpacing
 import com.example.realtimepopulation.ui.theme.SearchBarDimens
 import com.example.realtimepopulation.ui.util.Screen
 
+/**
+ * 전용 검색 화면
+ *
+ * 메인 화면의 가짜 검색바를 클릭하면 이동하는 실제 검색 화면입니다.
+ * 사용자가 텍스트를 입력하면 실시간으로 지역을 필터링하여 표시합니다.
+ *
+ * 검색 동작:
+ * 1. 사용자가 텍스트 입력
+ * 2. 키보드의 "검색" 버튼 클릭
+ * 3. savedSearchQuery에 저장
+ * 4. LaunchedEffect가 감지하여 searchLocationData() 호출
+ * 5. 필터링된 결과를 LazyColumn에 표시
+ *
+ * @param viewModel 검색 상태 및 로직 관리
+ * @param navController 상세 화면으로 네비게이션
+ */
+
 @Composable
 fun SearchScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
     val searchQuery by viewModel.searchQuery.collectAsState()

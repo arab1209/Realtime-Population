@@ -27,6 +27,19 @@ import com.example.realtimepopulation.ui.theme.AppColors
 import com.example.realtimepopulation.ui.util.Screen
 import kotlin.math.roundToInt
 
+/**
+ * 메인 화면 - 서울 지역별 실시간 인구 현황 목록
+ *
+ * 주요 기능:
+ * - 스크롤에 따라 축소되는 헤더 (Collapsing Toolbar)
+ * - 지역 필터링 칩 (구별 선택)
+ * - 인구 현황 카드 리스트
+ * - 검색 기능
+ *
+ * @param mainViewModel 메인 화면의 비즈니스 로직 및 상태 관리
+ * @param navController 화면 네비게이션 컨트롤러
+ */
+
 @Composable
 fun MainScreen(mainViewModel: MainViewModel = hiltViewModel(), navController: NavController) {
     val scrollState by mainViewModel.scrollState.collectAsState()

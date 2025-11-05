@@ -47,6 +47,20 @@ import com.example.realtimepopulation.ui.theme.SearchBarDimens
 import com.example.realtimepopulation.ui.theme.TitleSectionDimens
 import com.example.realtimepopulation.ui.util.Screen
 
+/**
+ * 메인 화면 검색바 섹션 (클릭 전용)
+ *
+ * 실제 입력 필드가 아닌 클릭 가능한 UI입니다.
+ * 탭하면 전용 검색 화면으로 이동하여 입력할 수 있습니다.
+ *
+ * 이렇게 구현한 이유:
+ * - 메인 화면에 실제 TextField를 두면 불필요한 재구성 발생
+ * - 검색은 별도 화면에서 처리하는 것이 UX상 더 명확함
+ * - 키보드가 메인 화면 콘텐츠를 가리는 문제 방지
+ *
+ * @param navController 검색 화면으로 네비게이션하기 위한 컨트롤러
+ */
+
 @Composable
 fun SearchBarSection(navController: NavController) {
     Box(
