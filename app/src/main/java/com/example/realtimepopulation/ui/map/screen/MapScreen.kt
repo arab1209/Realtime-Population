@@ -21,6 +21,13 @@ import com.example.realtimepopulation.ui.util.Screen
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.MapView
 
+/**
+ * 서울시 실시간 인구 데이터를 지도에 표시하는 메인 화면
+ *
+ * @param mainViewModel 서울 지역 데이터 및 인구 데이터를 관리하는 ViewModel
+ * @param navController 화면 전환을 위한 Navigation Controller
+ */
+
 @Composable
 fun MapScreen(
     mainViewModel: MainViewModel = hiltViewModel(),

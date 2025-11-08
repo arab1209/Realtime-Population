@@ -20,6 +20,21 @@ import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.shared.CustomCardView
 import com.example.realtimepopulation.ui.theme.MapDimens
 
+/**
+ * 지도 위에 표시되는 지역 정보 카드 컴포넌트
+ *
+ * 선택된 마커의 위치에 따라 동적으로 위치가 결정되며,
+ * 해당 지역의 혼잡도 정보를 시각적으로 표시합니다.
+ *
+ * @param isVisible 카드 표시 여부 (지도 이동 중에는 false)
+ * @param selectedMarker 현재 선택된 마커의 지역명
+ * @param cardPosition 카드를 표시할 화면 좌표 (픽셀 단위)
+ * @param seoulLocationData 서울 지역 위치 데이터 목록
+ * @param populationDataMap 지역명을 키로 하는 인구/혼잡도 데이터 맵
+ * @param calcAreaColor 혼잡도 레벨에 따른 색상을 계산하는 함수
+ * @param onCardClick 카드 클릭 시 실행될 콜백 (지역명 전달)
+ */
+
 @Composable
 fun MapCardView(
     isVisible: Boolean,
