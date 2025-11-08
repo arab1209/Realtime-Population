@@ -23,6 +23,18 @@ import com.example.realtimepopulation.ui.theme.AppColors
 import com.example.realtimepopulation.ui.theme.AppFontSizes
 import com.example.realtimepopulation.ui.theme.AppSpacing
 
+/**
+ * 인구 구성 비율 차트의 개별 섹션을 표시하는 컴포넌트
+ *
+ * 제목, 반원형 차트, 요약 텍스트를 포함하는 완전한 차트 섹션을 렌더링합니다.
+ * 성별, 연령대, 거주민 비율 등 각각의 차트에 동일하게 사용됩니다.
+ *
+ *
+ * @param data 차트 섹션 데이터 (제목, 세그먼트, 요약 포함)
+ * @param calculateChart 차트의 크기와 위치를 계산하는 함수
+ * @param calculateSegmentDraw 각 세그먼트의 그리기 데이터를 계산하는 함수
+ */
+
 @Composable
 fun ChartSection(
     data: ChartSectionData,

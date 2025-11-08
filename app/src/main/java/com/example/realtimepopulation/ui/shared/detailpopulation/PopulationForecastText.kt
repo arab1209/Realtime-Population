@@ -11,6 +11,22 @@ import com.example.realtimepopulation.domain.model.main.PopulationForecastTextDa
 import com.example.realtimepopulation.ui.theme.AppColors
 import com.example.realtimepopulation.ui.theme.AppFontSizes
 
+/**
+ * 인구 밀집/분산 시간대의 예측 정보를 텍스트로 표시하는 컴포넌트
+ *
+ * 특정 시간대의 인구 변화 예측과 혼잡도 정보를
+ * 사용자가 이해하기 쉬운 자연어 형태로 제공합니다.
+ *
+ * 예시 출력:
+ * "14:00(2시간 후)에 인구가 제일 많을 것으로 예상돼요
+ * 혼잡도도 가장 높을 것으로 예상돼요
+ * 혼잡정도는 붐빔 수준일 것 같아요"
+ *
+ * @param minMaxTime 시간 정보 Triple (시각, 미사용, 몇 시간 후)
+ *                   예: Triple("14:00", "", "2")
+ * @param forecastText 예측 텍스트 데이터 (인구 상태, 혼잡도, 색상 정보 포함)
+ */
+
 @Composable
 fun PopulationForecastText(
     minMaxTime: Triple<String, String, String>, forecastText: PopulationForecastTextData

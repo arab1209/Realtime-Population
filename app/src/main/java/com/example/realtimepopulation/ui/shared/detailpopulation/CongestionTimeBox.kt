@@ -26,6 +26,18 @@ import com.example.realtimepopulation.ui.theme.AppColors
 import com.example.realtimepopulation.ui.theme.AppFontSizes
 import com.example.realtimepopulation.ui.theme.AppSpacing
 
+/**
+ * 인구 밀집/분산 시간대 정보를 표시하는 박스 컴포넌트
+ *
+ * 특정 시간대의 인구 예측 정보를 아이콘과 함께 시각적으로 제공합니다.
+ * 주로 "인구 밀집 시간대"와 "인구 분산 시간대" 두 가지 형태로 사용됩니다.
+ *
+ * @param subTitleText 섹션 제목 (예: "인구 밀집 시간대", "인구 분산 시간대")
+ * @param congestIconUrl 혼잡도 상태를 나타내는 아이콘 이미지 URL
+ * @param timeData 시간 정보 Triple (시각, 미사용, 몇 시간 후)
+ * @param forecastText 예측 정보 텍스트 데이터 (인구 상태, 혼잡도, 색상)
+ */
+
 @Composable
 fun CongestionTimeBox(
     subTitleText: String,

@@ -18,6 +18,21 @@ import com.example.realtimepopulation.ui.theme.AppColors
 import com.example.realtimepopulation.ui.theme.AppFontSizes
 import com.example.realtimepopulation.ui.theme.AppSpacing
 
+/**
+ * 차트의 범례(Legend) 항목을 표시하는 컴포넌트
+ *
+ * 원형 차트의 각 세그먼트가 무엇을 의미하는지 색상 박스와 함께
+ * 레이블 및 백분율로 표시합니다.
+ *
+ * UI 구조:
+ * [색상 박스] 레이블
+ *      XX.X%
+ *
+ * @param color 차트 세그먼트와 매칭되는 색상 (범례 박스 색상)
+ * @param label 항목 이름 (예: "남성", "20대", "거주민" 등)
+ * @param percentage 해당 항목의 비율 (0~100 사이의 값)
+ */
+
 @Composable
 fun LegendItem(
     color: Color,

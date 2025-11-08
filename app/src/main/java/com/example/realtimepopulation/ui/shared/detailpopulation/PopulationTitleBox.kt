@@ -11,6 +11,14 @@ import androidx.compose.ui.unit.sp
 import com.example.realtimepopulation.ui.theme.AppFontSizes
 import com.example.realtimepopulation.ui.theme.AppSpacing
 
+/**
+ * 상세 화면의 섹션 제목을 표시하는 컴포넌트
+ *
+ * 각 정보 섹션(인구 추이, 인구 구성 비율 등)의 제목을
+ *
+ * @param titleText 표시할 제목 텍스트
+ */
+
 @Composable
 fun PopulationTitleBox(titleText: String) {
     Text(

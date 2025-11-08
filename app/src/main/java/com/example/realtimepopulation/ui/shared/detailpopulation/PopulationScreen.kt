@@ -43,6 +43,16 @@ import com.example.realtimepopulation.ui.theme.AppColors
 import com.example.realtimepopulation.ui.theme.AppFontSizes
 import com.example.realtimepopulation.ui.theme.AppSpacing
 
+/**
+ * 선택된 서울 지역의 상세 인구 정보를 표시하는 화면
+ *
+ * 실시간 혼잡도, 인구 추이 전망 차트, 시간대별 인구 밀집도,
+ * 성별/연령/거주민 구성 비율 등을 시각적으로 제공
+ *
+ * @param viewModel 전체 지역 데이터 및 혼잡도 계산을 담당하는 MainViewModel
+ * @param navController 화면 전환을 위한 Navigation Controller
+ */
+
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
