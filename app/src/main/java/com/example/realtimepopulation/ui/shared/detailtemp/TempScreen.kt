@@ -38,10 +38,21 @@ import com.example.realtimepopulation.ui.shared.detailpopulation.PopulationTitle
 import com.example.realtimepopulation.ui.theme.AppFontSizes
 import com.example.realtimepopulation.ui.theme.AppSpacing
 
+/**
+ * 선택된 서울 지역의 날씨 및 대기환경 정보를 표시하는 화면
+ *
+ * 실시간 기온/체감온도, 습도, 바람, 최저/최고 기온, 일출/일몰 시간,
+ * 강수량, 자외선 지수, 미세먼지, 초미세먼지, 대기질(오존, 이산화질소 등)
+ * 등 종합적인 날씨와 환경 데이터를 제공합니다.
+ *
+ * @param viewModel 날씨 및 대기질 데이터를 관리하는 MainViewModel
+ * @param navController 화면 전환을 위한 Navigation Controller
+ */
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TempScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
-    val detailScreenData = viewModel.detailScreenData.observeAsState()
+    val detailScreenData = viewModel.detailScreenData.collectAsState()
     val weatherSttsData = viewModel.weatherSttsData.observeAsState()
     val airMsg = viewModel.airMsg.collectAsState()
     val airQualityData = viewModel.airQualityData.observeAsState()

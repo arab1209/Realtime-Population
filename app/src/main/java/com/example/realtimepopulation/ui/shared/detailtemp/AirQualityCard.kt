@@ -32,7 +32,7 @@ fun AirQualityCard(
 ) {
     Card(
         modifier = modifier
-            .aspectRatio(1f), // 정사각형 비율
+            .aspectRatio(1f),
         colors = CardDefaults.cardColors(containerColor = AppColors.White),
         border = BorderStroke(1.dp, Color(0xFFE0E0E0)),
         shape = RoundedCornerShape(AppSpacing.Small)

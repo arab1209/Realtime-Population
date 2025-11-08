@@ -18,6 +18,24 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.realtimepopulation.ui.theme.AppSpacing
 
+/**
+ * 중앙에 수직 구분선을 두고 좌우로 컨텐츠를 배치하는 레이아웃 컴포넌트
+ *
+ * 두 개의 관련된 정보를 시각적으로 구분하여 표시할 때 사용합니다.
+ * 좌우 컨텐츠는 각각 중앙 정렬되며, 구분선과의 간격이 동일하게 유지됩니다.
+ *
+ * 사용 예시:
+ * - 실제 온도 │ 체감 온도
+ * - 습도 │ 바람
+ * - 최저기온/최고기온 │ 일출/일몰
+ * - 미세먼지 │ 초미세먼지
+ *
+ * @param leftContent 왼쪽에 표시할 컴포저블 컨텐츠
+ * @param rightContent 오른쪽에 표시할 컴포저블 컨텐츠
+ * @param dividerHeight 중앙 구분선의 높이 (기본값: AppSpacing.ExtraLarge)
+ * @param padding 전체 Row의 상하좌우 패딩 (기본값: 상하 Small)
+ */
+
 @Composable
 fun CenterDividerRow(
     leftContent: @Composable () -> Unit,

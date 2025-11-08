@@ -17,6 +17,21 @@ import coil.compose.AsyncImage
 import com.example.realtimepopulation.ui.main.viewmodel.MainViewModel
 import com.example.realtimepopulation.ui.theme.AppSpacing
 
+/**
+ * 강수량 또는 자외선 지수 정보를 표시하는 박스 컴포넌트
+ *
+ * 아이콘, 레이블, 데이터 값, 안내 메시지를 수직으로 배치하여
+ * 날씨 관련 정보를 시각적으로 제공합니다.
+ *
+ *
+ * @param labelText 정보 레이블 (예: "강수량", "자외선지수")
+ * @param dataText 측정 데이터 값 (예: "0mm", "높음")
+ * @param url 표시할 아이콘 이미지 URL
+ * @param msg 사용자 안내 메시지 (예: "외출 시 우산을 준비하세요")
+ * @param modifier 컴포넌트에 적용할 Modifier (주로 weight로 너비 조정)
+ * @param getColor 데이터 값에 따른 색상을 계산하는 함수 (위험도 시각화)
+ */
+
 @Composable
 fun TempRainUvInfoBox(
     labelText: String,
@@ -24,7 +39,7 @@ fun TempRainUvInfoBox(
     url: String,
     msg: String,
     modifier: Modifier,
-    getColor: (String) -> Color  // ViewModel 대신 콜백
+    getColor: (String) -> Color
 ) {
     Box(
         modifier = modifier
