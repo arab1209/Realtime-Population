@@ -12,15 +12,15 @@ data class AirQualityDto(
 
 @Xml(name = "row")
 data class LatestTemperature(
-    @PropertyElement(name = "NO2")
+    @PropertyElement(name = "NTDX")
     val no2: String?,
 
-    @PropertyElement(name = "O3")
+    @PropertyElement(name = "OZON")
     val o3: String?,
 
-    @PropertyElement(name = "CO")
-    val c0: String?,
+    @PropertyElement(name = "CBMX")
+    val co: String?,
 
-    @PropertyElement(name = "SO2")
+    @PropertyElement(name = "SPDX")
     val so2: String?
 )

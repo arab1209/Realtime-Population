@@ -34,7 +34,7 @@ import com.example.realtimepopulation.ui.theme.AppSpacing
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AreaDetailScreen(viewModel: MainViewModel = hiltViewModel(), navController: NavController) {
-    val detailScreenData = viewModel.detailScreenData.observeAsState()
+    val detailScreenData = viewModel.detailScreenData.collectAsState()
 
     LaunchedEffect(detailScreenData) {
         with(viewModel) {

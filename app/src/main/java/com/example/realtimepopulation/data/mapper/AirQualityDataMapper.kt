@@ -7,7 +7,7 @@ fun AirQualityDto.toDomain(): AirQualityData {
     return AirQualityData(
         no2 = this.latestTemperature?.no2 ?: "",
         o3 = this.latestTemperature?.o3 ?: "",
-        c0 = this.latestTemperature?.c0 ?: "",
+        c0 = this.latestTemperature?.co ?: "",
         so2 = this.latestTemperature?.so2 ?: ""
     )
 }
