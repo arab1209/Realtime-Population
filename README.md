@@ -52,6 +52,5 @@
 | DI | Hilt |
 | Map | Naver Maps SDK |
 | Chart | MPAndroidChart |
-| Local Storage | DataStore |
 
 ---
