@@ -55,18 +55,3 @@
 | Local Storage | DataStore |
 
 ---
-
-## 🏃 실행 방법
-
-1. 프로젝트 클론
-```bash
-git clone https://github.com/arab1209/Realtime-Population.git
-```
-
-2. `local.properties`에 API 키 추가
-```
-NAVER_MAP_CLIENT_ID=your_client_id
-SEOUL_API_KEY=your_api_key
-```
-
-3. Android Studio에서 빌드 및 실행
