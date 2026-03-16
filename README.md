@@ -56,27 +56,6 @@
 
 ---
 
-## 📂 프로젝트 구조
-
-```
-├── data
-│   ├── api          # Retrofit API 인터페이스
-│   ├── dto          # 서버 응답 DTO
-│   └── repository   # Repository 구현체
-├── domain
-│   ├── model        # 도메인 모델
-│   ├── repository   # Repository 인터페이스
-│   └── usecase      # UseCase
-├── presentation
-│   ├── home         # 메인 화면
-│   ├── map          # 지도 화면
-│   ├── detail       # 상세 화면
-│   └── search       # 검색 화면
-└── di               # Hilt 모듈
-```
-
----
-
 ## 🏃 실행 방법
 
 1. 프로젝트 클론
